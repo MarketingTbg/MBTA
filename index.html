@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ажлын Төлөвлөгөө</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f5f6fa;
+    --surface: #ffffff;
+    --sidebar-bg: #ffffff;
+    --sidebar-w: 240px;
+    --accent: #4f6ef7;
+    --accent-light: #eef1fe;
+    --text-primary: #1a1d2e;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --border: #e8eaef;
+    --green: #22c55e;
+    --green-bg: #f0fdf4;
+    --amber: #f59e0b;
+    --amber-bg: #fffbeb;
+    --blue: #3b82f6;
+    --blue-bg: #eff6ff;
+    --red: #ef4444;
+    --red-bg: #fef2f2;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+    --font: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  [data-theme="dark"] {
+    --bg: #0f1117;
+    --surface: #1a1d2e;
+    --sidebar-bg: #13151f;
+    --text-primary: #e8eaf0;
+    --text-secondary: #8b93a8;
+    --text-muted: #4b5268;
+    --border: #252840;
+    --accent-light: #1e2240;
+    --green-bg: #052e16;
+    --amber-bg: #1c1400;
+    --blue-bg: #0c1a3a;
+    --red-bg: #1c0a0a;
+    --shadow: 0 1px 3px rgba(0,0,0,.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,.4);
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    display: flex;
+    min-height: 100vh;
+    transition: background .3s, color .3s;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 100;
+    transition: background .3s, border-color .3s;
+  }
+  .sidebar-logo {
+    display: flex; align-items: center; gap: 10px;
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 600;
+  }
+  .logo-text { font-size: 14px; font-weight: 600; color: var(--text-primary); line-height: 1.3; }
+  .logo-sub  { font-size: 11px; color: var(--text-muted); }
+
+  .nav { flex: 1; padding: 12px 10px; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; border-radius: var(--radius-sm);
+    font-size: 13.5px; font-weight: 400; color: var(--text-secondary);
+    cursor: pointer; transition: all .15s; margin-bottom: 2px;
+    border: none; background: none; width: 100%; text-align: left;
+  }
+  .nav-item:hover { background: var(--bg); color: var(--text-primary); }
+  .nav-item.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
+  .nav-icon { font-size: 17px; width: 20px; display: flex; align-items: center; justify-content: center; }
+
+  .sidebar-footer {
+    padding: 12px 10px;
+    border-top: 1px solid var(--border);
+  }
+  .user-pill {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px; border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+  .user-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; flex-shrink: 0;
+  }
+  .user-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+  .user-role { font-size: 11px; color: var(--text-muted); }
+
+  /* ── TOPBAR ── */
+  .main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+  .topbar {
+    height: 56px; background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+    padding: 0 28px; gap: 12px;
+    position: sticky; top: 0; z-index: 90;
+    transition: background .3s;
+  }
+  .topbar-toggle {
+    background: none; border: none; cursor: pointer;
+    color: var(--text-secondary); font-size: 18px; padding: 4px;
+  }
+  .topbar-title { flex: 1; font-size: 14px; color: var(--text-secondary); }
+  .topbar-actions { display: flex; align-items: center; gap: 8px; }
+  .icon-btn {
+    width: 34px; height: 34px; border-radius: var(--radius-sm);
+    border: 1px solid var(--border); background: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text-secondary); font-size: 16px;
+    transition: all .15s;
+  }
+  .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .lang-badge {
+    padding: 4px 10px; border-radius: 6px;
+    font-size: 12px; font-weight: 500;
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text-secondary); cursor: pointer;
+  }
+
+  /* ── CONTENT ── */
+  .content { padding: 28px; flex: 1; }
+
+  /* pages */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* greeting */
+  .greeting-text { font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+  .greeting-sub { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; }
+
+  /* stat cards */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transition: background .3s, border-color .3s, box-shadow .2s;
+  }
+  .stat-card:hover { box-shadow: var(--shadow-md); }
+  .stat-label { font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+  .stat-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .stat-value { font-size: 28px; font-weight: 600; color: var(--text-primary); }
+
+  /* charts row */
+  .charts-row { display: grid; grid-template-columns: 1fr 340px; gap: 16px; margin-bottom: 24px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transition: background .3s, border-color .3s;
+  }
+  .card-title { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; }
+  .chart-wrap { position: relative; height: 200px; }
+
+  /* overdue list */
+  .overdue-empty { color: var(--text-muted); font-size: 13px; padding: 8px 0; }
+  .overdue-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+  }
+  .overdue-item:last-child { border-bottom: none; }
+  .overdue-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); margin-top: 4px; flex-shrink: 0; }
+  .overdue-task { font-size: 13px; color: var(--text-primary); line-height: 1.5; }
+  .overdue-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  /* my tasks */
+  .tasks-card { }
+  .tasks-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .task-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid var(--border);
+  }
+  .task-row:last-child { border-bottom: none; }
+  .task-check {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 1.5px solid var(--border); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all .15s;
+  }
+  .task-check.done { background: var(--green); border-color: var(--green); }
+  .task-check.done::after { content:'✓'; color:#fff; font-size:10px; }
+  .task-info { flex: 1; }
+  .task-name { font-size: 13.5px; color: var(--text-primary); }
+  .task-name.done { text-decoration: line-through; color: var(--text-muted); }
+  .task-date { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .task-badge {
+    padding: 3px 9px; border-radius: 20px;
+    font-size: 11px; font-weight: 500;
+  }
+  .badge-todo   { background: var(--blue-bg); color: var(--blue); }
+  .badge-doing  { background: var(--amber-bg); color: var(--amber); }
+  .badge-done   { background: var(--green-bg); color: var(--green); }
+  .badge-late   { background: var(--red-bg); color: var(--red); }
+
+  .empty-state { text-align: center; padding: 32px 0; color: var(--text-muted); font-size: 14px; }
+
+  /* ── SCHEDULE PAGE ── */
+  .week-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .week-nav-title { font-size: 15px; font-weight: 600; color: var(--text-primary); flex: 1; }
+  .btn-sm {
+    padding: 6px 14px; border-radius: var(--radius-sm);
+    border: 1px solid var(--border); background: var(--surface);
+    color: var(--text-secondary); font-size: 12.5px; cursor: pointer;
+    font-family: var(--font); transition: all .15s;
+  }
+  .btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-primary {
+    padding: 7px 16px; border-radius: var(--radius-sm);
+    border: none; background: var(--accent);
+    color: #fff; font-size: 13px; cursor: pointer;
+    font-family: var(--font); font-weight: 500;
+    transition: opacity .15s;
+  }
+  .btn-primary:hover { opacity: .88; }
+
+  .sched-grid { display: grid; grid-template-columns: 160px repeat(7, 1fr); gap: 6px; }
+  .sched-day-header {
+    text-align: center; font-size: 12px; color: var(--text-secondary);
+    padding: 8px 4px; font-weight: 500;
+  }
+  .sched-day-header.today { color: var(--accent); }
+  .sched-name-cell {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 0; font-size: 13px; color: var(--text-primary);
+  }
+  .sched-avatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600; flex-shrink: 0;
+  }
+  .sched-cell {
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 6px; min-height: 54px; font-size: 11px;
+    background: var(--surface); cursor: pointer; transition: all .15s;
+    position: relative;
+  }
+  .sched-cell:hover { border-color: var(--accent); }
+  .sched-cell.off { background: var(--bg); cursor: default; }
+  .sched-cell.off:hover { border-color: var(--border); }
+  .sched-hours { font-weight: 600; color: var(--text-secondary); font-size: 10px; }
+  .sched-task-chip {
+    margin-top: 3px; padding: 2px 5px; border-radius: 4px;
+    font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  /* ── SETTINGS / GOOGLE SHEET PANEL ── */
+  .settings-card { max-width: 600px; }
+  .settings-section { margin-bottom: 28px; }
+  .settings-section-title { font-size: 13px; font-weight: 600; color: var(--text-secondary); letter-spacing: .04em; text-transform: uppercase; margin-bottom: 14px; }
+  .form-group { margin-bottom: 14px; }
+  .form-label { font-size: 13px; color: var(--text-primary); font-weight: 500; margin-bottom: 6px; display: block; }
+  .form-hint  { font-size: 11.5px; color: var(--text-muted); margin-top: 4px; }
+  .form-input {
+    width: 100%; padding: 9px 13px;
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--bg); color: var(--text-primary);
+    font-size: 13px; font-family: var(--font);
+    transition: border-color .15s;
+    outline: none;
+  }
+  .form-input:focus { border-color: var(--accent); background: var(--surface); }
+  .form-input.mono { font-family: var(--mono); font-size: 12px; }
+  .sync-status {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px; border-radius: var(--radius-sm);
+    font-size: 13px; margin-top: 12px;
+  }
+  .sync-status.ok  { background: var(--green-bg); color: var(--green); }
+  .sync-status.err { background: var(--red-bg); color: var(--red); }
+  .sync-status.loading { background: var(--blue-bg); color: var(--blue); }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .guide-step {
+    display: flex; gap: 12px; padding: 12px 0;
+    border-bottom: 1px solid var(--border); font-size: 13px;
+    color: var(--text-secondary); line-height: 1.6;
+  }
+  .guide-step:last-child { border-bottom: none; }
+  .guide-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; flex-shrink: 0; margin-top: 1px;
+  }
+  .guide-code {
+    font-family: var(--mono); font-size: 12px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 4px; padding: 2px 6px;
+    color: var(--accent);
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--text-primary); color: var(--surface);
+    padding: 10px 18px; border-radius: var(--radius-sm);
+    font-size: 13px; z-index: 999;
+    transform: translateY(80px); opacity: 0;
+    transition: all .25s;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* spinner */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spin { display: inline-block; animation: spin 1s linear infinite; }
+
+  /* fade-in */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+  .fade-up { animation: fadeUp .35s ease both; }
+
+  /* responsive tweaks */
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: repeat(2,1fr); }
+    .charts-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">АТ</div>
+    <div>
+      <div class="logo-text">Ажлын Төлөвлөгөө</div>
+      <div class="logo-sub">Удирдлагын систем</div>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <button class="nav-item active" onclick="navigate('dashboard')">
+      <span class="nav-icon">⊞</span> Хяналтын самбар
+    </button>
+    <button class="nav-item" onclick="navigate('schedule')">
+      <span class="nav-icon">◫</span> Долоо хоногийн төлөвлөгөө
+    </button>
+    <button class="nav-item" onclick="navigate('profile')">
+      <span class="nav-icon">◉</span> Профайл
+    </button>
+    <button class="nav-item" onclick="navigate('settings')" style="margin-top:12px">
+      <span class="nav-icon">⚙</span> Тохиргоо / Google Sheet
+    </button>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-pill">
+      <div class="user-avatar" id="userInitials">ТП</div>
+      <div>
+        <div class="user-name" id="sidebarUserName">Тамир П.</div>
+        <div class="user-role" id="sidebarUserRole">Ажилтан</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<div class="main">
+  <header class="topbar">
+    <button class="topbar-toggle" title="Цэс">☰</button>
+    <span class="topbar-title" id="topbarTitle">Хяналтын самбар</span>
+    <div class="topbar-actions">
+      <span class="lang-badge">MN</span>
+      <button class="icon-btn" onclick="toggleDark()" title="Харанхуй горим">🌙</button>
+      <button class="icon-btn" onclick="syncData()" title="Мэдэгдэл" id="syncBtn">↻</button>
+      <button class="icon-btn" title="Тусламж">?</button>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- ─── DASHBOARD ─── -->
+    <div id="page-dashboard" class="page active fade-up">
+      <div class="greeting-text">Тавтай морилно уу, <span id="greetName">Тамир</span> 👋</div>
+      <div class="greeting-sub">Энэ долоо хоногийн товч мэдээлэл</div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">
+            Гүйцэтгэл
+            <div class="stat-icon" style="background:var(--green-bg)">✓</div>
+          </div>
+          <div class="stat-value" id="statPct">0%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">
+            Хүлээгдэж буй
+            <div class="stat-icon" style="background:var(--amber-bg)">◷</div>
+          </div>
+          <div class="stat-value" id="statTodo">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">
+            Дууссан
+            <div class="stat-icon" style="background:var(--blue-bg)">≡</div>
+          </div>
+          <div class="stat-value" id="statDone">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">
+            Дөхөж буй хугацаа
+            <div class="stat-icon" style="background:var(--red-bg)">⚠</div>
+          </div>
+          <div class="stat-value" id="statOverdue">0</div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="card">
+          <div class="card-title">Долоо хоногийн ахиц</div>
+          <div class="chart-wrap"><canvas id="weekChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Дөхөж буй хугацаа</div>
+          <div id="overdueList"><div class="overdue-empty">—</div></div>
+        </div>
+      </div>
+
+      <div class="card tasks-card">
+        <div class="tasks-header">
+          <div class="card-title" style="margin:0">Миний даалгаврууд</div>
+          <button class="btn-primary" onclick="navigate('settings')">+ Google Sheet холбох</button>
+        </div>
+        <div id="taskList"><div class="empty-state">Энэ долоо хонгот даалгавар байхгүй байна.</div></div>
+      </div>
+    </div>
+
+    <!-- ─── SCHEDULE ─── -->
+    <div id="page-schedule" class="page fade-up">
+      <div class="week-nav">
+        <div class="week-nav-title" id="weekNavTitle">Долоо хоногийн хуваарь</div>
+        <button class="btn-sm" onclick="syncData()">↻ Шинэчлэх</button>
+        <button class="btn-primary" onclick="navigate('settings')">Google Sheet тохируулах</button>
+      </div>
+      <div class="card">
+        <div id="schedGrid" class="sched-grid"></div>
+      </div>
+    </div>
+
+    <!-- ─── PROFILE ─── -->
+    <div id="page-profile" class="page fade-up">
+      <div class="card settings-card">
+        <div class="settings-section">
+          <div class="settings-section-title">Хувийн мэдээлэл</div>
+          <div class="form-group">
+            <label class="form-label">Нэр</label>
+            <input class="form-input" id="profName" placeholder="Таны нэр" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Байр / Албан тушаал</label>
+            <input class="form-input" id="profRole" placeholder="Жишээ: Дизайнер" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ажилтны нэрийн дурсамж (Sheet дахь нэр)</label>
+            <input class="form-input" id="profSheetName" placeholder="Жишээ: Тамир.П" />
+            <div class="form-hint">Google Sheet-ийн ажилтны нэртэй яг таарах ёстой.</div>
+          </div>
+          <button class="btn-primary" onclick="saveProfile()">Хадгалах</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SETTINGS ─── -->
+    <div id="page-settings" class="page fade-up">
+      <div class="card settings-card">
+
+        <div class="settings-section">
+          <div class="settings-section-title">Холболтын заавар</div>
+          <div class="card" style="padding:14px 18px;margin-bottom:0">
+            <div class="guide-step">
+              <div class="guide-num">1</div>
+              <div>Google Sheets-д шинэ хүснэгт үүсгэж, баганыг дараах байдлаар нэрлэнэ:<br>
+                <span class="guide-code">Ажилтны нэр</span>
+                <span class="guide-code">Даалгавар</span>
+                <span class="guide-code">Хугацаа</span>
+                <span class="guide-code">Төлөв</span>
+                <span class="guide-code">Ажлын цаг</span>
+                <span class="guide-code">Өдөр</span>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="guide-num">2</div>
+              <div>Sheet-ийг <b>нийтэд нээлттэй</b> болгоно (Share → Anyone with the link → Viewer).</div>
+            </div>
+            <div class="guide-step">
+              <div class="guide-num">3</div>
+              <div>URL-аас Sheet ID-г ол. Жишээ URL:<br>
+                <span class="guide-code">docs.google.com/spreadsheets/d/<b>ЭНЭХҮҮ_ID</b>/edit</span>
+              </div>
+            </div>
+            <div class="guide-step">
+              <div class="guide-num">4</div>
+              <div>Доорх талбарт тухайн ID-г оруулаад холбоно.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">Google Sheets тохиргоо</div>
+          <div class="form-group">
+            <label class="form-label">Google Sheet бүрэн URL оруулах <span style="font-weight:400;color:var(--text-muted)">(автомат задлана)</span></label>
+            <input class="form-input" id="sheetUrl" placeholder="https://docs.google.com/spreadsheets/d/.../edit#gid=..." oninput="parseSheetUrl(this.value)" />
+            <div class="form-hint">URL-ийг буулгахад Sheet ID болон GID-г автоматаар тодорхойлно.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Google Sheet ID</label>
+            <input class="form-input mono" id="sheetId" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms" />
+            <div class="form-hint">URL дахь /d/ ба /edit хооронд байх урт мөр.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Sheet GID <span style="font-weight:400;color:var(--text-muted)">(URL дахь #gid= тоо — илүү найдвартай)</span></label>
+            <input class="form-input mono" id="sheetGid" placeholder="1590015716" />
+            <div class="form-hint">URL-д <code style="font-family:var(--mono);font-size:11px">#gid=</code> гэсний дараах тоог оруулна. Хоосон орхивол tab нэрээр хайна.</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Эсвэл хуудасны нэр (Sheet tab нэр)</label>
+            <input class="form-input" id="sheetTab" value="Sheet1" />
+          </div>
+          <button class="btn-primary" onclick="saveAndSync()">Холбож шинэчлэх</button>
+          <div id="syncStatus" style="display:none" class="sync-status">
+            <div class="status-dot"></div>
+            <span id="syncMsg">Холбогдож байна...</span>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">Баганы нэр тохируулга</div>
+          <div class="form-group">
+            <label class="form-label">Ажилтны нэрийн багана</label>
+            <input class="form-input" id="colEmployee" value="Ажилтны нэр" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Даалгаврын багана</label>
+            <input class="form-input" id="colTask" value="Даалгавар" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Хугацааны багана</label>
+            <input class="form-input" id="colDeadline" value="Хугацаа" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Төлвийн багана</label>
+            <input class="form-input" id="colStatus" value="Төлөв" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ажлын цагийн багана</label>
+            <input class="form-input" id="colHours" value="Ажлын цаг" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Өдрийн багана</label>
+            <input class="form-input" id="colDay" value="Өдөр" />
+          </div>
+          <button class="btn-sm" onclick="saveColumns()">Баганы нэр хадгалах</button>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">Тест мэдээлэл</div>
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px">Sheet холбоогүй үед туршилтын мэдээлэл харуулна.</p>
+          <button class="btn-sm" onclick="loadDemoData()">Demo мэдээлэл ачаалах</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ─────────────────────── STATE ─────────────────────── */
+let state = {
+  sheetId: '1qDD_9ONcMOF0dAvo7sosgUa1kFE3wwqfU-1V2ICRM30',
+  sheetGid: '1590015716',
+  sheetTab: 'Sheet1',
+  cols: {
+    employee: 'Ажилтны нэр',
+    task: 'Даалгавар',
+    deadline: 'Хугацаа',
+    status: 'Төлөв',
+    hours: 'Ажлын цаг',
+    day: 'Өдөр'
+  },
+  profile: { name: 'Тамир', role: 'Ажилтан', sheetName: '' },
+  tasks: [],
+  dark: false
+};
+
+function loadState() {
+  try {
+    const s = localStorage.getItem('ajliin_state');
+    if (s) state = {...state, ...JSON.parse(s)};
+  } catch(e) {}
+}
+function saveState() {
+  localStorage.setItem('ajliin_state', JSON.stringify(state));
+}
+
+/* ─────────────────────── NAVIGATION ─────────────────────── */
+const PAGE_TITLES = {
+  dashboard: 'Хяналтын самбар',
+  schedule: 'Долоо хоногийн төлөвлөгөө',
+  profile: 'Профайл',
+  settings: 'Тохиргоо / Google Sheet'
+};
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.getElementById('topbarTitle').textContent = PAGE_TITLES[page] || page;
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.textContent.includes(PAGE_TITLES[page])) n.classList.add('active');
+  });
+  if (page === 'dashboard') renderDashboard();
+  if (page === 'schedule') renderSchedule();
+  if (page === 'settings') fillSettingsForm();
+  if (page === 'profile') fillProfileForm();
+}
+
+/* ─────────────────────── DARK MODE ─────────────────────── */
+function toggleDark() {
+  state.dark = !state.dark;
+  document.documentElement.setAttribute('data-theme', state.dark ? 'dark' : '');
+  saveState();
+}
+
+/* ─────────────────────── TOAST ─────────────────────── */
+function toast(msg, dur = 2800) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+
+/* ─────────────────────── GOOGLE SHEETS FETCH ─────────────────────── */
+// CSV export — Sheet "Anyone with link" → Viewer байх ёстой
+async function fetchSheetData() {
+  if (!state.sheetId) return null;
+  const gidParam = state.sheetGid ? `&gid=${state.sheetGid}` : '';
+  const csvUrl = `https://docs.google.com/spreadsheets/d/${state.sheetId}/export?format=csv${gidParam}`;
+  try {
+    const res = await fetch(csvUrl);
+    if (res.redirected && res.url.includes('accounts.google.com')) {
+      state._lastError = 'Нэвтрэх шаардлагатай — Sheet-ийг нийтэд нээлттэй болгоно уу';
+      return null;
+    }
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    if (text.includes('<!DOCTYPE') || text.includes('<html')) {
+      state._lastError = 'Sheet хаалттай байна — Share → Anyone with the link → Viewer болгоно уу';
+      return null;
+    }
+    if (!text.trim()) throw new Error('Sheet хоосон байна');
+    return parseCSV(text);
+  } catch(e) {
+    state._lastError = e.message;
+    console.error('Sheet fetch:', e.message);
+    return null;
+  }
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/).filter(l => l.trim());
+  if (lines.length < 2) return [];
+  const headers = splitCSVRow(lines[0]);
+  return lines.slice(1).map(line => {
+    const vals = splitCSVRow(line);
+    return Object.fromEntries(headers.map((h, i) => [h.trim(), (vals[i] || '').trim()]));
+  });
+}
+
+function splitCSVRow(row) {
+  const result = []; let cur = '', inQ = false;
+  for (let i = 0; i < row.length; i++) {
+    const c = row[i];
+    if (c === '"') { inQ = !inQ; }
+    else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
+    else { cur += c; }
+  }
+  result.push(cur);
+  return result;
+}
+
+/* ─────────────────────── DATA PROCESSING ─────────────────────── */
+function processRows(rows) {
+  const c = state.cols;
+  const myName = state.profile.sheetName || state.profile.name;
+  return rows
+    .filter(r => r[c.task])
+    .map(r => ({
+      employee: r[c.employee] || '',
+      task: r[c.task] || '',
+      deadline: r[c.deadline] || '',
+      status: (r[c.status] || '').toLowerCase(),
+      hours: parseFloat(r[c.hours]) || 0,
+      day: r[c.day] || '',
+      isMine: !myName || (r[c.employee] || '').toLowerCase().includes(myName.toLowerCase())
+    }));
+}
+
+/* ─────────────────────── SYNC ─────────────────────── */
+async function syncData() {
+  const btn = document.getElementById('syncBtn');
+  btn.classList.add('spin');
+  const rows = await fetchSheetData();
+  btn.classList.remove('spin');
+  if (rows) {
+    state.tasks = processRows(rows);
+    saveState();
+    renderDashboard();
+    renderSchedule();
+    toast('✓ Мэдээлэл шинэчлэгдлээ');
+  } else if (state.sheetId) {
+    const msg = state._lastError || 'Sheet холбоход алдаа гарлаа';
+    showSyncStatus('err', '✗ ' + msg);
+    toast('⚠ ' + msg, 5000);
+  }
+}
+
+/* ─────────────────────── SETTINGS ─────────────────────── */
+function fillSettingsForm() {
+  document.getElementById('sheetId').value = state.sheetId;
+  document.getElementById('sheetGid').value = state.sheetGid || '';
+  document.getElementById('sheetTab').value = state.sheetTab;
+  document.getElementById('colEmployee').value = state.cols.employee;
+  document.getElementById('colTask').value = state.cols.task;
+  document.getElementById('colDeadline').value = state.cols.deadline;
+  document.getElementById('colStatus').value = state.cols.status;
+  document.getElementById('colHours').value = state.cols.hours;
+  document.getElementById('colDay').value = state.cols.day;
+}
+async function saveAndSync() {
+  state.sheetId = document.getElementById('sheetId').value.trim();
+  state.sheetGid = document.getElementById('sheetGid').value.trim();
+  state.sheetTab = document.getElementById('sheetTab').value.trim() || 'Sheet1';
+  saveColumns();
+  saveState();
+  showSyncStatus('loading', 'Холбогдож байна...');
+  const rows = await fetchSheetData();
+  if (rows) {
+    state.tasks = processRows(rows);
+    saveState();
+    showSyncStatus('ok', '✓ Амжилттай холбогдлоо. ' + rows.length + ' мөр уншигдлаа.');
+    renderDashboard();
+    toast('✓ Google Sheet амжилттай холбогдлоо!');
+  } else {
+    showSyncStatus('err', '✗ Холбоход алдаа. Sheet ID болон нийтэд нээлттэй эсэхийг шалгана уу.');
+  }
+}
+function saveColumns() {
+  state.cols = {
+    employee: document.getElementById('colEmployee').value || 'Ажилтны нэр',
+    task: document.getElementById('colTask').value || 'Даалгавар',
+    deadline: document.getElementById('colDeadline').value || 'Хугацаа',
+    status: document.getElementById('colStatus').value || 'Төлөв',
+    hours: document.getElementById('colHours').value || 'Ажлын цаг',
+    day: document.getElementById('colDay').value || 'Өдөр',
+  };
+  saveState();
+  toast('Баганы нэр хадгалагдлаа');
+}
+function showSyncStatus(type, msg) {
+  const el = document.getElementById('syncStatus');
+  const msgEl = document.getElementById('syncMsg');
+  el.style.display = 'flex';
+  el.className = 'sync-status ' + type;
+  msgEl.textContent = msg;
+}
+
+/* ─────────────────────── PROFILE ─────────────────────── */
+function fillProfileForm() {
+  document.getElementById('profName').value = state.profile.name;
+  document.getElementById('profRole').value = state.profile.role;
+  document.getElementById('profSheetName').value = state.profile.sheetName;
+}
+function saveProfile() {
+  state.profile.name = document.getElementById('profName').value || 'Ажилтан';
+  state.profile.role = document.getElementById('profRole').value || 'Ажилтан';
+  state.profile.sheetName = document.getElementById('profSheetName').value;
+  document.getElementById('greetName').textContent = state.profile.name;
+  document.getElementById('sidebarUserName').textContent = state.profile.name;
+  document.getElementById('sidebarUserRole').textContent = state.profile.role;
+  document.getElementById('userInitials').textContent = state.profile.name.slice(0,2).toUpperCase();
+  saveState();
+  toast('✓ Профайл хадгалагдлаа');
+}
+
+/* ─────────────────────── DEMO DATA ─────────────────────── */
+function loadDemoData() {
+  const DAYS_MN = ['Даваа','Мягмар','Лхагва','Пүрэв','Баасан','Бямба','Ням'];
+  const today = new Date();
+  const demo = [
+    {emp:'Болд.Б', task:'Сарын тайлан бэлдэх', dl:'2026-05-12', status:'хийгдэж байна', hours:4, day:'Даваа'},
+    {emp:'Болд.Б', task:'Хурлын материал', dl:'2026-05-14', status:'хийх', hours:2, day:'Мягмар'},
+    {emp:'Болд.Б', task:'Имэйл хариулах', dl:'2026-05-11', status:'дууссан', hours:1, day:'Даваа'},
+    {emp:'Нарантуяа', task:'Дизайн шалгах', dl:'2026-05-13', status:'хийгдэж байна', hours:3, day:'Лхагва'},
+    {emp:'Нарантуяа', task:'Хурлын тэмдэглэл', dl:'2026-05-15', status:'хийх', hours:2, day:'Пүрэв'},
+    {emp:'Ганбаяр', task:'Код review', dl:'2026-05-12', status:'хийх', hours:4, day:'Мягмар'},
+    {emp:'Ганбаяр', task:'Баг хурал зохион байгуулах', dl:'2026-05-16', status:'хийх', hours:2, day:'Баасан'},
+    {emp:'Оюунцэцэг', task:'Клиент дуудлага', dl:'2026-05-11', status:'дууссан', hours:1, day:'Даваа'},
+    {emp:'Оюунцэцэг', task:'Судалгаа хийх', dl:'2026-05-09', status:'дууссан', hours:3, day:'Бямба'},
+    {emp:'Тамир', task:'Дашбоард тохируулах', dl:'2026-05-11', status:'дууссан', hours:3, day:'Даваа'},
+    {emp:'Тамир', task:'Google Sheet холбох', dl:'2026-05-12', status:'хийгдэж байна', hours:2, day:'Мягмар'},
+    {emp:'Тамир', task:'Баг хурал', dl:'2026-05-13', status:'хийх', hours:1, day:'Лхагва'},
+  ];
+  const c = state.cols;
+  state.tasks = demo.map(d => ({
+    employee: d.emp,
+    task: d.task,
+    deadline: d.dl,
+    status: d.status,
+    hours: d.hours,
+    day: d.day,
+    isMine: d.emp.toLowerCase().includes((state.profile.sheetName || state.profile.name).toLowerCase())
+  }));
+  saveState();
+  renderDashboard();
+  renderSchedule();
+  toast('Demo мэдээлэл ачааллаа');
+}
+
+/* ─────────────────────── DASHBOARD ─────────────────────── */
+let weekChartInst = null;
+function renderDashboard() {
+  const tasks = state.tasks;
+  const myTasks = tasks.filter(t => t.isMine);
+  const total = myTasks.length;
+  const done = myTasks.filter(t => ['дууссан','done','complete','completed','гүйцэтгэсэн'].includes(t.status)).length;
+  const todo = myTasks.filter(t => ['хийх','todo','хүлээгдэж буй','pending'].includes(t.status)).length;
+  const doing = myTasks.filter(t => ['хийгдэж байна','in progress','doing'].includes(t.status)).length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const today = new Date();
+  const overdue = myTasks.filter(t => {
+    if (!t.deadline) return false;
+    const dl = new Date(t.deadline);
+    return dl < today && !['дууссан','done','complete','completed','гүйцэтгэсэн'].includes(t.status);
+  });
+
+  document.getElementById('statPct').textContent = pct + '%';
+  document.getElementById('statTodo').textContent = todo + doing;
+  document.getElementById('statDone').textContent = done;
+  document.getElementById('statOverdue').textContent = overdue.length;
+
+  // Overdue list
+  const ol = document.getElementById('overdueList');
+  if (overdue.length === 0) {
+    ol.innerHTML = '<div class="overdue-empty">—</div>';
+  } else {
+    ol.innerHTML = overdue.map(t => `
+      <div class="overdue-item">
+        <div class="overdue-dot"></div>
+        <div>
+          <div class="overdue-task">${t.task}</div>
+          <div class="overdue-meta">${t.deadline}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  // Task list
+  const tl = document.getElementById('taskList');
+  if (myTasks.length === 0) {
+    tl.innerHTML = '<div class="empty-state">Энэ долоо хонгот даалгавар байхгүй байна.<br><small style="margin-top:6px;display:block">Google Sheet холбоно уу эсвэл Demo мэдээлэл ачаалуулна уу.</small></div>';
+  } else {
+    tl.innerHTML = myTasks.map(t => {
+      const isDone = ['дууссан','done','complete','completed','гүйцэтгэсэн'].includes(t.status);
+      let badgeClass = 'badge-todo', badgeText = 'Хийх';
+      if (isDone) { badgeClass = 'badge-done'; badgeText = 'Дууссан'; }
+      else if (['хийгдэж байна','in progress','doing'].includes(t.status)) { badgeClass = 'badge-doing'; badgeText = 'Явцтай'; }
+      return `<div class="task-row">
+        <div class="task-check ${isDone ? 'done' : ''}"></div>
+        <div class="task-info">
+          <div class="task-name ${isDone ? 'done' : ''}">${t.task}</div>
+          <div class="task-date">${t.deadline ? '📅 ' + t.deadline : ''} ${t.day ? '· ' + t.day : ''}</div>
+        </div>
+        <span class="task-badge ${badgeClass}">${badgeText}</span>
+      </div>`;
+    }).join('');
+  }
+
+  // Week chart
+  const DAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const DAYS_MN = ['Да','Мя','Лх','Пү','Ба','Бя','Ня'];
+  const dayMap = {
+    'даваа':'Mon','мягмар':'Tue','лхагва':'Wed','пүрэв':'Thu','баасан':'Fri','бямба':'Sat','ням':'Sun',
+    'mon':'Mon','tue':'Tue','wed':'Wed','thu':'Thu','fri':'Fri','sat':'Sat','sun':'Sun',
+    'monday':'Mon','tuesday':'Tue','wednesday':'Wed','thursday':'Thu','friday':'Fri','saturday':'Sat','sunday':'Sun'
+  };
+  const counts = {Mon:0,Tue:0,Wed:0,Thu:0,Fri:0,Sat:0,Sun:0};
+  tasks.forEach(t => {
+    const d = dayMap[(t.day||'').toLowerCase()];
+    if (d) counts[d]++;
+  });
+
+  const ctx = document.getElementById('weekChart').getContext('2d');
+  if (weekChartInst) weekChartInst.destroy();
+  weekChartInst = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: DAYS_MN,
+      datasets: [{
+        data: DAYS.map(d => counts[d]),
+        backgroundColor: 'rgba(79,110,247,0.15)',
+        borderColor: 'rgba(79,110,247,0.7)',
+        borderWidth: 1.5,
+        borderRadius: 5,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: 'rgba(0,0,0,.04)' }, ticks: { font: { size: 11, family: "'DM Sans'" }, color: '#9ca3af' } },
+        y: { grid: { color: 'rgba(0,0,0,.04)' }, ticks: { font: { size: 11, family: "'DM Sans'" }, color: '#9ca3af', stepSize: 1 }, beginAtZero: true }
+      }
+    }
+  });
+}
+
+/* ─────────────────────── SCHEDULE ─────────────────────── */
+const DAYS_ORDER = ['Даваа','Мягмар','Лхагва','Пүрэв','Баасан','Бямба','Ням'];
+const DAYS_SHORT = ['Да','Мя','Лх','Пү','Ба','Бя','Ня'];
+const TODAY_D = new Date().getDay(); // 0=Sun
+const TODAY_IDX = TODAY_D === 0 ? 6 : TODAY_D - 1;
+const AVG_COLORS = [
+  {bg:'#e0f2fe',fg:'#0369a1'},{bg:'#fef3c7',fg:'#92400e'},
+  {bg:'#dcfce7',fg:'#166534'},{bg:'#fce7f3',fg:'#831843'},
+  {bg:'#ede9fe',fg:'#4c1d95'},{bg:'#fff1f2',fg:'#9f1239'},
+];
+
+function renderSchedule() {
+  const tasks = state.tasks;
+  const employees = [...new Set(tasks.map(t => t.employee).filter(Boolean))];
+  if (employees.length === 0) {
+    document.getElementById('schedGrid').innerHTML = '<div style="grid-column:1/-1;padding:24px;color:var(--text-muted);font-size:13px">Мэдээлэл байхгүй байна. Google Sheet холбоно уу.</div>';
+    return;
+  }
+
+  const today = new Date();
+  const monday = new Date(today);
+  const dow = today.getDay() === 0 ? 6 : today.getDay() - 1;
+  monday.setDate(today.getDate() - dow);
+
+  const fmt = d => { const dt = new Date(monday); dt.setDate(monday.getDate() + d); return (dt.getMonth()+1) + '/' + dt.getDate(); };
+
+  let html = '<div></div>';
+  DAYS_SHORT.forEach((d,i) => {
+    html += `<div class="sched-day-header${i===TODAY_IDX?' today':''}">${d}<br><span style="font-size:10px;opacity:.65">${fmt(i)}</span></div>`;
+  });
+
+  employees.forEach((emp, ei) => {
+    const col = AVG_COLORS[ei % AVG_COLORS.length];
+    html += `<div class="sched-name-cell">
+      <div class="sched-avatar" style="background:${col.bg};color:${col.fg}">${emp.slice(0,2).toUpperCase()}</div>
+      <span style="font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${emp}</span>
+    </div>`;
+
+    DAYS_ORDER.forEach((day, di) => {
+      const dayTasks = tasks.filter(t =>
+        t.employee === emp &&
+        (t.day||'').toLowerCase() === day.toLowerCase()
+      );
+      const totalHours = dayTasks.reduce((s,t) => s + t.hours, 0);
+      if (dayTasks.length === 0) {
+        html += `<div class="sched-cell off"></div>`;
+      } else {
+        const taskChips = dayTasks.slice(0,2).map(t =>
+          `<div class="sched-task-chip" style="background:${col.bg};color:${col.fg}">${t.task}</div>`
+        ).join('');
+        html += `<div class="sched-cell">
+          ${totalHours > 0 ? `<div class="sched-hours">${totalHours}ц</div>` : ''}
+          ${taskChips}
+        </div>`;
+      }
+    });
+  });
+
+  document.getElementById('schedGrid').innerHTML = html;
+}
+
+/* ─────────────────────── URL PARSER ─────────────────────── */
+function parseSheetUrl(url) {
+  const idMatch = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+  const gidMatch = url.match(/[#&?]gid=([0-9]+)/);
+  if (idMatch) {
+    document.getElementById('sheetId').value = idMatch[1];
+    state.sheetId = idMatch[1];
+  }
+  if (gidMatch) {
+    document.getElementById('sheetGid').value = gidMatch[1];
+    state.sheetGid = gidMatch[1];
+  }
+  if (idMatch) toast('✓ Sheet ID автоматаар тодорхойлогдлоо' + (gidMatch ? ' (GID: ' + gidMatch[1] + ')' : ''));
+}
+
+/* ─────────────────────── INIT ─────────────────────── */
+function init() {
+  loadState();
+  document.documentElement.setAttribute('data-theme', state.dark ? 'dark' : '');
+  document.getElementById('greetName').textContent = state.profile.name;
+  document.getElementById('sidebarUserName').textContent = state.profile.name;
+  document.getElementById('sidebarUserRole').textContent = state.profile.role;
+  document.getElementById('userInitials').textContent = state.profile.name.slice(0,2).toUpperCase();
+  renderDashboard();
+  // Auto-sync every 5 minutes if sheet is set
+  if (state.sheetId) {
+    syncData();
+    setInterval(syncData, 5 * 60 * 1000);
+  }
+}
+
+init();
+</script>
+</body>
+</html>
