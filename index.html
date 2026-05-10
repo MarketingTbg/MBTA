@@ -565,31 +565,38 @@
 
         <div class="settings-section">
           <div class="settings-section-title">Баганы нэр тохируулга</div>
-          <div class="form-group">
-            <label class="form-label">Ажилтны нэрийн багана</label>
-            <input class="form-input" id="colEmployee" value="Ажилтны нэр" />
+          <div id="detectedHeadersBox" style="display:none;margin-bottom:14px;padding:10px 14px;background:var(--blue-bg);border-radius:var(--radius-sm);font-size:12px;color:var(--blue)">
+            <b>Sheet-ээс илрүүлсэн баганы нэрүүд:</b><br>
+            <span id="detectedHeaders" style="font-family:var(--mono);font-size:11px"></span>
           </div>
-          <div class="form-group">
-            <label class="form-label">Даалгаврын багана</label>
-            <input class="form-input" id="colTask" value="Даалгавар" />
+          <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px">Sheet холбосны дараа баганы нэрийг автоматаар илрүүлнэ. Буруу байвал доор гараар засна уу.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div class="form-group">
+              <label class="form-label">Ажилтны нэр</label>
+              <input class="form-input" id="colEmployee" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Даалгавар</label>
+              <input class="form-input" id="colTask" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Хугацаа / Deadline</label>
+              <input class="form-input" id="colDeadline" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Төлөв / Status</label>
+              <input class="form-input" id="colStatus" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Ажлын цаг</label>
+              <input class="form-input" id="colHours" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Өдөр / Гараг</label>
+              <input class="form-input" id="colDay" />
+            </div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Хугацааны багана</label>
-            <input class="form-input" id="colDeadline" value="Хугацаа" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Төлвийн багана</label>
-            <input class="form-input" id="colStatus" value="Төлөв" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Ажлын цагийн багана</label>
-            <input class="form-input" id="colHours" value="Ажлын цаг" />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Өдрийн багана</label>
-            <input class="form-input" id="colDay" value="Өдөр" />
-          </div>
-          <button class="btn-sm" onclick="saveColumns()">Баганы нэр хадгалах</button>
+          <button class="btn-sm" onclick="saveColumns()">Хадгалж дахин ачаалах</button>
         </div>
 
         <div class="settings-section">
@@ -743,17 +750,51 @@ async function syncData() {
   btn.classList.add('spin');
   const rows = await fetchSheetData();
   btn.classList.remove('spin');
-  if (rows) {
+  if (rows && rows.length > 0) {
+    // Auto-detect columns from actual headers
+    const headers = Object.keys(rows[0]);
+    state._rawHeaders = headers;
+    state._cachedRows = rows;
+    autoDetectColumns(headers);
     state.tasks = processRows(rows);
     saveState();
     renderDashboard();
     renderSchedule();
-    toast('✓ Мэдээлэл шинэчлэгдлээ');
+    showSyncStatus('ok', '✓ ' + rows.length + ' мөр уншигдлаа. Багана: ' + headers.join(', '));
+    toast('✓ ' + rows.length + ' мөр амжилттай уншигдлаа');
+  } else if (rows && rows.length === 0) {
+    showSyncStatus('err', '✗ Sheet хоосон байна — өгөгдөл оруулна уу');
   } else if (state.sheetId) {
     const msg = state._lastError || 'Sheet холбоход алдаа гарлаа';
     showSyncStatus('err', '✗ ' + msg);
     toast('⚠ ' + msg, 5000);
   }
+}
+
+function autoDetectColumns(headers) {
+  // Smart matching — case-insensitive partial match
+  function find(keywords) {
+    return headers.find(h => keywords.some(k => h.toLowerCase().includes(k.toLowerCase()))) || '';
+  }
+  const detected = {
+    employee: find(['ажилтн','нэр','employee','name','хэрэглэгч','user']),
+    task: find(['даалгавар','ажил','task','title','гарчиг','description']),
+    deadline: find(['хугацаа','дуусах','deadline','date','огноо','due']),
+    status: find(['төлөв','статус','status','байдал','state']),
+    hours: find(['цаг','hours','hour','хугацаа цаг','duration']),
+    day: find(['өдөр','day','гараг','weekday']),
+  };
+  // Only update if found
+  if (detected.employee) state.cols.employee = detected.employee;
+  if (detected.task) state.cols.task = detected.task;
+  if (detected.deadline) state.cols.deadline = detected.deadline;
+  if (detected.status) state.cols.status = detected.status;
+  if (detected.hours) state.cols.hours = detected.hours;
+  if (detected.day) state.cols.day = detected.day;
+  saveState();
+  // Update settings form if visible
+  fillSettingsForm();
+  console.log('Auto-detected columns:', detected);
 }
 
 /* ─────────────────────── SETTINGS ─────────────────────── */
@@ -767,6 +808,11 @@ function fillSettingsForm() {
   document.getElementById('colStatus').value = state.cols.status;
   document.getElementById('colHours').value = state.cols.hours;
   document.getElementById('colDay').value = state.cols.day;
+  // Show detected headers if available
+  if (state._rawHeaders && state._rawHeaders.length) {
+    document.getElementById('detectedHeadersBox').style.display = 'block';
+    document.getElementById('detectedHeaders').textContent = state._rawHeaders.join('  |  ');
+  }
 }
 async function saveAndSync() {
   state.sheetId = document.getElementById('sheetId').value.trim();
@@ -788,15 +834,21 @@ async function saveAndSync() {
 }
 function saveColumns() {
   state.cols = {
-    employee: document.getElementById('colEmployee').value || 'Ажилтны нэр',
-    task: document.getElementById('colTask').value || 'Даалгавар',
-    deadline: document.getElementById('colDeadline').value || 'Хугацаа',
-    status: document.getElementById('colStatus').value || 'Төлөв',
-    hours: document.getElementById('colHours').value || 'Ажлын цаг',
-    day: document.getElementById('colDay').value || 'Өдөр',
+    employee: document.getElementById('colEmployee').value.trim() || state.cols.employee,
+    task: document.getElementById('colTask').value.trim() || state.cols.task,
+    deadline: document.getElementById('colDeadline').value.trim() || state.cols.deadline,
+    status: document.getElementById('colStatus').value.trim() || state.cols.status,
+    hours: document.getElementById('colHours').value.trim() || state.cols.hours,
+    day: document.getElementById('colDay').value.trim() || state.cols.day,
   };
   saveState();
-  toast('Баганы нэр хадгалагдлаа');
+  // Re-process with new column names
+  if (state._cachedRows) {
+    state.tasks = processRows(state._cachedRows);
+    renderDashboard();
+    renderSchedule();
+  }
+  toast('✓ Хадгалагдлаа — дашбоард шинэчлэгдлээ');
 }
 function showSyncStatus(type, msg) {
   const el = document.getElementById('syncStatus');
