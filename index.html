@@ -4,631 +4,480 @@
 .app{display:flex;height:100vh;min-height:620px;background:var(--color-background-tertiary);font-family:var(--font-sans)}
 .sidebar{width:220px;min-width:220px;background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column}
 .logo{padding:18px 16px 12px;border-bottom:0.5px solid var(--color-border-tertiary)}
-.logo-title{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.logo-title{font-size:13px;font-weight:500}
 .logo-sub{font-size:11px;color:var(--color-text-secondary)}
-.nav-section{padding:12px 12px 4px;font-size:10px;color:var(--color-text-tertiary);letter-spacing:.05em;text-transform:uppercase;font-weight:500}
+.nav-section{padding:10px 12px 4px;font-size:10px;color:var(--color-text-tertiary);letter-spacing:.05em;text-transform:uppercase;font-weight:500}
 .nav-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--border-radius-md);cursor:pointer;font-size:13px;color:var(--color-text-secondary);margin:1px 4px;transition:background .15s}
 .nav-item:hover{background:var(--color-background-secondary)}
 .nav-item.active{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500}
 .nav-item i{font-size:16px}
-.sync-bar{margin:8px 8px 0;padding:8px 10px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary)}
-.sync-status{font-size:11px;color:var(--color-text-secondary);margin-bottom:6px;display:flex;align-items:center;gap:5px}
-.sync-dot{width:6px;height:6px;border-radius:50%;background:#888;flex-shrink:0}
-.sync-dot.connected{background:#3B6D11}
-.sync-dot.syncing{background:#BA7517;animation:pulse 1s infinite}
-.sync-dot.error{background:#A32D2D}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.btn{padding:6px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);cursor:pointer;font-size:12px;color:var(--color-text-primary);display:flex;align-items:center;gap:5px;white-space:nowrap}
+.sync-box{margin:8px;padding:10px;border-radius:var(--border-radius-md);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary)}
+.sync-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.dot{width:7px;height:7px;border-radius:50%;background:#B4B2A9;flex-shrink:0}
+.dot.ok{background:#639922}.dot.err{background:#E24B4A}.dot.spin{background:#EF9F27;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.sync-label{font-size:11px;color:var(--color-text-secondary)}
+.last-sync{font-size:10px;color:var(--color-text-tertiary);margin-top:4px}
+.btn{padding:5px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);cursor:pointer;font-size:12px;color:var(--color-text-primary);display:inline-flex;align-items:center;gap:5px}
 .btn:hover{background:var(--color-background-secondary)}
-.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn:disabled{opacity:.45;cursor:not-allowed}
 .btn-primary{background:#185FA5;color:#fff;border-color:#185FA5}
 .btn-primary:hover{background:#0C447C}
-.btn-success{background:#3B6D11;color:#fff;border-color:#3B6D11}
-.btn-success:hover{background:#27500A}
 .btn-sm{padding:4px 8px;font-size:11px}
+.btn-full{width:100%;justify-content:center}
 .main{flex:1;overflow:hidden;display:flex;flex-direction:column}
-.topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.topbar-left{display:flex;flex-direction:column}
-.topbar h1{font-size:14px;font-weight:500}
-.topbar-actions{display:flex;gap:6px;align-items:center;flex-shrink:0}
+.topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
 .content{flex:1;overflow:auto;padding:14px 16px}
 .page{display:none}.page.active{display:block}
 
-/* Setup page */
-.setup-step{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px;margin-bottom:12px}
-.step-num{width:24px;height:24px;border-radius:50%;background:#185FA5;color:#fff;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.step-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.step-title{font-size:13px;font-weight:500}
-.step-sub{font-size:11px;color:var(--color-text-secondary)}
-.code-block{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px;font-family:var(--font-mono);font-size:10px;color:var(--color-text-primary);white-space:pre;overflow-x:auto;margin:8px 0;line-height:1.5;max-height:160px}
-.url-input{width:100%;padding:7px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:12px;font-family:var(--font-mono)}
-.url-input:focus{outline:none;border-color:#185FA5}
-
-/* Stats */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
 .stat-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px}
 .stat-label{font-size:10px;color:var(--color-text-secondary);margin-bottom:3px}
-.stat-val{font-size:20px;font-weight:500}
-.stat-val.blue{color:#185FA5}.stat-val.amber{color:#BA7517}.stat-val.red{color:#A32D2D}.stat-val.green{color:#3B6D11}
+.stat-val{font-size:22px;font-weight:500}
+.blue{color:#185FA5}.amber{color:#BA7517}.red{color:#A32D2D}.green{color:#3B6D11}
 
-/* Kanban */
 .kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.col-header{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
-.col-count{background:var(--color-background-secondary);border-radius:99px;padding:1px 6px;font-size:10px}
-.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px;margin-bottom:6px;cursor:pointer;transition:border-color .15s}
-.card:hover{border-color:var(--color-border-primary)}
+.col-hd{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.cnt{background:var(--color-background-secondary);border-radius:99px;padding:1px 6px;font-size:10px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:9px 10px;margin-bottom:6px}
 .card-title{font-size:12px;font-weight:500;margin-bottom:3px}
-.card-sub{font-size:10px;color:var(--color-text-secondary);margin-bottom:6px}
-.card-meta{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.card-sub{font-size:10px;color:var(--color-text-secondary);margin-bottom:5px}
+.card-meta{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
 .badge{font-size:9px;padding:1px 6px;border-radius:99px;font-weight:500}
-.badge-design{background:#E6F1FB;color:#185FA5}
-.badge-digital{background:#EAF3DE;color:#3B6D11}
-.badge-pr{background:#FAEEDA;color:#BA7517}
-.badge-overdue{background:#FCEBEB;color:#A32D2D}
-.due-red{color:#A32D2D;font-size:10px}
-.due-ok{color:var(--color-text-secondary);font-size:10px}
+.bd{background:#E6F1FB;color:#185FA5}.bg{background:#EAF3DE;color:#3B6D11}.ba{background:#FAEEDA;color:#BA7517}.br{background:#FCEBEB;color:#A32D2D}
+.due-r{color:#A32D2D;font-size:10px}.due-n{color:var(--color-text-tertiary);font-size:10px}
 
-/* Modal */
-.modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:100;min-height:600px}
-.modal{background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);width:420px;max-width:95%;max-height:80vh;overflow-y:auto}
-.modal-head{padding:14px 16px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:center}
-.modal-head h2{font-size:14px;font-weight:500}
-.modal-body{padding:14px 16px}
-.field{margin-bottom:12px}
+.list-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.list-tbl th{text-align:left;font-size:10px;font-weight:500;color:var(--color-text-secondary);padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.list-tbl td{padding:8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:middle}
+.list-tbl tr:hover td{background:var(--color-background-secondary)}
+
+.setup-step{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px;margin-bottom:10px}
+.step-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.step-num{width:22px;height:22px;border-radius:50%;background:#185FA5;color:#fff;font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-num.done{background:#639922}
+.step-title{font-size:13px;font-weight:500}
+.step-sub{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.code-block{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:8px 10px;font-family:var(--font-mono);font-size:10px;white-space:pre;overflow-x:auto;margin:6px 0;line-height:1.6;max-height:120px}
+.url-row{display:flex;gap:6px;margin-top:6px}
+.url-inp{flex:1;padding:6px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:11px;font-family:var(--font-mono)}
+.url-inp:focus{outline:none;border-color:#185FA5}
+.tip{font-size:11px;padding:8px 10px;border-radius:var(--border-radius-md);margin-top:6px}
+.tip-info{background:#E6F1FB;color:#0C447C;border:0.5px solid #B5D4F4}
+.tip-ok{background:#EAF3DE;color:#3B6D11;border:0.5px solid #C0DD97}
+.tip-err{background:#FCEBEB;color:#A32D2D;border:0.5px solid #F7C1C1}
+
+.modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.38);display:flex;align-items:center;justify-content:center;z-index:100;min-height:600px}
+.modal{background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);width:400px;max-width:95%;max-height:80vh;overflow-y:auto}
+.modal-hd{padding:12px 16px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between;align-items:center}
+.modal-hd h2{font-size:13px;font-weight:500}
+.modal-bd{padding:14px 16px}
+.field{margin-bottom:11px}
 .field label{display:block;font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
-.field input,.field select,.field textarea{width:100%;padding:7px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:12px;font-family:var(--font-sans)}
-.field textarea{min-height:60px;resize:vertical}
-.modal-foot{padding:10px 16px;border-top:0.5px solid var(--color-border-tertiary);display:flex;justify-content:flex-end;gap:6px}
+.field input,.field select,.field textarea{width:100%;padding:6px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:12px;font-family:var(--font-sans)}
+.field textarea{min-height:56px;resize:vertical}
+.modal-ft{padding:10px 16px;border-top:0.5px solid var(--color-border-tertiary);display:flex;justify-content:flex-end;gap:6px}
 
-/* List */
-.list-table{width:100%;border-collapse:collapse;font-size:12px}
-.list-table th{text-align:left;font-size:10px;font-weight:500;color:var(--color-text-secondary);padding:5px 8px;border-bottom:0.5px solid var(--color-border-tertiary)}
-.list-table td{padding:8px 8px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:middle}
-.list-table tr:hover td{background:var(--color-background-secondary)}
-
-/* Sync log */
-.log-entry{font-size:11px;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;gap:8px;align-items:flex-start}
-.log-time{color:var(--color-text-tertiary);min-width:55px;font-family:var(--font-mono)}
-.log-ok{color:#3B6D11}.log-err{color:#A32D2D}.log-info{color:#185FA5}
+.wl-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px;margin-bottom:8px}
+.pbar{height:4px;background:var(--color-background-secondary);border-radius:99px;margin:6px 0}
+.pfill{height:100%;border-radius:99px;background:#185FA5}
 </style>
 
 <div class="app" style="position:relative">
+
+<!-- SIDEBAR -->
 <div class="sidebar">
   <div class="logo">
     <div class="logo-title">🏔 Tavan Bogd</div>
     <div class="logo-sub">Маркетинг систем</div>
   </div>
 
-  <div class="sync-bar">
-    <div class="sync-status"><div class="sync-dot" id="sync-dot"></div><span id="sync-label">Холбогдоогүй</span></div>
-    <button class="btn btn-sm" id="sync-btn" onclick="doSync()" style="width:100%;justify-content:center" disabled>
-      <i class="ti ti-refresh" aria-hidden="true"></i> Синклэх
+  <div class="sync-box">
+    <div class="sync-row">
+      <div class="dot" id="sdot"></div>
+      <span class="sync-label" id="slabel">Холбогдоогүй</span>
+    </div>
+    <button class="btn btn-sm btn-full" id="sync-btn" onclick="doSync()" disabled>
+      <i class="ti ti-refresh" aria-hidden="true"></i> Sheets-с татах
     </button>
-    <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:5px" id="last-sync">—</div>
+    <div class="last-sync" id="last-sync-txt">—</div>
   </div>
 
-  <div style="padding:4px 4px;flex:1">
-    <div class="nav-section" style="padding:10px 12px 4px">Цэс</div>
-    <div class="nav-item active" onclick="showPage('dashboard',this)"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Хяналтын самбар</div>
-    <div class="nav-item" onclick="showPage('kanban',this)"><i class="ti ti-columns" aria-hidden="true"></i> Канбан</div>
-    <div class="nav-item" onclick="showPage('requests',this)"><i class="ti ti-list" aria-hidden="true"></i> Бүх хүсэлт</div>
-    <div class="nav-section" style="padding:10px 12px 4px">Удирдлага</div>
-    <div class="nav-item" onclick="showPage('workload',this)"><i class="ti ti-chart-bar" aria-hidden="true"></i> Ажлын ачаалал</div>
-    <div class="nav-item" onclick="showPage('setup',this)"><i class="ti ti-plug" aria-hidden="true"></i> Sheets холболт</div>
-    <div class="nav-item" onclick="showPage('log',this)"><i class="ti ti-terminal" aria-hidden="true"></i> Синк лог</div>
+  <div style="padding:4px;flex:1">
+    <div class="nav-section">Цэс</div>
+    <div class="nav-item" onclick="gp('dashboard',this)"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Хяналтын самбар</div>
+    <div class="nav-item" onclick="gp('kanban',this)"><i class="ti ti-columns" aria-hidden="true"></i> Канбан</div>
+    <div class="nav-item" onclick="gp('requests',this)"><i class="ti ti-list" aria-hidden="true"></i> Бүх хүсэлт</div>
+    <div class="nav-section">Удирдлага</div>
+    <div class="nav-item" onclick="gp('workload',this)"><i class="ti ti-chart-bar" aria-hidden="true"></i> Ажлын ачаалал</div>
+    <div class="nav-item active" onclick="gp('setup',this)"><i class="ti ti-plug" aria-hidden="true"></i> Sheets холболт</div>
   </div>
 </div>
 
+<!-- MAIN -->
 <div class="main">
-<div class="topbar">
-  <div class="topbar-left">
-    <div style="font-size:14px;font-weight:500" id="page-title">Хяналтын самбар</div>
-    <div style="font-size:11px;color:var(--color-text-secondary)" id="page-sub">Тавтай морил, Билгээ</div>
-  </div>
-  <div class="topbar-actions">
-    <button class="btn btn-sm" onclick="doSync()" id="topbar-sync" disabled><i class="ti ti-refresh" aria-hidden="true"></i> Синк</button>
-    <button class="btn btn-primary btn-sm" onclick="openModal()"><i class="ti ti-plus" aria-hidden="true"></i> Шинэ хүсэлт</button>
-  </div>
-</div>
-
-<div class="content">
-
-<!-- SETUP PAGE -->
-<div class="page active" id="page-setup">
-  <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:14px">Google Sheets-тэй нэг удаа тохируулбал автомат синк ажиллана.</div>
-
-  <div class="setup-step">
-    <div class="step-head"><div class="step-num">1</div><div><div class="step-title">Google Sheet үүсгэх</div><div class="step-sub">Шинэ Sheet үүсгэж, 1-р мөрт доорх толгойг оруул:</div></div></div>
-    <div class="code-block">ID | Гарчиг | Брэнд | Ангилал | Дизайнер | Тайлбар | Дуусах огноо | Зэрэглэл | Төлөв | Үүсгэсэн огноо</div>
-    <div style="font-size:11px;color:var(--color-text-secondary)">Sheet-ийн нэрийг <strong>Tasks</strong> гэж тохируул.</div>
-  </div>
-
-  <div class="setup-step">
-    <div class="step-head"><div class="step-num">2</div><div><div class="step-title">Apps Script нээх</div><div class="step-sub">Sheet → Extensions → Apps Script → код оруул</div></div></div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-      <span style="font-size:11px;color:var(--color-text-secondary)">Code.gs файл руу хуулж тавь:</span>
-      <button class="btn btn-sm" onclick="copyScript()"><i class="ti ti-copy" aria-hidden="true"></i> Хуулах</button>
-    </div>
-    <div class="code-block" id="script-code">const SHEET_NAME = "Tasks";
-
-function doGet(e) {
-  return handleRequest(e);
-}
-
-function doPost(e) {
-  return handleRequest(e);
-}
-
-function handleRequest(e) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const sheet = ss.getSheetByName(SHEET_NAME);
-  const action = (e.parameter && e.parameter.action) || 
-                 (e.postData && JSON.parse(e.postData.contents).action);
-  
-  let result;
-  if (action === "read") {
-    result = readTasks(sheet);
-  } else if (action === "write") {
-    const data = JSON.parse(e.postData.contents);
-    result = writeTasks(sheet, data.tasks);
-  } else if (action === "addTask") {
-    const data = JSON.parse(e.postData.contents);
-    result = addTask(sheet, data.task);
-  } else if (action === "updateTask") {
-    const data = JSON.parse(e.postData.contents);
-    result = updateTask(sheet, data.task);
-  } else {
-    result = { error: "Unknown action" };
-  }
-  
-  return ContentService
-    .createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-function readTasks(sheet) {
-  const data = sheet.getDataRange().getValues();
-  const headers = data[0];
-  const tasks = data.slice(1).filter(r => r[0]).map(row => {
-    const t = {};
-    headers.forEach((h, i) => t[h] = row[i] ? String(row[i]) : "");
-    return t;
-  });
-  return { tasks };
-}
-
-function writeTasks(sheet, tasks) {
-  sheet.clearContents();
-  const headers = ["ID","Гарчиг","Брэнд","Ангилал","Дизайнер",
-                   "Тайлбар","Дуусах огноо","Зэрэглэл","Төлөв","Үүсгэсэн огноо"];
-  sheet.appendRow(headers);
-  tasks.forEach(t => {
-    sheet.appendRow([t.id,t.title,t.brand,t.cat,t.designer,
-                     t.desc,t.due,t.priority,t.status,t.created]);
-  });
-  return { ok: true, count: tasks.length };
-}
-
-function addTask(sheet, task) {
-  sheet.appendRow([task.id,task.title,task.brand,task.cat,task.designer,
-                   task.desc,task.due,task.priority,task.status,task.created]);
-  return { ok: true };
-}
-
-function updateTask(sheet, task) {
-  const data = sheet.getDataRange().getValues();
-  for (let i = 1; i < data.length; i++) {
-    if (String(data[i][0]) === String(task.id)) {
-      sheet.getRange(i+1,1,1,10).setValues([[
-        task.id,task.title,task.brand,task.cat,task.designer,
-        task.desc,task.due,task.priority,task.status,task.created
-      ]]);
-      return { ok: true };
-    }
-  }
-  return { error: "Task not found" };
-}</div>
-  </div>
-
-  <div class="setup-step">
-    <div class="step-head"><div class="step-num">3</div><div><div class="step-title">Web App болгон deploy хийх</div><div class="step-sub">Deploy → New deployment → Web app → "Anyone" → Deploy</div></div></div>
-    <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:8px">Үүссэн Web App URL-ийг доор оруул:</div>
-    <input class="url-input" id="apps-script-url" placeholder="https://script.google.com/macros/s/AKfyc.../exec" oninput="checkUrl()">
-    <div style="margin-top:8px;display:flex;gap:6px">
-      <button class="btn btn-sm" onclick="testConnection()" id="test-btn" disabled><i class="ti ti-plug" aria-hidden="true"></i> Холболт шалгах</button>
-      <button class="btn btn-primary btn-sm" onclick="saveUrl()" id="save-url-btn" disabled><i class="ti ti-check" aria-hidden="true"></i> Хадгалах</button>
-    </div>
-    <div id="test-result" style="margin-top:8px;font-size:11px"></div>
-  </div>
-
-  <div class="setup-step" id="step-connected" style="display:none;border-color:#9FE1CB">
-    <div class="step-head"><div class="step-num" style="background:#3B6D11">✓</div><div><div class="step-title" style="color:#3B6D11">Амжилттай холбогдлоо!</div><div class="step-sub" id="connected-url-label"></div></div></div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap">
-      <button class="btn btn-success btn-sm" onclick="doSync()"><i class="ti ti-refresh" aria-hidden="true"></i> Одоо синклэх</button>
-      <button class="btn btn-sm" onclick="disconnectSheet()"><i class="ti ti-unlink" aria-hidden="true"></i> Холболт таслах</button>
-    </div>
-  </div>
-</div>
-
-<!-- DASHBOARD -->
-<div class="page" id="page-dashboard">
-  <div class="stats-row">
-    <div class="stat-card"><div class="stat-label">Идэвхтэй</div><div class="stat-val blue" id="s-active">0</div></div>
-    <div class="stat-card"><div class="stat-label">Хийгдэж байна</div><div class="stat-val amber" id="s-prog">0</div></div>
-    <div class="stat-card"><div class="stat-label">Хугацаа хэтэрсэн</div><div class="stat-val red" id="s-ov">0</div></div>
-    <div class="stat-card"><div class="stat-label">Дууссан</div><div class="stat-val green" id="s-done">0</div></div>
-  </div>
-  <div style="display:grid;grid-template-columns:1fr 260px;gap:12px">
+  <div class="topbar">
     <div>
-      <div style="font-size:12px;font-weight:500;margin-bottom:8px">Сүүлийн хүсэлтүүд</div>
-      <div id="recent-list"></div>
+      <div style="font-size:13px;font-weight:500" id="ptitle">Sheets холболт</div>
+      <div style="font-size:10px;color:var(--color-text-secondary)" id="psub">Google Sheets-с өгөгдөл унших</div>
     </div>
-    <div>
-      <div style="font-size:12px;font-weight:500;margin-bottom:8px">Анхаарал шаардлагатай</div>
-      <div id="attn-list"></div>
+    <div style="display:flex;gap:6px">
+      <button class="btn btn-sm" id="top-sync" onclick="doSync()" disabled><i class="ti ti-refresh" aria-hidden="true"></i> Татах</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal()"><i class="ti ti-plus" aria-hidden="true"></i> Шинэ хүсэлт</button>
     </div>
   </div>
+
+  <div class="content">
+
+    <!-- SETUP -->
+    <div class="page active" id="page-setup">
+
+      <div class="setup-step">
+        <div class="step-hd">
+          <div class="step-num">1</div>
+          <div>
+            <div class="step-title">Google Sheet-ийн бүтцийг тохируул</div>
+            <div class="step-sub">Sheet-ийн нэрийг <strong>Tasks</strong> гэж тавь. 1-р мөрт доорх толгойг оруул:</div>
+          </div>
+        </div>
+        <div class="code-block">ID	Гарчиг	Брэнд	Ангилал	Дизайнер	Тайлбар	Дуусах огноо	Зэрэглэл	Төлөв	Үүсгэсэн огноо</div>
+        <div class="tip tip-info"><i class="ti ti-info-circle" aria-hidden="true"></i> Ажилчид энэ Sheet дээр шууд бөглөнө. Систем тэндээс унших болно.</div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-hd">
+          <div class="step-num">2</div>
+          <div>
+            <div class="step-title">Sheet-ийг нийтэд нээлттэй болго</div>
+            <div class="step-sub">Sheet → Share → "Anyone with the link" → <strong>Viewer</strong> → Done</div>
+          </div>
+        </div>
+        <div class="tip tip-info"><i class="ti ti-lock-open" aria-hidden="true"></i> Зөвхөн унших тул Viewer эрх хангалттай. Засах эрх өгөх шаардлагагүй.</div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-hd">
+          <div class="step-num">3</div>
+          <div>
+            <div class="step-title">Spreadsheet ID оруул</div>
+            <div class="step-sub">URL-аас ID-г хуулна: <code style="font-size:10px;background:var(--color-background-secondary);padding:1px 4px;border-radius:3px">docs.google.com/spreadsheets/d/<strong>ЭНД_БАЙНА</strong>/edit</code></div>
+          </div>
+        </div>
+        <div class="url-row">
+          <input class="url-inp" id="sheet-id-inp" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms" oninput="checkId()">
+          <button class="btn btn-sm btn-primary" id="connect-btn" onclick="connectSheet()" disabled>Холбох</button>
+        </div>
+        <div id="connect-result"></div>
+      </div>
+
+      <div id="step-connected" style="display:none">
+        <div class="setup-step" style="border-color:#9FE1CB">
+          <div class="step-hd">
+            <div class="step-num done">✓</div>
+            <div>
+              <div class="step-title" style="color:#3B6D11">Амжилттай холбогдлоо!</div>
+              <div class="step-sub" id="connected-id-lbl"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-sm" style="background:#639922;color:#fff;border-color:#639922" onclick="doSync()"><i class="ti ti-refresh" aria-hidden="true"></i> Одоо татах</button>
+            <button class="btn btn-sm" onclick="disconnect()"><i class="ti ti-unlink" aria-hidden="true"></i> Холболт таслах</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip tip-info" style="margin-top:4px">
+        <strong>Яаж ажилладаг вэ?</strong><br>
+        Ажилчид Google Sheets дээр шууд task бөглөнө → та "Татах" дарахад систем шинэчлэгдэнэ → Канбан, жагсаалт, ачаалал хуудсууд автоматаар шинэчлэгдэнэ.
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="page" id="page-dashboard">
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-label">Идэвхтэй</div><div class="stat-val blue" id="sa">0</div></div>
+        <div class="stat-card"><div class="stat-label">Хийгдэж байна</div><div class="stat-val amber" id="sp">0</div></div>
+        <div class="stat-card"><div class="stat-label">Хугацаа хэтэрсэн</div><div class="stat-val red" id="so">0</div></div>
+        <div class="stat-card"><div class="stat-label">Дууссан</div><div class="stat-val green" id="sd">0</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 240px;gap:12px">
+        <div>
+          <div style="font-size:12px;font-weight:500;margin-bottom:8px">Сүүлийн хүсэлтүүд</div>
+          <div id="recent"></div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:500;margin-bottom:8px">⚠️ Анхаарал шаардлагатай</div>
+          <div id="attn"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KANBAN -->
+    <div class="page" id="page-kanban">
+      <div style="display:flex;gap:6px;margin-bottom:10px">
+        <select id="kf-cat" onchange="renderKanban()" style="font-size:11px;padding:4px 8px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)">
+          <option value="">Бүх ангилал</option><option>Design</option><option>Digital</option><option>PR</option>
+        </select>
+        <select id="kf-br" onchange="renderKanban()" style="font-size:11px;padding:4px 8px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)">
+          <option value="">Бүх брэнд</option>
+        </select>
+      </div>
+      <div class="kanban">
+        <div><div class="col-hd"><span>📋 Ирсэн</span><span class="cnt" id="c-sub">0</span></div><div id="k-sub"></div></div>
+        <div><div class="col-hd"><span>📌 Хийх</span><span class="cnt" id="c-todo">0</span></div><div id="k-todo"></div></div>
+        <div><div class="col-hd"><span>⚙️ Хийгдэж байна</span><span class="cnt" id="c-ip">0</span></div><div id="k-ip"></div></div>
+        <div><div class="col-hd"><span>✅ Дууссан</span><span class="cnt" id="c-dn">0</span></div><div id="k-dn"></div></div>
+      </div>
+    </div>
+
+    <!-- REQUESTS -->
+    <div class="page" id="page-requests">
+      <div style="display:flex;gap:6px;margin-bottom:10px">
+        <input id="sq" placeholder="Хайх..." oninput="renderRequests()" style="flex:1;padding:6px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:12px">
+        <select id="fst" onchange="renderRequests()" style="font-size:11px;padding:4px 8px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)">
+          <option value="">Бүх төлөв</option><option>Submitted</option><option>To Do</option><option>In Progress</option><option>Done</option>
+        </select>
+        <select id="fcat" onchange="renderRequests()" style="font-size:11px;padding:4px 8px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)">
+          <option value="">Бүх ангилал</option><option>Design</option><option>Digital</option><option>PR</option>
+        </select>
+      </div>
+      <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);overflow:hidden">
+        <table class="list-tbl">
+          <thead><tr><th>Гарчиг</th><th>Брэнд</th><th>Ангилал</th><th>Дизайнер</th><th>Төлөв</th><th>Дуусах</th></tr></thead>
+          <tbody id="req-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- WORKLOAD -->
+    <div class="page" id="page-workload">
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:12px">Дизайнер бүрийн ачаалал — Sheets-с татсан өгөгдөлд үндэслэнэ.</div>
+      <div id="wl-list"></div>
+    </div>
+
+  </div>
 </div>
 
-<!-- KANBAN -->
-<div class="page" id="page-kanban">
-  <div style="display:flex;gap:6px;margin-bottom:10px;align-items:center">
-    <select id="kf-cat" onchange="renderKanban()" style="font-size:11px;padding:4px 8px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)">
-      <option value="">Бүх ангилал</option><option>Design</option><option>Digital</option><option>PR</option>
-    </select>
-    <select id="kf-brand" onchange="renderKanban()" style="font-size:11px;padding:4px 8px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)">
-      <option value="">Бүх брэнд</option>
-    </select>
-  </div>
-  <div class="kanban">
-    <div><div class="col-header"><span>📋 Ирсэн</span><span class="col-count" id="cnt-sub">0</span></div><div id="col-sub"></div></div>
-    <div><div class="col-header"><span>📌 Хийх</span><span class="col-count" id="cnt-todo">0</span></div><div id="col-todo"></div></div>
-    <div><div class="col-header"><span>⚙️ Хийгдэж байна</span><span class="col-count" id="cnt-ip">0</span></div><div id="col-ip"></div></div>
-    <div><div class="col-header"><span>✅ Дууссан</span><span class="col-count" id="cnt-dn">0</span></div><div id="col-dn"></div></div>
-  </div>
-</div>
-
-<!-- REQUESTS -->
-<div class="page" id="page-requests">
-  <div style="display:flex;gap:6px;margin-bottom:10px">
-    <input id="search-q" placeholder="Хайх..." oninput="renderRequests()" style="flex:1;padding:6px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-size:12px">
-    <select id="fs-status" onchange="renderRequests()" style="font-size:11px;padding:4px 8px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary)">
-      <option value="">Бүх төлөв</option><option>Submitted</option><option>To Do</option><option>In Progress</option><option>Done</option>
-    </select>
-  </div>
-  <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);overflow:hidden">
-    <table class="list-table">
-      <thead><tr><th>Гарчиг</th><th>Брэнд</th><th>Дизайнер</th><th>Төлөв</th><th>Дуусах</th><th></th></tr></thead>
-      <tbody id="req-tbody"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- WORKLOAD -->
-<div class="page" id="page-workload">
-  <div id="wl-list"></div>
-</div>
-
-<!-- LOG -->
-<div class="page" id="page-log">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-    <div style="font-size:12px;font-weight:500">Синк лог</div>
-    <button class="btn btn-sm" onclick="clearLog()"><i class="ti ti-trash" aria-hidden="true"></i> Цэвэрлэх</button>
-  </div>
-  <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px" id="log-list">
-    <div style="font-size:11px;color:var(--color-text-secondary)">Лог хоосон байна.</div>
-  </div>
-</div>
-
-</div></div>
-
-<!-- Modal -->
+<!-- MODAL (local task нэмэх) -->
 <div class="modal-overlay" id="modal" style="display:none">
   <div class="modal">
-    <div class="modal-head"><h2 id="modal-title">Шинэ хүсэлт</h2><button class="btn" onclick="closeModal()"><i class="ti ti-x" aria-hidden="true"></i></button></div>
-    <div class="modal-body">
+    <div class="modal-hd"><h2 id="modal-ttl">Шинэ хүсэлт (локал)</h2><button class="btn" onclick="closeModal()"><i class="ti ti-x" aria-hidden="true"></i></button></div>
+    <div class="modal-bd">
+      <div class="tip tip-info" style="margin-bottom:10px;font-size:10px"><i class="ti ti-info-circle" aria-hidden="true"></i> Sheets read-only тул энэ хүсэлт зөвхөн дэлгэцэнд харагдана. Бүртгэлд оруулахын тулд ажилтан Google Sheets дээр шууд бөглөнө.</div>
       <input type="hidden" id="eid">
-      <div class="field"><label>Гарчиг</label><input id="f-title"></div>
-      <div class="field"><label>Брэнд</label><select id="f-brand"><option>KFC</option><option>PizzaHut</option><option>Galleria UB</option><option>TBC</option></select></div>
-      <div class="field"><label>Ангилал</label><select id="f-cat"><option>Design</option><option>Digital</option><option>PR</option></select></div>
-      <div class="field"><label>Дизайнер</label><select id="f-designer"><option>Мөнхбаяр</option><option>Отгонбаатар</option><option>Болормаа</option><option>Ундрах</option></select></div>
-      <div class="field"><label>Тайлбар</label><textarea id="f-desc"></textarea></div>
-      <div class="field"><label>Дуусах огноо</label><input type="date" id="f-due"></div>
-      <div class="field"><label>Зэрэглэл</label><select id="f-priority"><option>Medium</option><option>High</option><option>Low</option></select></div>
-      <div class="field"><label>Төлөв</label><select id="f-status"><option>Submitted</option><option>To Do</option><option>In Progress</option><option>Done</option></select></div>
+      <div class="field"><label>Гарчиг</label><input id="ft"></div>
+      <div class="field"><label>Брэнд</label><input id="fb" placeholder="KFC, PizzaHut..."></div>
+      <div class="field"><label>Ангилал</label><select id="fc"><option>Design</option><option>Digital</option><option>PR</option></select></div>
+      <div class="field"><label>Дизайнер</label><input id="fd"></div>
+      <div class="field"><label>Дуусах огноо</label><input type="date" id="fdue"></div>
+      <div class="field"><label>Зэрэглэл</label><select id="fpri"><option>Medium</option><option>High</option><option>Low</option></select></div>
+      <div class="field"><label>Төлөв</label><select id="fst2"><option>Submitted</option><option>To Do</option><option>In Progress</option><option>Done</option></select></div>
     </div>
-    <div class="modal-foot">
+    <div class="modal-ft">
       <button class="btn" onclick="closeModal()">Болих</button>
-      <button class="btn btn-primary" onclick="saveTask()">Хадгалах</button>
+      <button class="btn btn-primary" onclick="saveLocal()">Нэмэх (локал)</button>
     </div>
   </div>
 </div>
+
 </div>
 
 <script>
-let tasks=[
-  {id:1,title:"KFC сошиал пост",brand:"KFC",cat:"Design",designer:"Мөнхбаяр",desc:"Сарын постер",due:"2026-05-20",priority:"High",status:"In Progress",created:"2026-05-01"},
-  {id:2,title:"PizzaHut видео контент",brand:"PizzaHut",cat:"Design",designer:"Отгонбаатар",desc:"Видео засвар",due:"2026-04-29",priority:"Medium",status:"Submitted",created:"2026-04-20"},
-  {id:3,title:"Galleria UB banner",brand:"Galleria UB",cat:"Design",designer:"Мөнхбаяр",desc:"Хэвлэлийн баннер",due:"2026-05-15",priority:"Medium",status:"To Do",created:"2026-05-02"},
-  {id:4,title:"Digital KPI тайлан",brand:"TBC",cat:"Digital",designer:"Болормаа",desc:"Сарын KPI",due:"2026-05-10",priority:"High",status:"Done",created:"2026-05-01"},
+let tasks=[];
+let localTasks=[
+  {id:"L1",title:"KFC сошиал пост",brand:"KFC",cat:"Design",designer:"Мөнхбаяр",desc:"",due:"2026-05-20",priority:"High",status:"In Progress",created:"2026-05-01",local:true},
+  {id:"L2",title:"Galleria UB banner",brand:"Galleria UB",cat:"Design",designer:"Мөнхбаяр",desc:"",due:"2026-04-29",priority:"Medium",status:"Submitted",created:"2026-05-02",local:true},
+  {id:"L3",title:"Digital KPI тайлан",brand:"TBC",cat:"Digital",designer:"Болормаа",desc:"",due:"2026-05-10",priority:"High",status:"Done",created:"2026-05-01",local:true},
 ];
-let nextId=5;
-let appsScriptUrl="";
-let syncLogs=[];
-let isSyncing=false;
+let sheetId="";
+let nextLocal=4;
+let syncing=false;
 
-function isOverdue(t){return t.due&&new Date(t.due)<new Date()&&t.status!=="Done";}
-function catBadge(c){const m={Design:"badge-design",Digital:"badge-digital",PR:"badge-pr"};return`<span class="badge ${m[c]||"badge-design"}">${c}</span>`;}
-function statusBadge(s){const bg={Submitted:"#F1EFE8","To Do":"#E6F1FB","In Progress":"#FAEEDA",Done:"#EAF3DE"};const tc={Submitted:"#5F5E5A","To Do":"#185FA5","In Progress":"#BA7517",Done:"#3B6D11"};return`<span style="font-size:9px;padding:1px 6px;border-radius:99px;font-weight:500;background:${bg[s]||"#eee"};color:${tc[s]||"#333"}">${s}</span>`;}
+function allTasks(){return [...tasks,...localTasks];}
+function isOv(t){return t.due&&new Date(t.due)<new Date()&&t.status!=="Done";}
+function catB(c){const m={Design:"bd",Digital:"bg",PR:"ba"};return`<span class="badge ${m[c]||'bd'}">${c}</span>`;}
+function stB(s){const bg={Submitted:"#F1EFE8","To Do":"#E6F1FB","In Progress":"#FAEEDA",Done:"#EAF3DE"};const tc={Submitted:"#5F5E5A","To Do":"#185FA5","In Progress":"#BA7517",Done:"#3B6D11"};return`<span style="font-size:9px;padding:1px 6px;border-radius:99px;font-weight:500;background:${bg[s]||"#eee"};color:${tc[s]||"#333"}">${s}</span>`;}
 
-function addLog(msg,type="info"){
-  const t=new Date().toLocaleTimeString("mn-MN",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
-  syncLogs.unshift({time:t,msg,type});
-  if(syncLogs.length>50)syncLogs.pop();
-  renderLog();
-}
-function renderLog(){
-  const el=document.getElementById("log-list");
-  if(!syncLogs.length){el.innerHTML=`<div style="font-size:11px;color:var(--color-text-secondary)">Лог хоосон байна.</div>`;return;}
-  el.innerHTML=syncLogs.map(l=>`<div class="log-entry"><span class="log-time">${l.time}</span><span class="log-${l.type}">${l.msg}</span></div>`).join("");
-}
-function clearLog(){syncLogs=[];renderLog();}
-
-function setSyncStatus(state){
-  const dot=document.getElementById("sync-dot");
-  const lbl=document.getElementById("sync-label");
+function setSyncUI(state){
+  const dot=document.getElementById("sdot");
+  const lbl=document.getElementById("slabel");
   const btn=document.getElementById("sync-btn");
-  const tbtn=document.getElementById("topbar-sync");
-  dot.className="sync-dot";
-  if(state==="connected"){dot.classList.add("connected");lbl.textContent="Холбогдсон";btn.disabled=false;tbtn.disabled=false;}
-  else if(state==="syncing"){dot.classList.add("syncing");lbl.textContent="Синклэж байна...";btn.disabled=true;tbtn.disabled=true;}
-  else if(state==="error"){dot.classList.add("error");lbl.textContent="Алдаа гарлаа";}
+  const tbtn=document.getElementById("top-sync");
+  dot.className="dot";
+  if(state==="ok"){dot.classList.add("ok");lbl.textContent="Холбогдсон";btn.disabled=false;tbtn.disabled=false;}
+  else if(state==="spin"){dot.classList.add("spin");lbl.textContent="Татаж байна...";btn.disabled=true;tbtn.disabled=true;}
+  else if(state==="err"){dot.classList.add("err");lbl.textContent="Алдаа гарлаа";btn.disabled=false;tbtn.disabled=false;}
   else{lbl.textContent="Холбогдоогүй";btn.disabled=true;tbtn.disabled=true;}
 }
 
-function checkUrl(){
-  const v=document.getElementById("apps-script-url").value.trim();
-  const ok=v.startsWith("https://script.google.com");
-  document.getElementById("test-btn").disabled=!ok;
-  document.getElementById("save-url-btn").disabled=!ok;
+function checkId(){
+  const v=document.getElementById("sheet-id-inp").value.trim();
+  document.getElementById("connect-btn").disabled=v.length<20;
 }
 
-async function testConnection(){
-  const url=document.getElementById("apps-script-url").value.trim();
-  const res=document.getElementById("test-result");
-  res.innerHTML=`<span style="color:#BA7517"><i class="ti ti-loader" aria-hidden="true"></i> Шалгаж байна...</span>`;
-  try{
-    const r=await fetch(url+"?action=read",{method:"GET"});
-    if(r.ok){
-      res.innerHTML=`<span style="color:#3B6D11">✓ Амжилттай! Sheets холбогдлоо.</span>`;
-      addLog("Холболт шалгалт амжилттай: "+url.slice(0,50)+"...","ok");
-    } else {
-      res.innerHTML=`<span style="color:#A32D2D">✗ Хариу ирсэн боловч алдаатай (${r.status})</span>`;
-    }
-  } catch(e){
-    res.innerHTML=`<span style="color:#A32D2D">✗ CORS алдаа — Sheets тохиргоог шалгана уу. Apps Script дэх "Execute as" болон "Who has access" тохиргоог шалгаарай.</span>`;
-    addLog("Холболт шалгалт амжилтгүй: "+e.message,"err");
+async function connectSheet(){
+  sheetId=document.getElementById("sheet-id-inp").value.trim();
+  const res=document.getElementById("connect-result");
+  res.innerHTML=`<div class="tip tip-info" style="margin-top:6px"><i class="ti ti-loader" aria-hidden="true"></i> Холболт шалгаж байна...</div>`;
+  const ok=await fetchSheet();
+  if(ok){
+    res.innerHTML=`<div class="tip tip-ok" style="margin-top:6px">✓ Амжилттай! ${tasks.length} task уншлаа.</div>`;
+    document.getElementById("step-connected").style.display="block";
+    document.getElementById("connected-id-lbl").textContent="Sheet ID: "+sheetId.slice(0,30)+"...";
+    setSyncUI("ok");
+    refreshCurrent();
+  } else {
+    res.innerHTML=`<div class="tip tip-err" style="margin-top:6px">✗ Уншиж чадсангүй. Sheet-ийг нийтэд нээлттэй болгосон эсэхийг шалгана уу (Anyone with link → Viewer).</div>`;
+    sheetId="";
+    setSyncUI("disconnected");
   }
 }
 
-function saveUrl(){
-  appsScriptUrl=document.getElementById("apps-script-url").value.trim();
-  document.getElementById("step-connected").style.display="block";
-  document.getElementById("connected-url-label").textContent=appsScriptUrl.slice(0,60)+"...";
-  setSyncStatus("connected");
-  addLog("URL хадгалагдлаа. Синк бэлэн.","ok");
-  doSync();
-}
-
-function disconnectSheet(){
-  appsScriptUrl="";
-  document.getElementById("apps-script-url").value="";
-  document.getElementById("step-connected").style.display="none";
-  document.getElementById("test-result").innerHTML="";
-  setSyncStatus("disconnected");
-  addLog("Холболт таслагдлаа.","info");
+async function fetchSheet(){
+  if(!sheetId)return false;
+  try{
+    const url=`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Tasks`;
+    const resp=await fetch(url);
+    if(!resp.ok)return false;
+    const text=await resp.text();
+    const json=JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/)[1]);
+    const cols=json.table.cols.map(c=>c.label);
+    tasks=json.table.rows.filter(r=>r&&r.c&&r.c[0]&&r.c[0].v).map((r,i)=>{
+      const row={};
+      cols.forEach((h,ci)=>row[h]=r.c[ci]?String(r.c[ci].v||""):"");
+      return{
+        id:row["ID"]||("S"+(i+1)),
+        title:row["Гарчиг"]||"",
+        brand:row["Брэнд"]||"",
+        cat:row["Ангилал"]||"Design",
+        designer:row["Дизайнер"]||"",
+        desc:row["Тайлбар"]||"",
+        due:row["Дуусах огноо"]||"",
+        priority:row["Зэрэглэл"]||"Medium",
+        status:row["Төлөв"]||"Submitted",
+        created:row["Үүсгэсэн огноо"]||"",
+        local:false
+      };
+    });
+    const now=new Date().toLocaleTimeString("mn-MN",{hour:"2-digit",minute:"2-digit"});
+    document.getElementById("last-sync-txt").textContent="Сүүлийн таталт: "+now;
+    return true;
+  } catch(e){return false;}
 }
 
 async function doSync(){
-  if(!appsScriptUrl||isSyncing)return;
-  isSyncing=true;
-  setSyncStatus("syncing");
-  addLog("Синк эхэллээ...","info");
-  try{
-    const pushR=await fetch(appsScriptUrl,{
-      method:"POST",
-      body:JSON.stringify({action:"write",tasks}),
-    });
-    if(!pushR.ok)throw new Error("HTTP "+pushR.status);
-    const pushData=await pushR.json();
-    addLog(`Sheets рүү ${tasks.length} task бичлаа.`,"ok");
-
-    const readR=await fetch(appsScriptUrl+"?action=read");
-    if(!readR.ok)throw new Error("Read HTTP "+readR.status);
-    const readData=await readR.json();
-    if(readData.tasks&&readData.tasks.length){
-      tasks=readData.tasks.map(t=>({
-        id:Number(t["ID"])||Number(t.id),
-        title:t["Гарчиг"]||t.title||"",
-        brand:t["Брэнд"]||t.brand||"",
-        cat:t["Ангилал"]||t.cat||"Design",
-        designer:t["Дизайнер"]||t.designer||"",
-        desc:t["Тайлбар"]||t.desc||"",
-        due:t["Дуусах огноо"]||t.due||"",
-        priority:t["Зэрэглэл"]||t.priority||"Medium",
-        status:t["Төлөв"]||t.status||"Submitted",
-        created:t["Үүсгэсэн огноо"]||t.created||"",
-      }));
-      nextId=Math.max(...tasks.map(t=>t.id),0)+1;
-      addLog(`Sheets-с ${tasks.length} task уншлаа.`,"ok");
-    }
-    const now=new Date().toLocaleTimeString("mn-MN",{hour:"2-digit",minute:"2-digit"});
-    document.getElementById("last-sync").textContent="Сүүлийн синк: "+now;
-    setSyncStatus("connected");
-    refreshCurrentPage();
-  } catch(e){
-    setSyncStatus("error");
-    addLog("Синк амжилтгүй: "+e.message,"err");
-  }
-  isSyncing=false;
+  if(syncing||!sheetId)return;
+  syncing=true;setSyncUI("spin");
+  const ok=await fetchSheet();
+  setSyncUI(ok?"ok":"err");
+  syncing=false;
+  refreshCurrent();
 }
 
-async function pushSingleTask(task,isNew){
-  if(!appsScriptUrl)return;
-  try{
-    await fetch(appsScriptUrl,{
-      method:"POST",
-      body:JSON.stringify({action:isNew?"addTask":"updateTask",task}),
-    });
-    addLog(`"${task.title}" — Sheets-т ${isNew?"нэмлэа":"шинэчлэлэа"}.`,"ok");
-  } catch(e){
-    addLog(`"${task.title}" push амжилтгүй: `+e.message,"err");
-  }
-}
-
-function openModal(t){
-  document.getElementById("modal-title").textContent=t?"Хүсэлт засах":"Шинэ хүсэлт";
-  if(t){
-    document.getElementById("eid").value=t.id;
-    document.getElementById("f-title").value=t.title;
-    document.getElementById("f-brand").value=t.brand;
-    document.getElementById("f-cat").value=t.cat;
-    document.getElementById("f-designer").value=t.designer;
-    document.getElementById("f-desc").value=t.desc||"";
-    document.getElementById("f-due").value=t.due||"";
-    document.getElementById("f-priority").value=t.priority;
-    document.getElementById("f-status").value=t.status;
-  } else {
-    document.getElementById("eid").value="";
-    ["f-title","f-desc","f-due"].forEach(i=>document.getElementById(i).value="");
-  }
-  document.getElementById("modal").style.display="flex";
-}
-function closeModal(){document.getElementById("modal").style.display="none";}
-function editTask(id){openModal(tasks.find(t=>t.id===id));}
-
-function saveTask(){
-  const eid=document.getElementById("eid").value;
-  const obj={
-    title:document.getElementById("f-title").value||"Нэргүй",
-    brand:document.getElementById("f-brand").value,
-    cat:document.getElementById("f-cat").value,
-    designer:document.getElementById("f-designer").value,
-    desc:document.getElementById("f-desc").value,
-    due:document.getElementById("f-due").value,
-    priority:document.getElementById("f-priority").value,
-    status:document.getElementById("f-status").value,
-    created:new Date().toISOString().slice(0,10),
-  };
-  let isNew=false;
-  if(eid){
-    const idx=tasks.findIndex(t=>t.id==eid);
-    if(idx>=0){tasks[idx]={...tasks[idx],...obj};}
-    pushSingleTask({...obj,id:Number(eid)},false);
-  } else {
-    const newTask={id:nextId++,...obj};
-    tasks.push(newTask);
-    isNew=true;
-    pushSingleTask(newTask,true);
-  }
-  closeModal();refreshCurrentPage();
+function disconnect(){
+  sheetId="";tasks=[];
+  document.getElementById("step-connected").style.display="none";
+  document.getElementById("sheet-id-inp").value="";
+  document.getElementById("connect-result").innerHTML="";
+  document.getElementById("connect-btn").disabled=true;
+  document.getElementById("last-sync-txt").textContent="—";
+  setSyncUI("disconnected");
+  refreshCurrent();
 }
 
 function renderDashboard(){
-  document.getElementById("s-active").textContent=tasks.filter(t=>t.status!=="Done").length;
-  document.getElementById("s-prog").textContent=tasks.filter(t=>t.status==="In Progress").length;
-  document.getElementById("s-ov").textContent=tasks.filter(isOverdue).length;
-  document.getElementById("s-done").textContent=tasks.filter(t=>t.status==="Done").length;
-  document.getElementById("recent-list").innerHTML=tasks.slice(-4).reverse().map(t=>`
-    <div class="card" onclick="editTask(${t.id})">
-      <div class="card-title">${t.title}</div><div class="card-sub">${t.brand}</div>
-      <div class="card-meta">${catBadge(t.cat)}${statusBadge(t.status)}${isOverdue(t)?'<span class="badge badge-overdue">Хэтэрсэн</span>':""}</div>
+  const all=allTasks();
+  document.getElementById("sa").textContent=all.filter(t=>t.status!=="Done").length;
+  document.getElementById("sp").textContent=all.filter(t=>t.status==="In Progress").length;
+  document.getElementById("so").textContent=all.filter(isOv).length;
+  document.getElementById("sd").textContent=all.filter(t=>t.status==="Done").length;
+  document.getElementById("recent").innerHTML=all.slice(-5).reverse().map(t=>`
+    <div class="card">
+      <div class="card-title">${t.title}${t.local?'<span style="font-size:9px;color:#BA7517;margin-left:5px">локал</span>':''}</div>
+      <div class="card-sub">${t.brand||"—"}</div>
+      <div class="card-meta">${catB(t.cat)}${stB(t.status)}${isOv(t)?'<span class="badge br">Хэтэрсэн</span>':""}</div>
     </div>`).join("");
-  const ovr=tasks.filter(isOverdue);
-  document.getElementById("attn-list").innerHTML=ovr.length?ovr.map(t=>`
-    <div style="background:#FCEBEB;border:0.5px solid #F09595;border-radius:var(--border-radius-md);padding:8px 10px;margin-bottom:5px;cursor:pointer" onclick="editTask(${t.id})">
+  const ovr=all.filter(isOv);
+  document.getElementById("attn").innerHTML=ovr.length?ovr.map(t=>`
+    <div style="background:#FCEBEB;border:0.5px solid #F09595;border-radius:var(--border-radius-md);padding:8px 10px;margin-bottom:5px">
       <div style="font-size:11px;font-weight:500;color:#A32D2D">${t.title}</div>
-      <div style="font-size:10px;color:#A32D2D">${t.brand} — ${t.due}</div>
+      <div style="font-size:10px;color:#A32D2D">${t.brand} · ${t.due}</div>
     </div>`).join(""):`<div style="font-size:11px;color:var(--color-text-secondary)">Анхаарал шаардлагатай зүйл алга</div>`;
 }
 
 function renderKanban(){
-  const cf=document.getElementById("kf-cat")?.value||"";
-  const bf=document.getElementById("kf-brand")?.value||"";
+  const cf=document.getElementById("kf-cat").value;
+  const bf=document.getElementById("kf-br").value;
+  const all=allTasks().filter(t=>(!cf||t.cat===cf)&&(!bf||t.brand===bf));
   const cols={Submitted:[],["To Do"]:[],["In Progress"]:[],Done:[]};
-  tasks.filter(t=>(!cf||t.cat===cf)&&(!bf||t.brand===bf)).forEach(t=>{if(cols[t.status])cols[t.status].push(t);});
+  all.forEach(t=>{if(cols[t.status])cols[t.status].push(t);});
   [["sub","Submitted"],["todo","To Do"],["ip","In Progress"],["dn","Done"]].forEach(([k,s])=>{
-    document.getElementById("cnt-"+k).textContent=cols[s].length;
-    document.getElementById("col-"+k).innerHTML=cols[s].map(t=>`
-      <div class="card" onclick="editTask(${t.id})">
-        <div class="card-title">${t.title}</div><div class="card-sub">${t.brand}</div>
-        <div class="card-meta">${catBadge(t.cat)}${isOverdue(t)?'<span class="badge badge-overdue">Хэтэрсэн</span>':""}</div>
-        ${t.due?`<div class="${isOverdue(t)?'due-red':'due-ok'}" style="margin-top:4px"><i class="ti ti-calendar" style="font-size:11px" aria-hidden="true"></i> ${t.due}</div>`:""}
+    document.getElementById("c-"+k).textContent=cols[s].length;
+    document.getElementById("k-"+k).innerHTML=cols[s].map(t=>`
+      <div class="card">
+        <div class="card-title">${t.title}${t.local?'<span style="font-size:9px;color:#BA7517;margin-left:4px">локал</span>':''}</div>
+        <div class="card-sub">${t.brand||"—"} · ${t.designer||"—"}</div>
+        <div class="card-meta">${catB(t.cat)}${isOv(t)?'<span class="badge br">Хэтэрсэн</span>':""}</div>
+        ${t.due?`<div class="${isOv(t)?'due-r':'due-n'}" style="margin-top:4px"><i class="ti ti-calendar" style="font-size:11px" aria-hidden="true"></i> ${t.due}</div>`:""}
       </div>`).join("");
   });
-  const bd=document.getElementById("kf-brand");
-  if(bd&&bd.options.length<=1){[...new Set(tasks.map(t=>t.brand))].forEach(b=>{const o=document.createElement("option");o.value=b;o.textContent=b;bd.appendChild(o);});}
+  const bd=document.getElementById("kf-br");
+  if(bd.options.length<=1){[...new Set(allTasks().map(t=>t.brand).filter(Boolean))].forEach(b=>{const o=document.createElement("option");o.value=b;o.textContent=b;bd.appendChild(o);});}
 }
 
 function renderRequests(){
-  const q=document.getElementById("search-q")?.value.toLowerCase()||"";
-  const st=document.getElementById("fs-status")?.value||"";
-  const f=tasks.filter(t=>(!q||t.title.toLowerCase().includes(q)||t.brand.toLowerCase().includes(q))&&(!st||t.status===st));
-  document.getElementById("req-tbody").innerHTML=f.map(t=>`
+  const q=document.getElementById("sq").value.toLowerCase();
+  const st=document.getElementById("fst").value;
+  const ct=document.getElementById("fcat").value;
+  const f=allTasks().filter(t=>(!q||t.title.toLowerCase().includes(q)||t.brand.toLowerCase().includes(q))&&(!st||t.status===st)&&(!ct||t.cat===ct));
+  document.getElementById("req-body").innerHTML=f.map(t=>`
     <tr>
-      <td><div style="font-size:12px;font-weight:500">${t.title}</div><div style="font-size:10px;color:var(--color-text-secondary)">${t.desc||""}</div></td>
-      <td style="font-size:11px">${t.brand}</td>
-      <td style="font-size:11px">${t.designer}</td>
-      <td>${statusBadge(t.status)}</td>
-      <td class="${isOverdue(t)?'due-red':'due-ok'}">${t.due||"—"}</td>
-      <td><button class="btn btn-sm" onclick="editTask(${t.id})"><i class="ti ti-edit" style="font-size:12px" aria-hidden="true"></i></button></td>
+      <td><div style="font-size:12px;font-weight:500">${t.title}${t.local?'<span style="font-size:9px;color:#BA7517;margin-left:4px">локал</span>':""}</div></td>
+      <td style="font-size:11px">${t.brand||"—"}</td>
+      <td>${catB(t.cat)}</td>
+      <td style="font-size:11px">${t.designer||"—"}</td>
+      <td>${stB(t.status)}</td>
+      <td class="${isOv(t)?'due-r':'due-n'}">${t.due||"—"}</td>
     </tr>`).join("");
 }
 
 function renderWorkload(){
   const byD={};
-  tasks.forEach(t=>{if(!byD[t.designer])byD[t.designer]={active:0,ov:0,done:0,list:[]};if(t.status==="Done")byD[t.designer].done++;else byD[t.designer].active++;if(isOverdue(t))byD[t.designer].ov++;byD[t.designer].list.push(t.title);});
-  document.getElementById("wl-list").innerHTML=Object.entries(byD).map(([d,v])=>`
-    <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px;margin-bottom:8px">
+  allTasks().forEach(t=>{if(!t.designer)return;if(!byD[t.designer])byD[t.designer]={a:0,ov:0,dn:0,list:[]};if(t.status==="Done")byD[t.designer].dn++;else byD[t.designer].a++;if(isOv(t))byD[t.designer].ov++;byD[t.designer].list.push(t.title);});
+  document.getElementById("wl-list").innerHTML=Object.keys(byD).length?Object.entries(byD).map(([d,v])=>`
+    <div class="wl-card">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-        <div style="width:32px;height:32px;border-radius:50%;background:var(--color-background-info);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#185FA5">${d.slice(0,2)}</div>
-        <div style="flex:1"><div style="font-size:12px;font-weight:500">${d}</div><div style="font-size:10px;color:var(--color-text-secondary)">${v.active} идэвхтэй · ${v.done} дууссан</div></div>
-        ${v.ov?`<span class="badge badge-overdue">${v.ov} хэтэрсэн</span>`:`<span class="badge" style="background:#EAF3DE;color:#3B6D11">Хэвийн</span>`}
+        <div style="width:32px;height:32px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#185FA5">${d.slice(0,2)}</div>
+        <div style="flex:1"><div style="font-size:12px;font-weight:500">${d}</div><div style="font-size:10px;color:var(--color-text-secondary)">${v.a} идэвхтэй · ${v.dn} дууссан</div></div>
+        ${v.ov?`<span class="badge br">${v.ov} хэтэрсэн</span>`:`<span class="badge" style="background:#EAF3DE;color:#3B6D11">Хэвийн</span>`}
       </div>
-      <div style="height:4px;background:var(--color-background-secondary);border-radius:99px"><div style="height:100%;border-radius:99px;background:#185FA5;width:${Math.min(v.active*15,100)}%"></div></div>
-      <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px">${v.list.map(n=>`<span style="font-size:10px;padding:1px 6px;border-radius:99px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)">${n}</span>`).join("")}</div>
-    </div>`).join("");
+      <div class="pbar"><div class="pfill" style="width:${Math.min(v.a*12,100)}%"></div></div>
+      <div style="display:flex;gap:3px;flex-wrap:wrap;margin-top:5px">${v.list.map(n=>`<span style="font-size:9px;padding:1px 6px;border-radius:99px;border:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)">${n}</span>`).join("")}</div>
+    </div>`).join(""):`<div style="font-size:12px;color:var(--color-text-secondary)">Sheets-с татсан өгөгдөл байхгүй байна.</div>`;
 }
 
-function copyScript(){
-  const code=document.getElementById("script-code").textContent;
-  navigator.clipboard.writeText(code).then(()=>{
-    const btn=event.target.closest("button");
-    btn.innerHTML=`<i class="ti ti-check" aria-hidden="true"></i> Хуулагдлаа`;
-    setTimeout(()=>{btn.innerHTML=`<i class="ti ti-copy" aria-hidden="true"></i> Хуулах`;},2000);
-  });
+function openModal(){document.getElementById("modal").style.display="flex";}
+function closeModal(){document.getElementById("modal").style.display="none";}
+function saveLocal(){
+  const t={id:"L"+(nextLocal++),title:document.getElementById("ft").value||"Нэргүй",brand:document.getElementById("fb").value,cat:document.getElementById("fc").value,designer:document.getElementById("fd").value,desc:"",due:document.getElementById("fdue").value,priority:document.getElementById("fpri").value,status:document.getElementById("fst2").value,created:new Date().toISOString().slice(0,10),local:true};
+  localTasks.push(t);closeModal();refreshCurrent();
 }
 
-const pageTitles={setup:"Sheets холболт",dashboard:"Хяналтын самбар",kanban:"Канбан самбар",requests:"Бүх хүсэлт",workload:"Ажлын ачаалал",log:"Синк лог"};
-function showPage(name,el){
+const titles={setup:"Sheets холболт",dashboard:"Хяналтын самбар",kanban:"Канбан самбар",requests:"Бүх хүсэлт",workload:"Ажлын ачаалал"};
+function gp(name,el){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
   document.getElementById("page-"+name).classList.add("active");
   if(el)el.classList.add("active");
-  document.getElementById("page-title").textContent=pageTitles[name]||name;
+  document.getElementById("ptitle").textContent=titles[name]||name;
+  document.getElementById("psub").textContent="";
   refreshPage(name);
 }
-function refreshPage(name){
-  if(name==="dashboard")renderDashboard();
-  else if(name==="kanban")renderKanban();
-  else if(name==="requests")renderRequests();
-  else if(name==="workload")renderWorkload();
-  else if(name==="log")renderLog();
+function refreshPage(n){
+  if(n==="dashboard")renderDashboard();
+  else if(n==="kanban")renderKanban();
+  else if(n==="requests")renderRequests();
+  else if(n==="workload")renderWorkload();
 }
-function refreshCurrentPage(){
-  const a=document.querySelector(".page.active");
-  if(a)refreshPage(a.id.replace("page-",""));
-}
-
-showPage("setup",document.querySelector(".nav-item:last-child"));
+function refreshCurrent(){const a=document.querySelector(".page.active");if(a)refreshPage(a.id.replace("page-",""));}
 </script>
