@@ -60,8 +60,6 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .sync-btn:disabled{opacity:.45;cursor:not-allowed}
 .content{flex:1;overflow:auto;padding:15px 18px}
 .page{display:none}.page.active{display:block}
-
-/* STAT */
 .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:13px}
 .stat-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:11px 10px;cursor:pointer;transition:all .13s}
 .stat-card:hover{border-color:#93c5fd;box-shadow:0 2px 8px rgba(29,78,216,.09);transform:translateY(-1px)}
@@ -72,27 +70,23 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .sv{font-size:22px;font-weight:700;margin:3px 0 2px}
 .vb{color:var(--blue)}.vr{color:var(--red)}.vy{color:#ca8a04}.vgr{color:var(--text2)}
 .st{font-size:8px;color:var(--text3)}
-
-/* WEEKLY FOCUS — new date-based design */
 .wf-header-card{background:#fff;border:1px solid var(--blue-b);border-left:4px solid var(--blue);border-radius:10px;padding:12px 14px;margin-bottom:13px}
 .wf-top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .wf-title{font-size:12px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:5px}
 .wf-src-row{display:flex;align-items:center;gap:5px}
 .btn-wf{padding:3px 9px;border-radius:5px;border:1px solid var(--blue-b);background:var(--blue-l);cursor:pointer;font-size:10px;font-weight:600;color:var(--blue);font-family:var(--font);display:flex;align-items:center;gap:3px}
-
-/* Date timeline */
 .wf-timeline{display:flex;flex-direction:column;gap:0}
-.wf-day-row{display:flex;gap:0;margin-bottom:0}
+.wf-day-row{display:flex;gap:0}
 .wf-day-label{width:90px;min-width:90px;padding:8px 10px 8px 0;display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;border-right:2px solid var(--border2);position:relative}
 .wf-day-label::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--blue-b);border:2px solid var(--blue);position:absolute;right:-5px;top:14px}
 .wf-day-label.today-lbl::after{background:var(--blue)}
+.wf-day-label.past-lbl::after{background:var(--border2);border-color:var(--text3)}
 .wf-day-date{font-size:11px;font-weight:700;color:var(--text)}
 .wf-day-name{font-size:9px;color:var(--text3);margin-top:1px}
 .wf-day-label.today-lbl .wf-day-date{color:var(--blue)}
 .wf-day-label.past-lbl .wf-day-date{color:var(--text3)}
-.wf-day-label.past-lbl::after{background:var(--border2);border-color:var(--text3)}
 .wf-day-tasks{flex:1;padding:6px 0 6px 14px;display:flex;flex-direction:column;gap:5px}
-.wf-task-chip{display:flex;align-items:flex-start;gap:8px;background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:7px 10px;transition:all .12s;cursor:pointer}
+.wf-task-chip{display:flex;align-items:flex-start;gap:8px;background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:7px 10px;cursor:pointer;transition:all .12s}
 .wf-task-chip:hover{border-color:#93c5fd;background:#fff}
 .wf-task-chip.today-chip{background:var(--blue-l);border-color:var(--blue-b)}
 .wf-task-chip.past-chip{opacity:.65}
@@ -107,8 +101,7 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .wf-badge-gray{background:#f8fafc;color:var(--text2)}
 .wf-empty-day{font-size:10px;color:var(--text3);padding:6px 0;font-style:italic}
 .wf-no-data{text-align:center;padding:20px;font-size:12px;color:var(--text3)}
-
-/* bottom */
+.wf-day-spacer{height:3px}
 .bottom-grid{display:grid;grid-template-columns:1fr 260px;gap:11px}
 .chart-card,.attn-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px}
 .card-tr{display:flex;align-items:center;gap:6px;margin-bottom:12px}
@@ -128,8 +121,6 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .attn-item{padding:6px 8px;border-top:1px solid #fde8e8}
 .attn-item-t{font-size:11px;font-weight:600}
 .attn-item-s{font-size:9px;color:var(--text3);margin-top:1px}
-
-/* misc */
 .badge{font-size:8px;padding:2px 5px;border-radius:99px;font-weight:600}
 .bd{background:var(--blue-l);color:var(--blue)}.bg{background:#f0fdf4;color:var(--green)}.ba{background:#fff7ed;color:#ea580c}.br{background:#fef2f2;color:#dc2626}
 .due-r{color:#dc2626;font-size:9px;font-weight:500}.due-n{color:var(--text3);font-size:9px}
@@ -183,7 +174,6 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .job-card{background:#fff;border:1px solid var(--border);border-radius:9px;padding:12px 14px;margin-bottom:8px}
 .job-card:hover{border-color:#93c5fd}
 .job-card-title{font-size:13px;font-weight:700;margin-bottom:4px}
-.job-card-role{font-size:8px;padding:2px 8px;border-radius:99px;background:#f5f3ff;color:var(--purple);font-weight:600;display:inline-block;margin-bottom:6px}
 .job-card-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:8px}
 .job-card-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .meta-chip{font-size:9px;padding:2px 8px;border-radius:99px;font-weight:500;background:#f8fafc;border:1px solid var(--border);color:var(--text2)}
@@ -338,8 +328,6 @@ select{font-family:var(--font)}
         <div class="stat-card" onclick="openDrill('today')"><div class="sc-lbl">ӨНӨӨДӨР <div class="si si-y"><svg width="11" height="11"><use href="#ic-bolt"/></svg></div></div><div class="sv vy" id="s-today">0</div><div class="st" id="st-lbl3"></div></div>
         <div class="stat-card" onclick="openDrill('period')"><div class="sc-lbl">ХУГАЦААНД <div class="si si-gr"><svg width="11" height="11"><use href="#ic-cal"/></svg></div></div><div class="sv vgr" id="s-period">0</div><div class="st" id="st-lbl4"></div></div>
       </div>
-
-      <!-- WEEKLY FOCUS — Date Timeline -->
       <div class="wf-header-card">
         <div class="wf-top-row">
           <div class="wf-title"><svg width="13" height="13"><use href="#ic-week"/></svg> <span id="wf-period-title">Энэ долоо хоногт анхаарах ажлууд</span></div>
@@ -351,7 +339,6 @@ select{font-family:var(--font)}
         </div>
         <div id="wf-timeline"></div>
       </div>
-
       <div class="bottom-grid">
         <div class="chart-card">
           <div class="card-tr"><div class="card-ti"><svg width="12" height="12"><use href="#ic-chart"/></svg></div><div class="card-tt">Ажил / Хариуцагчаар</div></div>
@@ -493,33 +480,11 @@ select{font-family:var(--font)}
       </div>
       <div style="margin-top:16px">
         <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:10px">📋 4 sheet — нэг Spreadsheet дотор:</div>
-        <div class="setup-step">
-          <div class="step-hd"><div class="step-num">1</div><div><div class="step-title">Tasks — одоогийн ажлуудын бүртгэл</div></div></div>
-          <div class="code-block">Огноо	Компани	Брэнд/Хэлтэс	Төрөл	Ажил	Давтамж	Хариуцах	Зарцуулах хугацаа	Хамтрах</div>
-        </div>
-        <div class="setup-step" style="border-color:#c7d2fe">
-          <div class="step-hd"><div class="step-num" style="background:var(--purple)">2</div><div><div class="step-title" style="color:var(--purple)">MyJobs — Миний хийх ёстой ажлууд</div></div></div>
-          <div class="code-block">Албан тушаал	Ажил / үүрэг	Тайлбар	Хариуцагч	Нэг удаагийн хүн/цаг</div>
-        </div>
-        <div class="setup-step" style="border-color:#bbf7d0">
-          <div class="step-hd"><div class="step-num" style="background:var(--green)">3</div><div><div class="step-title" style="color:var(--green)">DeptJobs — Хэлтсийн ерөнхий ажлууд</div></div></div>
-          <div class="code-block">Албан тушаал	Ажил / үүрэг	Тайлбар	Хариуцагч	Нэг удаагийн хүн/цаг</div>
-        </div>
-        <div class="setup-step" style="border-color:#fde68a">
-          <div class="step-hd"><div class="step-num" style="background:#ca8a04">★</div><div><div class="step-title" style="color:#ca8a04">WeeklyFocus — Огноогоор зааж өгсөн ажлууд</div><div class="step-sub">Sheet нэр яг <b>WeeklyFocus</b> байх ёстой</div></div></div>
-          <div class="code-block">Огноо	Гарчиг	Тайлбар	Зэрэглэл	Хариуцагч</div>
-          <div class="tip tip-blue" style="margin-top:7px">
-            <b>Огноо</b> баганд ажлын хийх өдрийг оруулна: <code style="background:#dbeafe;padding:1px 4px;border-radius:3px">2026-05-12</code><br>
-            Жишээ:<br>
-            2026-05-12 | KFC сошиал пост | Сарын постер бэлтгэх | Яаралтай | С.Ган-Очир<br>
-            2026-05-14 | TBC PR мэдэгдэл | Хэвлэлийн мэдэгдэл | Хэвийн | Б.Үүрийнтуяа<br>
-            2026-05-15 | Galleria banner | Хэвлэлийн баннер | Чухал | С.Ган-Очир<br><br>
-            → <b>Долоо хоногийн период сонгоход</b> тухайн 7 хоногийн ажлууд өдөр бүрээр нь timeline хэлбэрээр харагдана
-          </div>
-        </div>
-        <div class="setup-step">
-          <div class="step-hd"><div class="step-num">4</div><div><div class="step-title">Share → Anyone with the link → Viewer</div></div></div>
-        </div>
+        <div class="setup-step"><div class="step-hd"><div class="step-num">1</div><div><div class="step-title">Tasks</div></div></div><div class="code-block">Огноо	Компани	Брэнд/Хэлтэс	Төрөл	Ажил	Давтамж	Хариуцах	Зарцуулах хугацаа	Хамтрах</div></div>
+        <div class="setup-step" style="border-color:#c7d2fe"><div class="step-hd"><div class="step-num" style="background:var(--purple)">2</div><div><div class="step-title" style="color:var(--purple)">MyJobs</div></div></div><div class="code-block">Албан тушаал	Ажил / үүрэг	Тайлбар	Хариуцагч	Нэг удаагийн хүн/цаг</div></div>
+        <div class="setup-step" style="border-color:#bbf7d0"><div class="step-hd"><div class="step-num" style="background:var(--green)">3</div><div><div class="step-title" style="color:var(--green)">DeptJobs</div></div></div><div class="code-block">Албан тушаал	Ажил / үүрэг	Тайлбар	Хариуцагч	Нэг удаагийн хүн/цаг</div></div>
+        <div class="setup-step" style="border-color:#fde68a"><div class="step-hd"><div class="step-num" style="background:#ca8a04">4</div><div><div class="step-title" style="color:#ca8a04">WeeklyFocus</div><div class="step-sub">Огноогоор зааж өгсөн ажлууд — период сонголтоор шүүгдэнэ</div></div></div><div class="code-block">Огноо	Гарчиг	Тайлбар	Зэрэглэл	Хариуцагч</div><div class="tip tip-blue" style="margin-top:6px">Огноо форматаар оруулна: <code style="background:#dbeafe;padding:1px 4px;border-radius:3px">2026-05-12</code> эсвэл <code style="background:#dbeafe;padding:1px 4px;border-radius:3px">2026-12-20</code><br>Зэрэглэл: Яаралтай / Чухал / Хэвийн</div></div>
+        <div class="setup-step"><div class="step-hd"><div class="step-num">5</div><div><div class="step-title">Share → Anyone with the link → Viewer</div></div></div></div>
       </div>
     </div>
 
@@ -533,7 +498,6 @@ select{font-family:var(--font)}
     <div class="drill-body" id="drill-body"></div>
   </div>
 </div>
-
 </div>
 
 <script>
@@ -551,22 +515,8 @@ const COLORS=["#1d4ed8","#7c3aed","#0891b2","#059669","#d97706","#dc2626","#db27
 function aColor(n){let h=0;for(let i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))%COLORS.length;return COLORS[h];}
 function initials(n){const p=n.split(".");const l=p[p.length-1].trim();return l.slice(0,2).toUpperCase();}
 
-// Demo WeeklyFocus data with dates across a year
-const DEMO_WF=[
-  {date:"2026-05-11",title:"KFC сошиал пост бэлтгэх",desc:"Сарын постер дизайн хийх",level:"Яаралтай",owner:"С.Ган-Очир"},
-  {date:"2026-05-11",title:"МБТА мэдэгдэл бичих",desc:"Хэвлэлийн мэдэгдэл",level:"Хэвийн",owner:"Б.Үүрийнтуяа"},
-  {date:"2026-05-12",title:"PizzaHut видео засварлах",desc:"Сошиал видео edit",level:"Чухал",owner:"Х.Түвшин"},
-  {date:"2026-05-13",title:"TBC PR тайлан",desc:"Сарын PR тайлан",level:"Хэвийн",owner:"Б.Үүрийнтуяа"},
-  {date:"2026-05-14",title:"Digital KPI хянах",desc:"Брэндүүдийн KPI шалгах",level:"Чухал",owner:"Б.Хүслэн"},
-  {date:"2026-05-14",title:"Galleria banner",desc:"Хэвлэлийн баннер",level:"Яаралтай",owner:"С.Ган-Очир"},
-  {date:"2026-05-15",title:"Маркетингийн төлөвлөгөө",desc:"Улиралын төлөвлөгөө",level:"Чухал",owner:"Г.Урангоо"},
-  {date:"2026-06-03",title:"Зуны кампайн эхлүүлэх",desc:"KFC зуны хямдрал",level:"Яаралтай",owner:"С.Ган-Очир"},
-  {date:"2026-07-15",title:"Хагас жилийн тайлан",desc:"H1 тайлан бэлтгэх",level:"Чухал",owner:"Г.Билигсайхан"},
-  {date:"2026-09-01",title:"Намрын кампайн",desc:"Q3 маркетинг",level:"Хэвийн",owner:"Г.Урангоо"},
-  {date:"2026-12-20",title:"Жилийн эцсийн тайлан",desc:"Бүтэн жилийн тайлан",level:"Яаралтай",owner:"Г.Билигсайхан"},
-];
-
-let tasks=[],wfData=[...DEMO_WF],myJobsData=[],deptJobsData=[];
+// ── NO DEMO DATA — sheet only ──
+let tasks=[],wfData=[],myJobsData=[],deptJobsData=[];
 let sheetId="",syncing=false;
 let kbv="k",calV="m",calDate=new Date();
 let period="week",customFrom=null,customTo=null;
@@ -574,11 +524,34 @@ let currentUser=null,selectedStaff=null;
 
 function mapRow(row,cols){const get=k=>{const i=cols.findIndex(c=>c&&c.trim()===k);return i>=0&&row.c[i]?String(row.c[i].v||"").trim():"";};return{date:get("Огноо"),kompani:get("Компани"),brand:get("Брэнд/Хэлтэс"),torol:get("Төрөл"),ajil:get("Ажил"),davtamj:get("Давтамж"),owner:get("Хариуцах"),hours:get("Зарцуулах хугацаа"),hamtarch:get("Хамтрах")};}
 function mapJobRow(row,cols){const get=k=>{const i=cols.findIndex(c=>c&&c.trim()===k);return i>=0&&row.c[i]?String(row.c[i].v||"").trim():"";};return{role:get("Албан тушаал"),ajil:get("Ажил / үүрэг"),tailbar:get("Тайлбар"),owner:get("Хариуцагч"),hours:get("Нэг удаагийн хүн/цаг")};}
-function mapWFRow(row,cols){const get=k=>{const i=cols.findIndex(c=>c&&c.trim()===k);return i>=0&&row.c[i]?String(row.c[i].v||"").trim():"";};return{date:get("Огноо"),title:get("Гарчиг"),desc:get("Тайлбар"),level:get("Зэрэглэл"),owner:get("Хариуцагч")};}
+function mapWFRow(row,cols){
+  const get=k=>{const i=cols.findIndex(c=>c&&c.trim()===k);return i>=0&&row.c[i]?String(row.c[i].v||"").trim():"";};
+  // Try to parse date — Google Sheets may return Date(year,month,day) format
+  let rawDate=row.c[cols.findIndex(c=>c&&c.trim()==="Огноо")];
+  let dateStr="";
+  if(rawDate&&rawDate.v){
+    const v=String(rawDate.v);
+    // Check if it's already formatted
+    if(/^\d{4}-\d{2}-\d{2}$/.test(v)){dateStr=v;}
+    else if(/Date\((\d+),(\d+),(\d+)\)/.test(v)){
+      const m=v.match(/Date\((\d+),(\d+),(\d+)\)/);
+      if(m)dateStr=`${m[1]}-${String(+m[2]+1).padStart(2,"0")}-${String(m[3]).padStart(2,"0")}`;
+    }else{
+      const d=new Date(v);if(!isNaN(d))dateStr=fmtDate(d);
+    }
+  }
+  return{date:dateStr,title:get("Гарчиг"),desc:get("Тайлбар"),level:get("Зэрэглэл"),owner:get("Хариуцагч")};
+}
 
 function now0(){const d=new Date();d.setHours(0,0,0,0);return d;}
 function fmtDate(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
-function parseDate(s){if(!s)return null;let d=new Date(s);if(!isNaN(d)){d.setHours(0,0,0,0);return d;}const pts=s.split(/[\/\-\.]/);if(pts.length===3){d=pts[0].length===4?new Date(+pts[0],+pts[1]-1,+pts[2]):new Date(+pts[2],+pts[1]-1,+pts[0]);if(!isNaN(d)){d.setHours(0,0,0,0);return d;}}return null;}
+function parseDate(s){
+  if(!s)return null;
+  if(/Date\((\d+),(\d+),(\d+)\)/.test(s)){const m=s.match(/Date\((\d+),(\d+),(\d+)\)/);if(m){const d=new Date(+m[1],+m[2],+m[3]);d.setHours(0,0,0,0);return d;}}
+  let d=new Date(s);if(!isNaN(d)){d.setHours(0,0,0,0);return d;}
+  const pts=s.split(/[\/\-\.]/);if(pts.length===3){d=pts[0].length===4?new Date(+pts[0],+pts[1]-1,+pts[2]):new Date(+pts[2],+pts[1]-1,+pts[0]);if(!isNaN(d)){d.setHours(0,0,0,0);return d;}}
+  return null;
+}
 function getPR(){
   const n=new Date();n.setHours(0,0,0,0);
   if(period==="week"){const dow=n.getDay(),m=new Date(n);m.setDate(n.getDate()-dow+(dow===0?-6:1));const e=new Date(m);e.setDate(m.getDate()+6);return{from:m,to:e,label:"Энэ долоо хоног"};}
@@ -631,58 +604,42 @@ function ownerChip(o){if(!o)return"";return`<span style="font-size:8px;padding:2
 function levelBadgeClass(l){if(!l)return"wf-badge wf-badge-gray";if(l==="Яаралтай")return"wf-badge wf-badge-red";if(l==="Чухал")return"wf-badge wf-badge-amber";if(l==="Хэвийн")return"wf-badge wf-badge-green";return"wf-badge wf-badge-gray";}
 function dotC(t){return isOv(t)?"var(--red)":isDueToday(t)?"var(--amber)":"var(--blue)";}
 
-// ── WEEKLY FOCUS TIMELINE ──
+// ── WF TIMELINE ──
 function renderWFTimeline(){
   const{from,to,label}=getPR();
   document.getElementById("wf-period-title").textContent=label+"т анхаарах ажлууд";
-
-  // Filter wfData within period
-  const periodItems=wfData.filter(w=>{
-    const d=parseDate(w.date);return d&&d>=from&&d<=to;
-  });
-
-  if(!periodItems.length){
-    document.getElementById("wf-timeline").innerHTML=`<div class="wf-no-data">Энэ хугацаанд WeeklyFocus-т бүртгэсэн ажил байхгүй байна</div>`;
+  if(!wfData.length){
+    document.getElementById("wf-timeline").innerHTML=`<div class="wf-no-data"><svg width="14" height="14" style="margin-right:5px"><use href="#ic-cal"/></svg>WeeklyFocus sheet-д ажил байхгүй байна<br><span style="font-size:10px;color:var(--text3);margin-top:4px;display:block">Sheet холбоод ажил оруулна уу</span></div>`;
     return;
   }
-
-  // Build date range days
-  const days=[];
-  const cur=new Date(from);
-  while(cur<=to){days.push(new Date(cur));cur.setDate(cur.getDate()+1);}
-
-  // Only include days that have items (or include all days if week view)
-  const showAllDays=period==="week";
+  const periodItems=wfData.filter(w=>{const d=parseDate(w.date);return d&&d>=from&&d<=to;});
+  if(!periodItems.length){
+    document.getElementById("wf-timeline").innerHTML=`<div class="wf-no-data">Энэ хугацаанд WeeklyFocus-т ажил байхгүй байна</div>`;
+    return;
+  }
+  const days=[];const cur=new Date(from);while(cur<=to){days.push(new Date(cur));cur.setDate(cur.getDate()+1);}
+  const showAll=period==="week";
   const todayStr=fmtDate(now0());
   const MND_MN=["Ня","Да","Мя","Лх","Пү","Ба","Бя"];
-  const MNM_SHORT=["1-р","2-р","3-р","4-р","5-р","6-р","7-р","8-р","9-р","10-р","11-р","12-р"];
-
+  const MNM_S=["1-р","2-р","3-р","4-р","5-р","6-р","7-р","8-р","9-р","10-р","11-р","12-р"];
+  const daysToShow=showAll?days:days.filter(d=>{const ds=fmtDate(d);return periodItems.some(w=>w.date===ds);});
   let html="";
-  const daysToShow=showAllDays?days:days.filter(d=>{const ds=fmtDate(d);return periodItems.some(w=>w.date===ds);});
-
   daysToShow.forEach(day=>{
     const ds=fmtDate(day);
     const dayItems=periodItems.filter(w=>w.date===ds);
-    const isToday=ds===todayStr;
-    const isPast=day<now0();
-    const dayName=MND_MN[day.getDay()];
-    const dayNum=day.getDate();
-    const monthStr=MNM_SHORT[day.getMonth()]+" сар";
-    const lblClass=isToday?"today-lbl":isPast?"past-lbl":"";
-
+    const isToday=ds===todayStr,isPast=day<now0();
+    const lblCls=isToday?"today-lbl":isPast?"past-lbl":"";
     html+=`<div class="wf-day-row">
-      <div class="wf-day-label ${lblClass}">
-        <div class="wf-day-date">${dayNum}</div>
-        <div class="wf-day-name">${dayName}${isToday?" · Өнөөдөр":""}</div>
-        <div class="wf-day-name" style="font-size:8px;margin-top:1px">${monthStr}</div>
+      <div class="wf-day-label ${lblCls}">
+        <div class="wf-day-date">${day.getDate()}</div>
+        <div class="wf-day-name">${MND_MN[day.getDay()]}${isToday?" · Өнөөдөр":""}</div>
+        <div class="wf-day-name" style="font-size:8px;margin-top:1px">${MNM_S[day.getMonth()]} сар</div>
       </div>
       <div class="wf-day-tasks">`;
-
     if(dayItems.length){
       dayItems.forEach(w=>{
-        const isUrgent=w.level==="Яаралтай";
-        const chipClass=`wf-task-chip${isToday?" today-chip":""}${isPast?" past-chip":""}${isUrgent?" urgent-chip":""}`;
-        html+=`<div class="${chipClass}">
+        const isU=w.level==="Яаралтай";
+        html+=`<div class="wf-task-chip${isToday?" today-chip":""}${isPast?" past-chip":""}${isU?" urgent-chip":""}">
           <div style="flex:1;min-width:0">
             <div class="wf-task-title">${w.title||"—"}</div>
             ${w.desc?`<div class="wf-task-sub">${w.desc}</div>`:""}
@@ -691,16 +648,12 @@ function renderWFTimeline(){
           ${w.level?`<span class="${levelBadgeClass(w.level)}">${w.level}</span>`:""}
         </div>`;
       });
-    } else if(showAllDays){
+    }else if(showAll){
       html+=`<div class="wf-empty-day">—</div>`;
     }
-
-    html+=`</div></div>`;
-    // Add spacing between rows
-    html+=`<div style="height:2px"></div>`;
+    html+=`</div></div><div class="wf-day-spacer"></div>`;
   });
-
-  document.getElementById("wf-timeline").innerHTML=html||`<div class="wf-no-data">Энэ хугацаанд ажил байхгүй</div>`;
+  document.getElementById("wf-timeline").innerHTML=html;
 }
 
 // ── DASHBOARD ──
@@ -719,7 +672,7 @@ function renderDashboard(){
   const ovL=tasks.filter(isOv);
   document.getElementById("attn-cnt").textContent=ovL.length;
   let html="";
-  if(ovL.length)html+=`<div class="attn-sec"><div class="attn-sec-hd"><div class="attn-sec-lbl"><svg width="10" height="10"><use href="#ic-alert"/></svg> Хугацаа хэтэрсэн</div><div class="attn-b">${ovL.length}</div></div>${ovL.slice(0,5).map(t=>`<div class="attn-item"><div class="attn-item-t">${t.ajil||"—"}</div><div class="attn-item-s">${[t.kompani,t.brand,t.owner,t.date].filter(Boolean).join(" · ")}</div></div>`).join("")}</div>`;
+  if(ovL.length)html+=`<div class="attn-sec"><div class="attn-sec-hd"><div class="attn-sec-lbl"><svg width="10" height="10"><use href="#ic-alert"/></svg> Хугацаа хэтэрсэн</div><div class="attn-b">${ovL.length}</div></div>${ovL.slice(0,5).map(t=>`<div class="attn-item"><div class="attn-item-t">${t.ajil||"—"}</div><div class="attn-item-s">${[t.kompani,t.brand,t.owner,t.date].filter(Boolean).join(" · ")}</div></div>`).join("")}${ovL.length>5?`<div class="attn-item" style="color:var(--blue);font-size:10px;cursor:pointer" onclick="openDrill('overdue')">+${ovL.length-5} дэлгэрэнгүй</div>`:""}</div>`;
   if(!html)html=`<div style="font-size:10px;color:var(--text3);text-align:center;padding:14px">Анхаарал шаардлагатай зүйл алга</div>`;
   document.getElementById("attn-body").innerHTML=html;
   renderWFTimeline();
@@ -732,12 +685,19 @@ async function fetchWF(){
   try{
     const r=await fetch(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=WeeklyFocus`);
     if(!r.ok)throw new Error();
-    const txt=await r.text();const m=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);if(!m)throw new Error();
-    const json=JSON.parse(m[1]);const cols=(json.table.cols||[]).map(c=>c.label.trim());
+    const txt=await r.text();
+    const m=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);if(!m)throw new Error();
+    const json=JSON.parse(m[1]);
+    const cols=(json.table.cols||[]).map(c=>c.label.trim());
     wfData=(json.table.rows||[]).filter(r=>r&&r.c&&r.c.some(c=>c&&c.v)).map(r=>mapWFRow(r,cols)).filter(w=>w.title&&w.date);
-    setSyncDot("wf-dot","ok");document.getElementById("wf-lbl").textContent="WeeklyFocus — "+wfData.length+" ажил";
+    setSyncDot("wf-dot","ok");
+    document.getElementById("wf-lbl").textContent=`WeeklyFocus — ${wfData.length} ажил`;
     renderWFTimeline();
-  }catch(e){setSyncDot("wf-dot","err");document.getElementById("wf-lbl").textContent="Алдаа — WeeklyFocus байхгүй";}
+  }catch(e){
+    setSyncDot("wf-dot","err");
+    document.getElementById("wf-lbl").textContent="WeeklyFocus sheet олдсонгүй";
+    renderWFTimeline();
+  }
 }
 
 // ── MY JOBS ──
@@ -752,7 +712,7 @@ function renderMyJobs(){
   document.getElementById("myjob-badge").textContent=myJ.length;
   document.getElementById("myjob-list").innerHTML=myJ.length?myJ.map(j=>`<div class="job-card">
     <div class="job-card-title">${j.ajil||"—"}</div>
-    ${j.role?`<span class="job-card-role">${j.role}</span>`:""}
+    ${j.role?`<span style="font-size:8px;padding:2px 8px;border-radius:99px;background:#f5f3ff;color:var(--purple);font-weight:600;display:inline-block;margin-bottom:6px">${j.role}</span>`:""}
     ${j.tailbar?`<div class="job-card-desc">${j.tailbar}</div>`:""}
     <div class="job-card-meta">
       ${j.owner?`<span class="meta-chip"><svg width="9" height="9"><use href="#ic-user"/></svg> ${j.owner}</span>`:""}
@@ -892,8 +852,7 @@ function selectStaff(name){
 function renderWorkload(){
   document.getElementById("wl-body").innerHTML=STAFF.map(s=>{
     const myT=tasks.filter(t=>(t.owner||"").includes(s.name)||(t.hamtarch||"").includes(s.name));
-    const ov=myT.filter(isOv).length,totalH=myT.reduce((a,t)=>a+parseHours(t.hours),0);
-    const col=aColor(s.name);
+    const ov=myT.filter(isOv).length,totalH=myT.reduce((a,t)=>a+parseHours(t.hours),0),col=aColor(s.name);
     return`<div class="wl-card"><div style="display:flex;align-items:center;gap:9px;margin-bottom:5px">
       <div style="width:34px;height:34px;border-radius:50%;background:${col};color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">${initials(s.name)}</div>
       <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">${s.name}</div><div style="font-size:9px;color:var(--text3);margin-top:1px">${s.role}</div><div style="font-size:9px;color:var(--text3)">${myT.length} ажил · ${totalH.toFixed(0)}h нийт цаг</div></div>
@@ -909,9 +868,25 @@ function checkSid(){document.getElementById("conn-btn").disabled=document.getEle
 async function fetchTasks(){if(!sheetId)return false;try{const r=await fetch(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Tasks`);if(!r.ok)throw new Error();const txt=await r.text();const m=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);if(!m)throw new Error();const json=JSON.parse(m[1]);if(!json.table||!json.table.rows)return false;const cols=json.table.cols.map(c=>c.label||"");tasks=json.table.rows.filter(r=>r&&r.c&&r.c.some(c=>c&&c.v)).map(r=>mapRow(r,cols));return true;}catch(e){return false;}}
 async function fetchMyJobs(){if(!sheetId)return false;setSyncDot("myjob-dot","spin");document.getElementById("myjob-src-lbl").textContent="Татаж байна...";try{const r=await fetch(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=MyJobs`);if(!r.ok)throw new Error();const txt=await r.text();const m=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);if(!m)throw new Error();const json=JSON.parse(m[1]);const cols=(json.table.cols||[]).map(c=>c.label.trim());myJobsData=(json.table.rows||[]).filter(r=>r&&r.c&&r.c.some(c=>c&&c.v)).map(r=>mapJobRow(r,cols));setSyncDot("myjob-dot","ok");document.getElementById("myjob-src-lbl").textContent="MyJobs — "+myJobsData.length+" мөр";renderMyJobs();return true;}catch(e){setSyncDot("myjob-dot","err");document.getElementById("myjob-src-lbl").textContent="MyJobs sheet олдсонгүй";return false;}}
 async function fetchDeptJobs(){if(!sheetId)return false;setSyncDot("dept-dot","spin");document.getElementById("dept-src-lbl").textContent="Татаж байна...";try{const r=await fetch(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=DeptJobs`);if(!r.ok)throw new Error();const txt=await r.text();const m=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);if(!m)throw new Error();const json=JSON.parse(m[1]);const cols=(json.table.cols||[]).map(c=>c.label.trim());deptJobsData=(json.table.rows||[]).filter(r=>r&&r.c&&r.c.some(c=>c&&c.v)).map(r=>mapJobRow(r,cols));setSyncDot("dept-dot","ok");document.getElementById("dept-src-lbl").textContent="DeptJobs — "+deptJobsData.length+" мөр";renderDeptJobs();return true;}catch(e){setSyncDot("dept-dot","err");document.getElementById("dept-src-lbl").textContent="DeptJobs sheet олдсонгүй";return false;}}
-async function connectSheet(){sheetId=document.getElementById("sid-inp").value.trim();document.getElementById("conn-res").innerHTML=`<span style="color:var(--blue)">Холбож байна...</span>`;setSyncDot("sync-dot","spin");document.getElementById("sync-lbl").textContent="Татаж...";const[t1]=await Promise.all([fetchTasks(),fetchMyJobs(),fetchDeptJobs(),fetchWF()]);if(t1){document.getElementById("conn-res").innerHTML=`<span style="color:var(--green)">✓ Tasks: ${tasks.length}, WF: ${wfData.length}, MyJobs: ${myJobsData.length}, DeptJobs: ${deptJobsData.length}</span>`;document.getElementById("step-ok").style.display="block";document.getElementById("conn-lbl").textContent=`4 sheet татлаа · ID: ${sheetId.slice(0,28)}...`;setSyncDot("sync-dot","ok");document.getElementById("sync-lbl").textContent="Синк";document.getElementById("sync-main-btn").disabled=false;populateFilters();refreshCurrent();}else{document.getElementById("conn-res").innerHTML=`<span style="color:var(--red)">✗ Tasks sheet уншиж чадсангүй. "Viewer" эрх болон sheet нэрийг шалгана уу.</span>`;sheetId="";setSyncDot("sync-dot","err");document.getElementById("sync-lbl").textContent="Алдаа";}}
+async function connectSheet(){
+  sheetId=document.getElementById("sid-inp").value.trim();
+  document.getElementById("conn-res").innerHTML=`<span style="color:var(--blue)">Холбож байна...</span>`;
+  setSyncDot("sync-dot","spin");document.getElementById("sync-lbl").textContent="Татаж...";
+  const[t1]=await Promise.all([fetchTasks(),fetchMyJobs(),fetchDeptJobs(),fetchWF()]);
+  if(t1){
+    document.getElementById("conn-res").innerHTML=`<span style="color:var(--green)">✓ Tasks: ${tasks.length} · WF: ${wfData.length} · MyJobs: ${myJobsData.length} · DeptJobs: ${deptJobsData.length}</span>`;
+    document.getElementById("step-ok").style.display="block";
+    document.getElementById("conn-lbl").textContent=`ID: ${sheetId.slice(0,32)}...`;
+    setSyncDot("sync-dot","ok");document.getElementById("sync-lbl").textContent="Синк";
+    document.getElementById("sync-main-btn").disabled=false;
+    populateFilters();refreshCurrent();
+  }else{
+    document.getElementById("conn-res").innerHTML=`<span style="color:var(--red)">✗ Tasks sheet уншиж чадсангүй. Sheet нэр "Tasks" болон "Viewer" эрхийг шалгана уу.</span>`;
+    sheetId="";setSyncDot("sync-dot","err");document.getElementById("sync-lbl").textContent="Алдаа";
+  }
+}
 async function syncAll(){if(syncing||!sheetId)return;syncing=true;setSyncDot("sync-dot","spin");document.getElementById("sync-lbl").textContent="Татаж...";document.getElementById("sync-main-btn").disabled=true;await Promise.all([fetchTasks(),fetchMyJobs(),fetchDeptJobs(),fetchWF()]);setSyncDot("sync-dot","ok");document.getElementById("sync-lbl").textContent="Синк";document.getElementById("sync-main-btn").disabled=false;syncing=false;populateFilters();refreshCurrent();}
-function disconnect(){sheetId="";tasks=[];wfData=[...DEMO_WF];myJobsData=[];deptJobsData=[];document.getElementById("step-ok").style.display="none";document.getElementById("sid-inp").value="";document.getElementById("conn-res").innerHTML="";document.getElementById("conn-btn").disabled=true;setSyncDot("sync-dot","");document.getElementById("sync-lbl").textContent="Синк";document.getElementById("sync-main-btn").disabled=true;renderDeptJobs();renderMyJobs();refreshCurrent();}
+function disconnect(){sheetId="";tasks=[];wfData=[];myJobsData=[];deptJobsData=[];document.getElementById("step-ok").style.display="none";document.getElementById("sid-inp").value="";document.getElementById("conn-res").innerHTML="";document.getElementById("conn-btn").disabled=true;setSyncDot("sync-dot","");document.getElementById("sync-lbl").textContent="Синк";document.getElementById("sync-main-btn").disabled=true;renderDeptJobs();renderMyJobs();renderWFTimeline();refreshCurrent();}
 
 // ── USER ──
 function populateUserSels(){[document.getElementById("cur-user-sel")].forEach(sel=>{if(!sel)return;while(sel.options.length>1)sel.remove(1);STAFF.forEach(s=>{const o=document.createElement("option");o.value=s.name;o.textContent=s.name;sel.appendChild(o);});});}
