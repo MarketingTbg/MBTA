@@ -6,8 +6,7 @@
   --blue:#1d4ed8;--blue-l:#eff6ff;--blue-b:#bfdbfe;--blue-h:#1e40af;
   --gray:#f4f6f9;--border:#e8eaf0;--border2:#f1f5f9;
   --text:#1a1a2e;--text2:#64748b;--text3:#94a3b8;
-  --red:#ef4444;--amber:#f59e0b;--green:#16a34a;--purple:#7c3aed;
-  --orange:#f97316;
+  --red:#ef4444;--amber:#f59e0b;--green:#16a34a;--purple:#7c3aed;--orange:#f97316;
 }
 body,html{font-family:var(--font);background:var(--gray);color:var(--text)}
 svg{display:inline-block;vertical-align:middle;flex-shrink:0}
@@ -57,8 +56,6 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .sync-btn:hover{background:#f1f5f9}.sync-btn:disabled{opacity:.45;cursor:not-allowed}
 .content{flex:1;overflow:auto;padding:15px 18px}
 .page{display:none}.page.active{display:block}
-
-/* ── DASHBOARD STATS ── */
 .dash-section-title{font-size:11px;font-weight:700;color:var(--text2);margin:0 0 8px;display:flex;align-items:center;gap:6px}
 .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:6px}
 .stat-row-2{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:13px}
@@ -72,15 +69,8 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .sv{font-size:22px;font-weight:700;margin:3px 0 2px}
 .vb{color:var(--blue)}.vr{color:var(--red)}.vy{color:#ca8a04}.vgr{color:var(--text2)}.vg{color:var(--green)}.vo{color:var(--orange)}.vp{color:var(--purple)}
 .st{font-size:8px;color:var(--text3)}
-
-/* STATUS BADGE */
 .st-badge{font-size:8px;padding:2px 7px;border-radius:99px;font-weight:600;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
-.st-hiih{background:#eff6ff;color:var(--blue)}
-.st-hiij{background:#fff7ed;color:var(--orange)}
-.st-duussn{background:#f0fdf4;color:var(--green)}
-.st-huleg{background:#f5f3ff;color:var(--purple)}
-
-/* WF */
+.st-hiih{background:#eff6ff;color:var(--blue)}.st-hiij{background:#fff7ed;color:var(--orange)}.st-duussn{background:#f0fdf4;color:var(--green)}.st-huleg{background:#f5f3ff;color:var(--purple)}
 .wf-header-card{background:#fff;border:1px solid var(--blue-b);border-left:4px solid var(--blue);border-radius:10px;padding:12px 14px;margin-bottom:13px}
 .wf-top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .wf-title{font-size:12px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:5px}
@@ -107,18 +97,12 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .wf-task-title.done-title{text-decoration:line-through;color:var(--text3)}
 .wf-task-sub{font-size:9px;color:var(--text3);margin-top:2px;line-height:1.4}
 .wf-badge{font-size:8px;padding:2px 6px;border-radius:99px;font-weight:600;flex-shrink:0}
-.wf-badge-red{background:#fef2f2;color:#dc2626}
-.wf-badge-amber{background:#fff7ed;color:#ea580c}
-.wf-badge-green{background:#f0fdf4;color:var(--green)}
-.wf-badge-gray{background:#f8fafc;color:var(--text2)}
+.wf-badge-red{background:#fef2f2;color:#dc2626}.wf-badge-amber{background:#fff7ed;color:#ea580c}.wf-badge-green{background:#f0fdf4;color:var(--green)}.wf-badge-gray{background:#f8fafc;color:var(--text2)}
 .wf-empty-day{font-size:10px;color:var(--text3);padding:6px 0;font-style:italic}
 .wf-no-data{text-align:center;padding:20px;font-size:12px;color:var(--text3)}
 .wf-day-spacer{height:3px}
-
-/* PROGRESS BAR */
 .progress-bar-wrap{background:var(--gray);border-radius:6px;overflow:hidden;height:6px;margin-top:4px}
 .progress-bar-fill{height:100%;border-radius:6px;transition:width .4s}
-
 .bottom-grid{display:grid;grid-template-columns:1fr 260px;gap:11px}
 .chart-card,.attn-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px}
 .card-tr{display:flex;align-items:center;gap:6px;margin-bottom:12px}
@@ -145,8 +129,6 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .done-item{padding:6px 8px;border-top:1px solid #dcfce7}
 .done-item-t{font-size:11px;font-weight:600;color:var(--text2);text-decoration:line-through}
 .done-item-s{font-size:9px;color:var(--text3);margin-top:1px}
-
-/* TABLES */
 .tbl-wrap{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
 .ltbl{width:100%;border-collapse:collapse;font-size:11px}
 .ltbl th{text-align:left;font-size:8px;font-weight:700;color:var(--text3);padding:8px 10px;border-bottom:1px solid var(--border2);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
@@ -154,8 +136,6 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .ltbl tr:last-child td{border-bottom:none}
 .ltbl tr:hover td{background:#fafbff}
 .ltbl tr.done-row td{background:#f9fffe;opacity:.8}
-
-/* KANBAN */
 .kb-tb{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;gap:7px}
 .kb-vbtns{display:flex;border:1px solid var(--border);border-radius:7px;overflow:hidden}
 .kb-vbtn{padding:5px 10px;border:none;background:#fff;cursor:pointer;font-size:10px;font-weight:600;color:var(--text2);border-right:1px solid var(--border);display:flex;align-items:center;gap:3px;font-family:var(--font)}
@@ -171,8 +151,6 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .k-title{font-size:11px;font-weight:600;margin-bottom:2px}
 .k-sub{font-size:9px;color:var(--text3);margin-bottom:5px}
 .k-meta{display:flex;gap:3px;flex-wrap:wrap;align-items:center}
-
-/* CAL */
 .cal-wrap{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
 .cal-hdr{display:flex;align-items:center;padding:9px 12px;border-bottom:1px solid var(--border2);gap:6px}
 .cal-nav-btn{width:26px;height:26px;border-radius:6px;border:1px solid var(--border);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2)}
@@ -201,8 +179,6 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .cal-ev.duussn{background:#f0fdf4;color:var(--green);border:1px solid #bbf7d0;text-decoration:line-through;opacity:.75}
 .cal-ev.huleg{background:#f5f3ff;color:var(--purple);border:1px solid #ddd6fe}
 .cal-ev-d{width:4px;height:4px;border-radius:50%;flex-shrink:0;background:currentColor;opacity:.6}
-
-/* MY JOBS */
 .myjob-header{display:flex;align-items:center;gap:10px;background:var(--blue-l);border:1px solid var(--blue-b);border-radius:10px;padding:12px 16px;margin-bottom:14px}
 .myjob-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
 .myjob-stat{background:#fff;border:1px solid var(--border);border-radius:9px;padding:10px;text-align:center}
@@ -237,7 +213,7 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .staff-detail-hd{padding:11px 14px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:10px;background:var(--blue-l)}
 .wl-card{background:#fff;border:1px solid var(--border);border-radius:9px;padding:11px 12px;margin-bottom:7px}
 .pbar{height:4px;background:#f1f5f9;border-radius:99px;margin:5px 0 4px}
-.pfill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--blue),#3b82f6)}
+.pfill{height:100%;border-radius:99px}
 .drill-overlay{position:absolute;inset:0;background:rgba(15,23,42,.45);display:flex;align-items:flex-start;justify-content:center;z-index:300;padding-top:45px}
 .drill-modal{background:#fff;border-radius:12px;width:540px;max-width:96%;max-height:76vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.18)}
 .drill-hd{padding:11px 15px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
@@ -301,10 +277,10 @@ select{font-family:var(--font)}
   </div>
   <div style="padding:2px 4px;flex:1;overflow-y:auto">
     <div class="nav-sec">Цэс</div>
-    <div class="nav-item active" onclick="gp('dashboard',this)"><svg width="14" height="14"><use href="#ic-dash"/></svg> Хяналтын самбар</div>
+    <div class="nav-item" onclick="gp('dashboard',this)"><svg width="14" height="14"><use href="#ic-dash"/></svg> Хяналтын самбар</div>
     <div class="nav-item" onclick="gp('myjobs',this)"><svg width="14" height="14"><use href="#ic-mytask"/></svg> Миний хийх ёстой ажлууд<span class="nav-badge" id="myjob-badge">0</span></div>
     <div class="nav-item" onclick="gp('deptjobs',this)"><svg width="14" height="14"><use href="#ic-dept"/></svg> Хэлтсийн ерөнхий ажлууд<span class="nav-badge green" id="dept-badge">0</span></div>
-    <div class="nav-item" onclick="gp('staff',this)"><svg width="14" height="14"><use href="#ic-users"/></svg> Ажилчид<span class="nav-badge gray">8</span></div>
+    <div class="nav-item active" onclick="gp('staff',this)"><svg width="14" height="14"><use href="#ic-users"/></svg> Ажилчид<span class="nav-badge gray">8</span></div>
     <div class="nav-item" onclick="gp('requests',this)"><svg width="14" height="14"><use href="#ic-list"/></svg> Бүх хүсэлт</div>
     <div class="nav-item" onclick="gp('kanban',this)"><svg width="14" height="14"><use href="#ic-kanban"/></svg> Канбан / Календарь</div>
     <div class="nav-sec">Удирдлага</div>
@@ -316,11 +292,11 @@ select{font-family:var(--font)}
 <div class="main">
   <div class="topbar">
     <div class="page-info">
-      <div class="page-title" id="ptitle">Хяналтын самбар</div>
+      <div class="page-title" id="ptitle">Ажилчид</div>
       <div class="page-sub">Тавтай морил, <b id="cur-user-name">—</b></div>
     </div>
     <div class="period-wrap">
-      <div class="period-combo" id="period-combo">
+      <div class="period-combo">
         <button class="period-select-btn" onclick="toggleDrop(event)">
           <div style="display:flex;align-items:center;gap:5px" id="period-val-display"><svg width="13" height="13"><use href="#ic-week"/></svg><span>Энэ долоо хоног</span></div>
           <svg width="13" height="13"><use href="#ic-chevdown"/></svg>
@@ -358,63 +334,21 @@ select{font-family:var(--font)}
   <div class="content">
 
     <!-- DASHBOARD -->
-    <div class="page active" id="page-dashboard">
-      <!-- Хийх ёстой ажлууд -->
-      <div class="dash-section-title">
-        <svg width="13" height="13"><use href="#ic-file"/></svg> Ажлын явц
-        <span id="dash-period-lbl" style="font-size:10px;color:var(--text3);font-weight:400;margin-left:4px"></span>
-      </div>
+    <div class="page" id="page-dashboard">
+      <div class="dash-section-title"><svg width="13" height="13"><use href="#ic-file"/></svg> Ажлын явц <span id="dash-period-lbl" style="font-size:10px;color:var(--text3);font-weight:400;margin-left:4px"></span></div>
       <div class="stat-row" style="margin-bottom:8px">
-        <div class="stat-card" onclick="openDrill('total')">
-          <div class="sc-lbl">НИЙТ <div class="si si-b"><svg width="11" height="11"><use href="#ic-file"/></svg></div></div>
-          <div class="sv vb" id="s-total">0</div>
-          <div class="st" id="st-total"></div>
-        </div>
-        <div class="stat-card" onclick="openDrill('hiih')">
-          <div class="sc-lbl">ХИЙХ <div class="si si-b"><svg width="11" height="11"><use href="#ic-bolt"/></svg></div></div>
-          <div class="sv vb" id="s-hiih">0</div>
-          <div class="st" id="st-hiih"></div>
-        </div>
-        <div class="stat-card" onclick="openDrill('hiij')">
-          <div class="sc-lbl">ХИЙЖ БАЙНА <div class="si si-o"><svg width="11" height="11"><use href="#ic-clock"/></svg></div></div>
-          <div class="sv vo" id="s-hiij">0</div>
-          <div class="st" id="st-hiij"></div>
-        </div>
-        <div class="stat-card" onclick="openDrill('huleg')">
-          <div class="sc-lbl">ХҮЛЭЭГДЭЖ БУЙ <div class="si si-p"><svg width="11" height="11"><use href="#ic-alert"/></svg></div></div>
-          <div class="sv vp" id="s-huleg">0</div>
-          <div class="st" id="st-huleg"></div>
-        </div>
+        <div class="stat-card" onclick="openDrill('total')"><div class="sc-lbl">НИЙТ <div class="si si-b"><svg width="11" height="11"><use href="#ic-file"/></svg></div></div><div class="sv vb" id="s-total">0</div><div class="st" id="st-total"></div></div>
+        <div class="stat-card" onclick="openDrill('hiih')"><div class="sc-lbl">ХИЙХ <div class="si si-b"><svg width="11" height="11"><use href="#ic-bolt"/></svg></div></div><div class="sv vb" id="s-hiih">0</div><div class="st" id="st-hiih"></div></div>
+        <div class="stat-card" onclick="openDrill('hiij')"><div class="sc-lbl">ХИЙЖ БАЙНА <div class="si si-o"><svg width="11" height="11"><use href="#ic-clock"/></svg></div></div><div class="sv vo" id="s-hiij">0</div><div class="st" id="st-hiij"></div></div>
+        <div class="stat-card" onclick="openDrill('huleg')"><div class="sc-lbl">ХҮЛЭЭГДЭЖ БУЙ <div class="si si-p"><svg width="11" height="11"><use href="#ic-alert"/></svg></div></div><div class="sv vp" id="s-huleg">0</div><div class="st" id="st-huleg"></div></div>
       </div>
-
-      <!-- Дууссан ажлууд -->
-      <div class="dash-section-title" style="margin-top:4px">
-        <svg width="13" height="13"><use href="#ic-check"/></svg> Дууссан ажлууд
-      </div>
+      <div class="dash-section-title" style="margin-top:4px"><svg width="13" height="13"><use href="#ic-check"/></svg> Дууссан ажлууд</div>
       <div class="stat-row-2">
-        <div class="stat-card done-hl" onclick="openDrill('duussn')">
-          <div class="sc-lbl">ДУУССАН <div class="si si-g"><svg width="11" height="11"><use href="#ic-check"/></svg></div></div>
-          <div class="sv vg" id="s-duussn">0</div>
-          <div class="st" id="st-duussn"></div>
-        </div>
-        <div class="stat-card done-hl" onclick="openDrill('duussn-period')">
-          <div class="sc-lbl">ХУГАЦААНД ДУУССАН <div class="si si-g"><svg width="11" height="11"><use href="#ic-check"/></svg></div></div>
-          <div class="sv vg" id="s-duussn-p">0</div>
-          <div class="st" id="st-duussn-p"></div>
-        </div>
-        <div class="stat-card" onclick="openDrill('duussn-year')">
-          <div class="sc-lbl">2026 ОНД ДУУССАН <div class="si si-g"><svg width="11" height="11"><use href="#ic-check"/></svg></div></div>
-          <div class="sv vg" id="s-duussn-y">0</div>
-          <div class="st" id="st-duussn-y"></div>
-        </div>
-        <div class="stat-card">
-          <div class="sc-lbl">ГҮЙЦЭТГЭЛ <div class="si si-g"><svg width="11" height="11"><use href="#ic-chart"/></svg></div></div>
-          <div class="sv vg" id="s-pct">0%</div>
-          <div id="pct-bar" class="progress-bar-wrap"><div class="progress-bar-fill" id="pct-fill" style="width:0%;background:var(--green)"></div></div>
-        </div>
+        <div class="stat-card done-hl" onclick="openDrill('duussn')"><div class="sc-lbl">ДУУССАН <div class="si si-g"><svg width="11" height="11"><use href="#ic-check"/></svg></div></div><div class="sv vg" id="s-duussn">0</div><div class="st" id="st-duussn"></div></div>
+        <div class="stat-card done-hl" onclick="openDrill('duussn-period')"><div class="sc-lbl">ХУГАЦААНД ДУУССАН <div class="si si-g"><svg width="11" height="11"><use href="#ic-check"/></svg></div></div><div class="sv vg" id="s-duussn-p">0</div><div class="st" id="st-duussn-p"></div></div>
+        <div class="stat-card" onclick="openDrill('duussn-year')"><div class="sc-lbl">2026 ОНД ДУУССАН <div class="si si-g"><svg width="11" height="11"><use href="#ic-check"/></svg></div></div><div class="sv vg" id="s-duussn-y">0</div><div class="st" id="st-duussn-y"></div></div>
+        <div class="stat-card"><div class="sc-lbl">ГҮЙЦЭТГЭЛ <div class="si si-g"><svg width="11" height="11"><use href="#ic-chart"/></svg></div></div><div class="sv vg" id="s-pct">0%</div><div id="pct-bar" class="progress-bar-wrap"><div class="progress-bar-fill" id="pct-fill" style="width:0%;background:var(--green)"></div></div></div>
       </div>
-
-      <!-- WF Timeline -->
       <div class="wf-header-card">
         <div class="wf-top-row">
           <div class="wf-title"><svg width="13" height="13"><use href="#ic-week"/></svg> <span id="wf-period-title">Энэ долоо хоногт анхаарах ажлууд</span></div>
@@ -422,20 +356,10 @@ select{font-family:var(--font)}
         </div>
         <div id="wf-timeline"></div>
       </div>
-
       <div class="bottom-grid">
-        <div class="chart-card">
-          <div class="card-tr"><div class="card-ti"><svg width="12" height="12"><use href="#ic-chart"/></svg></div><div class="card-tt">Ажил / Хариуцагчаар</div></div>
-          <div id="bar-chart"></div>
-        </div>
+        <div class="chart-card"><div class="card-tr"><div class="card-ti"><svg width="12" height="12"><use href="#ic-chart"/></svg></div><div class="card-tt">Ажил / Хариуцагчаар</div></div><div id="bar-chart"></div></div>
         <div class="attn-card">
-          <div class="attn-hd">
-            <div style="display:flex;align-items:center;gap:5px">
-              <div style="width:20px;height:20px;border-radius:5px;background:#fff5f5;display:flex;align-items:center;justify-content:center;color:var(--red)"><svg width="11" height="11"><use href="#ic-flame"/></svg></div>
-              <div style="font-size:11px;font-weight:600">Анхаарал шаардлагатай</div>
-            </div>
-            <div class="attn-cnt" id="attn-cnt">0</div>
-          </div>
+          <div class="attn-hd"><div style="display:flex;align-items:center;gap:5px"><div style="width:20px;height:20px;border-radius:5px;background:#fff5f5;display:flex;align-items:center;justify-content:center;color:var(--red)"><svg width="11" height="11"><use href="#ic-flame"/></svg></div><div style="font-size:11px;font-weight:600">Анхаарал шаардлагатай</div></div><div class="attn-cnt" id="attn-cnt">0</div></div>
           <div id="attn-body"></div>
         </div>
       </div>
@@ -477,7 +401,7 @@ select{font-family:var(--font)}
     </div>
 
     <!-- STAFF -->
-    <div class="page" id="page-staff">
+    <div class="page active" id="page-staff">
       <div style="margin-bottom:12px;font-size:12px;color:var(--text2)">Нийт <b>8</b> ажилтан</div>
       <div class="staff-grid" id="staff-grid"></div>
       <div id="staff-detail" style="display:none"></div>
@@ -497,12 +421,7 @@ select{font-family:var(--font)}
           <option value="хүлээгдэж буй">Хүлээгдэж буй</option>
         </select>
       </div>
-      <div class="tbl-wrap">
-        <table class="ltbl">
-          <thead><tr><th>Огноо</th><th>Компани</th><th>Брэнд/Хэлтэс</th><th>Төрөл</th><th>Ажил</th><th>Хариуцах</th><th>Зарцуулах</th><th>Төлөв</th></tr></thead>
-          <tbody id="req-body"></tbody>
-        </table>
-      </div>
+      <div class="tbl-wrap"><table class="ltbl"><thead><tr><th>Огноо</th><th>Компани</th><th>Брэнд/Хэлтэс</th><th>Төрөл</th><th>Ажил</th><th>Хариуцах</th><th>Зарцуулах</th><th>Төлөв</th></tr></thead><tbody id="req-body"></tbody></table></div>
     </div>
 
     <!-- KANBAN/CAL -->
@@ -520,32 +439,11 @@ select{font-family:var(--font)}
         </div>
       </div>
       <div id="kb-board">
-        <!-- 4 status columns -->
         <div class="kanban">
-          <div>
-            <div class="col-hd" style="background:#eff6ff;color:var(--blue)">
-              <span>📋 Хийх</span><span class="col-cnt" style="background:var(--blue);color:#fff" id="cc-hiih">0</span>
-            </div>
-            <div id="kc-hiih"></div>
-          </div>
-          <div>
-            <div class="col-hd" style="background:#fff7ed;color:var(--orange)">
-              <span>⚙️ Хийж байна</span><span class="col-cnt" style="background:var(--orange);color:#fff" id="cc-hiij">0</span>
-            </div>
-            <div id="kc-hiij"></div>
-          </div>
-          <div>
-            <div class="col-hd" style="background:#f5f3ff;color:var(--purple)">
-              <span>⏳ Хүлээгдэж буй</span><span class="col-cnt" style="background:var(--purple);color:#fff" id="cc-huleg">0</span>
-            </div>
-            <div id="kc-huleg"></div>
-          </div>
-          <div>
-            <div class="col-hd" style="background:#f0fdf4;color:var(--green)">
-              <span>✅ Дууссан</span><span class="col-cnt" style="background:var(--green);color:#fff" id="cc-duussn">0</span>
-            </div>
-            <div id="kc-duussn"></div>
-          </div>
+          <div><div class="col-hd" style="background:#eff6ff;color:var(--blue)"><span>📋 Хийх</span><span class="col-cnt" style="background:var(--blue);color:#fff" id="cc-hiih">0</span></div><div id="kc-hiih"></div></div>
+          <div><div class="col-hd" style="background:#fff7ed;color:var(--orange)"><span>⚙️ Хийж байна</span><span class="col-cnt" style="background:var(--orange);color:#fff" id="cc-hiij">0</span></div><div id="kc-hiij"></div></div>
+          <div><div class="col-hd" style="background:#f5f3ff;color:var(--purple)"><span>⏳ Хүлээгдэж буй</span><span class="col-cnt" style="background:var(--purple);color:#fff" id="cc-huleg">0</span></div><div id="kc-huleg"></div></div>
+          <div><div class="col-hd" style="background:#f0fdf4;color:var(--green)"><span>✅ Дууссан</span><span class="col-cnt" style="background:var(--green);color:#fff" id="cc-duussn">0</span></div><div id="kc-duussn"></div></div>
         </div>
       </div>
       <div id="kb-cal" style="display:none">
@@ -582,13 +480,7 @@ select{font-family:var(--font)}
       </div>
       <div style="margin-top:16px">
         <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:10px">📋 Sheet бүтэц:</div>
-        <div class="setup-step">
-          <div class="step-hd"><div class="step-num">1</div><div><div class="step-title">Tasks — Төлөв багана нэмэгдлээ!</div></div></div>
-          <div class="code-block">Огноо	Компани	Брэнд/Хэлтэс	Төрөл	Ажил	Давтамж	Хариуцах	Зарцуулах хугацаа	Хамтрах	Төлөв</div>
-          <div class="tip tip-blue" style="margin-top:6px">
-            <b>Төлөвийн утгууд:</b> <code style="background:#dbeafe;padding:1px 5px;border-radius:3px">хийх</code> · <code style="background:#fff7ed;padding:1px 5px;border-radius:3px">хийж байна</code> · <code style="background:#f0fdf4;padding:1px 5px;border-radius:3px">дууссан</code> · <code style="background:#f5f3ff;padding:1px 5px;border-radius:3px">хүлээгдэж буй</code>
-          </div>
-        </div>
+        <div class="setup-step"><div class="step-hd"><div class="step-num">1</div><div><div class="step-title">Tasks — Төлөв баганатай</div></div></div><div class="code-block">Огноо	Компани	Брэнд/Хэлтэс	Төрөл	Ажил	Давтамж	Хариуцах	Зарцуулах хугацаа	Хамтрах	Төлөв</div><div class="tip tip-blue" style="margin-top:6px">Төлөв: <code style="background:#dbeafe;padding:1px 5px;border-radius:3px">хийх</code> · <code style="background:#fff7ed;padding:1px 5px;border-radius:3px">хийж байна</code> · <code style="background:#f0fdf4;padding:1px 5px;border-radius:3px">дууссан</code> · <code style="background:#f5f3ff;padding:1px 5px;border-radius:3px">хүлээгдэж буй</code></div></div>
         <div class="setup-step" style="border-color:#c7d2fe"><div class="step-hd"><div class="step-num" style="background:var(--purple)">2</div><div><div class="step-title" style="color:var(--purple)">MyJobs</div></div></div><div class="code-block">Албан тушаал	Ажил / үүрэг	Тайлбар	Хариуцагч	Нэг удаагийн хүн/цаг</div></div>
         <div class="setup-step" style="border-color:#bbf7d0"><div class="step-hd"><div class="step-num" style="background:var(--green)">3</div><div><div class="step-title" style="color:var(--green)">DeptJobs</div></div></div><div class="code-block">Албан тушаал	Ажил / үүрэг	Тайлбар	Хариуцагч	Нэг удаагийн хүн/цаг</div></div>
         <div class="setup-step" style="border-color:#fde68a"><div class="step-hd"><div class="step-num" style="background:#ca8a04">4</div><div><div class="step-title" style="color:#ca8a04">WeeklyFocus</div></div></div><div class="code-block">Огноо	Гарчиг	Тайлбар	Зэрэглэл	Хариуцагч</div></div>
@@ -609,47 +501,35 @@ select{font-family:var(--font)}
 </div>
 
 <script>
+// ── STAFF — ЭНД ЗАСВАР: Б.Хүслэний албан тушаал өөрчлөгдлөө ──
 const STAFF=[
   {name:"Г.Билигсайхан",role:"Маркетинг бодлого төлөвлөлтийн албаны дарга"},
   {name:"М.Мөнхцацрал",role:"Маркетингийн бодлогын менежер"},
   {name:"Б.Оюунгэрэл",role:"Маркетингийн бодлогын менежер"},
   {name:"Г.Урангоо",role:"Маркетингийн менежер"},
   {name:"Б.Үүрийнтуяа",role:"PR менежер"},
-  {name:"Б.Хүслэн",role:"Digital Marketing менежер"},
+  {name:"Б.Хүслэн",role:"Дижитал маркетингийн менежер"}, // ← ЗАСВАРЛАСАН
   {name:"С.Ган-Очир",role:"Дизайнер"},
   {name:"Х.Түвшин",role:"Дизайнер"},
 ];
+
 const COLORS=["#1d4ed8","#7c3aed","#0891b2","#059669","#d97706","#dc2626","#db2777","#65a30d"];
 function aColor(n){let h=0;for(let i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))%COLORS.length;return COLORS[h];}
 function initials(n){const p=n.split(".");const l=p[p.length-1].trim();return l.slice(0,2).toUpperCase();}
 
-// ── STATUS ──
-const STATUS_KEYS={
-  "хийх":"хийх","hiih":"хийх",
-  "хийж байна":"хийж байна","hiij":"хийж байна","хийж":"хийж байна",
-  "дууссан":"дууссан","duussn":"дууссан","done":"дууссан","дуусгасан":"дууссан",
-  "хүлээгдэж буй":"хүлээгдэж буй","huleg":"хүлээгдэж буй","хүлээгдэж":"хүлээгдэж буй","хулээгдэж буй":"хүлээгдэж буй",
-};
+const STATUS_KEYS={"хийх":"хийх","хийж байна":"хийж байна","хийж":"хийж байна","дууссан":"дууссан","done":"дууссан","дуусгасан":"дууссан","хүлээгдэж буй":"хүлээгдэж буй","хүлээгдэж":"хүлээгдэж буй","хулээгдэж буй":"хүлээгдэж буй"};
 function normalizeStatus(s){if(!s)return"хийх";const k=(s||"").trim().toLowerCase();return STATUS_KEYS[k]||"хийх";}
 function isDuussn(t){return normalizeStatus(t.status)==="дууссан";}
-
-const STATUS_STYLE={
-  "хийх":{cls:"st-hiih",label:"Хийх",dot:"var(--blue)"},
-  "хийж байна":{cls:"st-hiij",label:"Хийж байна",dot:"var(--orange)"},
-  "дууссан":{cls:"st-duussn",label:"Дууссан",dot:"var(--green)"},
-  "хүлээгдэж буй":{cls:"st-huleg",label:"Хүлээгдэж буй",dot:"var(--purple)"},
-};
+const STATUS_STYLE={"хийх":{cls:"st-hiih",label:"Хийх",dot:"var(--blue)"},"хийж байна":{cls:"st-hiij",label:"Хийж байна",dot:"var(--orange)"},"дууссан":{cls:"st-duussn",label:"Дууссан",dot:"var(--green)"},"хүлээгдэж буй":{cls:"st-huleg",label:"Хүлээгдэж буй",dot:"var(--purple)"}};
 function statusBadge(s){const st=STATUS_STYLE[normalizeStatus(s)]||STATUS_STYLE["хийх"];return`<span class="st-badge ${st.cls}">${st.label}</span>`;}
 function calEvCls(t){const s=normalizeStatus(t.status);if(s==="дууссан")return"duussn";if(s==="хийж байна")return"hiij";if(s==="хүлээгдэж буй")return"huleg";return"hiih";}
 
-// ── DATA ──
 let tasks=[],wfData=[],myJobsData=[],deptJobsData=[];
 let sheetId="",syncing=false;
 let kbv="k",calV="m",calDate=new Date();
 let period="week",customFrom=null,customTo=null;
 let currentUser=null,selectedStaff=null;
 
-// ── DATE PARSER ──
 function parseGSheetDate(cell){
   if(!cell)return null;const v=cell.v;if(v===null||v===undefined)return null;
   if(v instanceof Date){const d=new Date(v);d.setHours(0,0,0,0);return d;}
@@ -659,26 +539,17 @@ function parseGSheetDate(cell){
   if(/^\d{4}-\d{2}-\d{2}$/.test(s)){const d=new Date(s+"T00:00:00");d.setHours(0,0,0,0);return d;}
   if(/^\d+(\.\d+)?$/.test(s)){const serial=parseFloat(s);if(serial>40000&&serial<60000){const d=new Date(Date.UTC(1899,11,30)+serial*86400000);d.setHours(0,0,0,0);return d;}}
   const d=new Date(s);if(!isNaN(d)){d.setHours(0,0,0,0);return d;}
-  const pts=s.split(/[\/\.\-]/);
-  if(pts.length===3){let yr,mo,dy;if(pts[0].length===4){yr=+pts[0];mo=+pts[1]-1;dy=+pts[2];}else if(pts[2].length===4){dy=+pts[0];mo=+pts[1]-1;yr=+pts[2];}else return null;const dd=new Date(yr,mo,dy);if(!isNaN(dd)){dd.setHours(0,0,0,0);return dd;}}
+  const pts=s.split(/[\/\.\-]/);if(pts.length===3){let yr,mo,dy;if(pts[0].length===4){yr=+pts[0];mo=+pts[1]-1;dy=+pts[2];}else if(pts[2].length===4){dy=+pts[0];mo=+pts[1]-1;yr=+pts[2];}else return null;const dd=new Date(yr,mo,dy);if(!isNaN(dd)){dd.setHours(0,0,0,0);return dd;}}
   return null;
 }
 function fmtDate(d){if(!d)return"";return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
 function now0(){const d=new Date();d.setHours(0,0,0,0);return d;}
 
-// ── ROW MAPPER — now includes Төлөв ──
 function mapRow(row,cols){
   const getCell=k=>{const i=cols.findIndex(c=>c&&c.trim()===k);return(i>=0&&row.c[i])?row.c[i]:null;};
   const getStr=k=>{const c=getCell(k);return c&&c.v?String(c.v).trim():"";};
-  const dateCell=getCell("Огноо");
-  const dateObj=dateCell?parseGSheetDate(dateCell):null;
-  return{
-    date:dateObj?fmtDate(dateObj):"",dateObj,
-    kompani:getStr("Компани"),brand:getStr("Брэнд/Хэлтэс"),torol:getStr("Төрөл"),
-    ajil:getStr("Ажил"),davtamj:getStr("Давтамж"),owner:getStr("Хариуцах"),
-    hours:getStr("Зарцуулах хугацаа"),hamtarch:getStr("Хамтрах"),
-    status:getStr("Төлөв"), // NEW
-  };
+  const dateCell=getCell("Огноо");const dateObj=dateCell?parseGSheetDate(dateCell):null;
+  return{date:dateObj?fmtDate(dateObj):"",dateObj,kompani:getStr("Компани"),brand:getStr("Брэнд/Хэлтэс"),torol:getStr("Төрөл"),ajil:getStr("Ажил"),davtamj:getStr("Давтамж"),owner:getStr("Хариуцах"),hours:getStr("Зарцуулах хугацаа"),hamtarch:getStr("Хамтрах"),status:getStr("Төлөв")};
 }
 function mapJobRow(row,cols){const get=k=>{const i=cols.findIndex(c=>c&&c.trim()===k);return(i>=0&&row.c[i]&&row.c[i].v)?String(row.c[i].v).trim():"";};return{role:get("Албан тушаал"),ajil:get("Ажил / үүрэг"),tailbar:get("Тайлбар"),owner:get("Хариуцагч"),hours:get("Нэг удаагийн хүн/цаг")};}
 function mapWFRow(row,cols){
@@ -688,7 +559,6 @@ function mapWFRow(row,cols){
   return{date:dateObj?fmtDate(dateObj):"",dateObj,title:getStr("Гарчиг"),desc:getStr("Тайлбар"),level:getStr("Зэрэглэл"),owner:getStr("Хариуцагч"),status:getStr("Төлөв")||""};
 }
 
-// ── PERIOD ──
 function getPR(){
   const n=new Date();n.setHours(0,0,0,0);
   if(period==="week"){const dow=n.getDay(),m=new Date(n);m.setDate(n.getDate()-dow+(dow===0?-6:1));const e=new Date(m);e.setDate(m.getDate()+6);return{from:m,to:e,label:"Энэ долоо хоног"};}
@@ -706,71 +576,37 @@ function inYear2026(t){if(!t.dateObj)return false;return t.dateObj.getFullYear()
 function toggleDrop(e){e.stopPropagation();document.getElementById("period-dd").classList.toggle("open");}
 document.addEventListener("click",()=>document.getElementById("period-dd").classList.remove("open"));
 function selPeriod(p){
-  period=p;
-  ["week","month","year","custom"].forEach(k=>{
-    document.getElementById("popt-"+k).classList.toggle("selected",k===p);
-    const c=document.getElementById("pchk-"+k);c.style.background=k===p?"var(--blue)":"";c.style.borderColor=k===p?"var(--blue)":"";
-  });
+  period=p;["week","month","year","custom"].forEach(k=>{document.getElementById("popt-"+k).classList.toggle("selected",k===p);const c=document.getElementById("pchk-"+k);c.style.background=k===p?"var(--blue)":"";c.style.borderColor=k===p?"var(--blue)":"";});
   document.getElementById("custom-inputs").classList.toggle("show",p==="custom");
   if(p!=="custom"){updatePeriodBtn();document.getElementById("period-dd").classList.remove("open");refreshCurrent();}
 }
-function applyCustom(){
-  const f=document.getElementById("date-from").value,t=document.getElementById("date-to").value;
-  if(f&&t){customFrom=new Date(f+"T00:00:00");customFrom.setHours(0,0,0,0);customTo=new Date(t+"T00:00:00");customTo.setHours(0,0,0,0);updatePeriodBtn();document.getElementById("period-dd").classList.remove("open");refreshCurrent();}
-}
-function updatePeriodBtn(){
-  const{label}=getPR();
-  document.getElementById("period-val-display").innerHTML=`<svg width="13" height="13"><use href="#ic-week"/></svg><span>${label}</span>`;
-  const wft=document.getElementById("wf-period-title");if(wft)wft.textContent=label+"т анхаарах ажлууд";
-  const dl=document.getElementById("dash-period-lbl");if(dl)dl.textContent="· "+label;
-}
-(function(){
-  const n=new Date();n.setHours(0,0,0,0);
-  const dow=n.getDay(),m=new Date(n);m.setDate(n.getDate()-dow+(dow===0?-6:1));
-  const e=new Date(m);e.setDate(m.getDate()+6);
-  document.getElementById("date-from").value=fmtDate(m);document.getElementById("date-to").value=fmtDate(e);
-  customFrom=m;customTo=e;
-  document.getElementById("pchk-week").style.background="var(--blue)";document.getElementById("pchk-week").style.borderColor="var(--blue)";
-  const dl=document.getElementById("dash-period-lbl");if(dl)dl.textContent="· Энэ долоо хоног";
-})();
+function applyCustom(){const f=document.getElementById("date-from").value,t=document.getElementById("date-to").value;if(f&&t){customFrom=new Date(f+"T00:00:00");customFrom.setHours(0,0,0,0);customTo=new Date(t+"T00:00:00");customTo.setHours(0,0,0,0);updatePeriodBtn();document.getElementById("period-dd").classList.remove("open");refreshCurrent();}}
+function updatePeriodBtn(){const{label}=getPR();document.getElementById("period-val-display").innerHTML=`<svg width="13" height="13"><use href="#ic-week"/></svg><span>${label}</span>`;const wft=document.getElementById("wf-period-title");if(wft)wft.textContent=label+"т анхаарах ажлууд";const dl=document.getElementById("dash-period-lbl");if(dl)dl.textContent="· "+label;}
+(function(){const n=new Date();n.setHours(0,0,0,0);const dow=n.getDay(),m=new Date(n);m.setDate(n.getDate()-dow+(dow===0?-6:1));const e=new Date(m);e.setDate(m.getDate()+6);document.getElementById("date-from").value=fmtDate(m);document.getElementById("date-to").value=fmtDate(e);customFrom=m;customTo=e;document.getElementById("pchk-week").style.background="var(--blue)";document.getElementById("pchk-week").style.borderColor="var(--blue)";})();
 
-// ── DASHBOARD ──
 function renderDashboard(){
-  const pLabel=getPR().label;
-  const pT=tasks.filter(inPeriod);
+  const pLabel=getPR().label;const pT=tasks.filter(inPeriod);
   const total=tasks.length,hiih=tasks.filter(t=>normalizeStatus(t.status)==="хийх").length,hiij=tasks.filter(t=>normalizeStatus(t.status)==="хийж байна").length,huleg=tasks.filter(t=>normalizeStatus(t.status)==="хүлээгдэж буй").length,duussn=tasks.filter(isDuussn).length;
-  const duussnP=tasks.filter(t=>isDuussn(t)&&inPeriod(t)).length;
-  const duussnY=tasks.filter(t=>isDuussn(t)&&inYear2026(t)).length;
+  const duussnP=tasks.filter(t=>isDuussn(t)&&inPeriod(t)).length,duussnY=tasks.filter(t=>isDuussn(t)&&inYear2026(t)).length;
   const pct=total>0?Math.round(duussn/total*100):0;
-  document.getElementById("s-total").textContent=total;
-  document.getElementById("s-hiih").textContent=hiih;
-  document.getElementById("s-hiij").textContent=hiij;
-  document.getElementById("s-huleg").textContent=huleg;
-  document.getElementById("s-duussn").textContent=duussn;
-  document.getElementById("s-duussn-p").textContent=duussnP;
-  document.getElementById("s-duussn-y").textContent=duussnY;
-  document.getElementById("s-pct").textContent=pct+"%";
-  document.getElementById("pct-fill").style.width=pct+"%";
+  ["s-total","s-hiih","s-hiij","s-huleg","s-duussn","s-duussn-p","s-duussn-y"].forEach((id,i)=>document.getElementById(id).textContent=[total,hiih,hiij,huleg,duussn,duussnP,duussnY][i]);
+  document.getElementById("s-pct").textContent=pct+"%";document.getElementById("pct-fill").style.width=pct+"%";
   [["st-total",pLabel],["st-hiih","Хийх ёстой"],["st-hiij","Хийгдэж байна"],["st-huleg","Хүлээгдэж байна"],["st-duussn","Нийт дууссан"],["st-duussn-p",pLabel+" дууссан"],["st-duussn-y","2026 оны дууссан"]].forEach(([id,txt])=>{const el=document.getElementById(id);if(el)el.textContent=txt;});
-  // bar chart — by owner, period tasks
   const byOwner={};pT.forEach(t=>{const o=t.owner||"—";if(!byOwner[o])byOwner[o]=0;byOwner[o]++;});
   const entries=Object.entries(byOwner).sort((a,b)=>b[1]-a[1]).slice(0,6);const mx=Math.max(...entries.map(e=>e[1]),1);
   document.getElementById("bar-chart").innerHTML=entries.length?entries.map(([o,v])=>`<div class="bar-row"><div class="bar-lbl" style="font-size:9px">${o.length>12?o.slice(0,12)+"…":o}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/mx*100)}%;background:${aColor(o)}">${v>0?v:""}</div></div><div class="bar-val">${v}</div></div>`).join(""):`<div style="text-align:center;padding:18px;font-size:11px;color:var(--text3)">Өгөгдөл байхгүй</div>`;
-  // attention — overdue (not done) + done recently
-  const ovL=tasks.filter(isOvTask);const doneL=tasks.filter(t=>isDuussn(t)&&inPeriod(t));
+  const ovL=tasks.filter(isOvTask),doneL=tasks.filter(t=>isDuussn(t)&&inPeriod(t));
   document.getElementById("attn-cnt").textContent=ovL.length;
   let html="";
-  if(ovL.length){html+=`<div class="attn-sec"><div class="attn-sec-hd"><div class="attn-sec-lbl"><svg width="10" height="10"><use href="#ic-alert"/></svg> Хугацаа хэтэрсэн</div><div class="attn-b">${ovL.length}</div></div>${ovL.slice(0,5).map(t=>`<div class="attn-item"><div class="attn-item-t">${t.ajil||"—"}</div><div class="attn-item-s">${[t.kompani,t.brand,t.owner,t.date].filter(Boolean).join(" · ")}</div></div>`).join("")}</div>`;}
-  if(doneL.length){html+=`<div class="done-sec"><div class="done-sec-hd"><div class="done-sec-lbl"><svg width="10" height="10"><use href="#ic-check"/></svg> Дууссан (${pLabel})</div><div class="done-b">${doneL.length}</div></div>${doneL.slice(0,5).map(t=>`<div class="done-item"><div class="done-item-t">${t.ajil||"—"}</div><div class="done-item-s">${[t.kompani,t.brand,t.owner,t.date].filter(Boolean).join(" · ")}</div></div>`).join("")}</div>`;}
+  if(ovL.length)html+=`<div class="attn-sec"><div class="attn-sec-hd"><div class="attn-sec-lbl"><svg width="10" height="10"><use href="#ic-alert"/></svg> Хугацаа хэтэрсэн</div><div class="attn-b">${ovL.length}</div></div>${ovL.slice(0,5).map(t=>`<div class="attn-item"><div class="attn-item-t">${t.ajil||"—"}</div><div class="attn-item-s">${[t.kompani,t.brand,t.owner,t.date].filter(Boolean).join(" · ")}</div></div>`).join("")}</div>`;
+  if(doneL.length)html+=`<div class="done-sec"><div class="done-sec-hd"><div class="done-sec-lbl"><svg width="10" height="10"><use href="#ic-check"/></svg> Дууссан (${pLabel})</div><div class="done-b">${doneL.length}</div></div>${doneL.slice(0,5).map(t=>`<div class="done-item"><div class="done-item-t">${t.ajil||"—"}</div><div class="done-item-s">${[t.kompani,t.brand,t.owner,t.date].filter(Boolean).join(" · ")}</div></div>`).join("")}</div>`;
   if(!ovL.length&&!doneL.length)html=`<div style="font-size:10px;color:var(--text3);text-align:center;padding:14px">Анхаарал шаардлагатай зүйл алга</div>`;
   document.getElementById("attn-body").innerHTML=html;
   renderWFTimeline();
 }
 
-// ── WF TIMELINE — shows status for WF items too ──
 function renderWFTimeline(){
-  const{from,to,label}=getPR();
-  const wfEl=document.getElementById("wf-period-title");if(wfEl)wfEl.textContent=label+"т анхаарах ажлууд";
+  const{from,to,label}=getPR();const wfEl=document.getElementById("wf-period-title");if(wfEl)wfEl.textContent=label+"т анхаарах ажлууд";
   const tl=document.getElementById("wf-timeline");if(!tl)return;
   if(!wfData.length){tl.innerHTML=`<div class="wf-no-data">WeeklyFocus sheet-д ажил байхгүй байна</div>`;return;}
   const periodItems=wfData.filter(w=>w.dateObj&&w.dateObj>=from&&w.dateObj<=to);
@@ -778,57 +614,24 @@ function renderWFTimeline(){
   const days=[];const cur=new Date(from);while(cur<=to){days.push(new Date(cur));cur.setDate(cur.getDate()+1);}
   const showAll=period==="week";const todayStr=fmtDate(now0());
   const MND=["Ня","Да","Мя","Лх","Пү","Ба","Бя"],MNM=["1-р","2-р","3-р","4-р","5-р","6-р","7-р","8-р","9-р","10-р","11-р","12-р"];
-  // For year/month view — group by month or show only days with tasks
   const daysToShow=showAll?days:days.filter(d=>{const ds=fmtDate(d);return periodItems.some(w=>w.date===ds);});
   let html="";
   daysToShow.forEach(day=>{
     const ds=fmtDate(day);const dayItems=periodItems.filter(w=>w.date===ds);
     const isToday=ds===todayStr,isPast=day<now0();
-    // Check if all done
     const allDone=dayItems.length>0&&dayItems.every(w=>normalizeStatus(w.status)==="дууссан");
-    const lblCls=isToday?"today-lbl":allDone?"done-lbl":isPast?"past-lbl":"";
-    html+=`<div class="wf-day-row"><div class="wf-day-label ${lblCls}"><div class="wf-day-date">${day.getDate()}</div><div class="wf-day-name">${MND[day.getDay()]}${isToday?" · Өнөөдөр":""}</div><div class="wf-day-name" style="font-size:8px;margin-top:1px">${MNM[day.getMonth()]} сар</div></div><div class="wf-day-tasks">`;
-    if(dayItems.length){
-      dayItems.forEach(w=>{
-        const wDone=normalizeStatus(w.status)==="дууссан";
-        const isU=w.level==="Яаралтай"&&!wDone;
-        html+=`<div class="wf-task-chip${isToday&&!wDone?" today-chip":""}${isPast&&!wDone?" past-chip":""}${isU?" urgent-chip":""}${wDone?" done-chip":""}">
-          <div style="flex:1;min-width:0">
-            <div class="wf-task-title${wDone?" done-title":""}">${w.title||"—"}</div>
-            ${w.desc?`<div class="wf-task-sub">${w.desc}</div>`:""}
-            ${w.owner?`<div class="wf-task-sub"><svg width="9" height="9"><use href="#ic-user"/></svg> ${w.owner}</div>`:""}
-          </div>
-          <div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">
-            ${w.level&&!wDone?`<span class="wf-badge ${w.level==="Яаралтай"?"wf-badge-red":w.level==="Чухал"?"wf-badge-amber":"wf-badge-green"}">${w.level}</span>`:""}
-            ${wDone?`<span class="wf-badge wf-badge-green">✓ Дууссан</span>`:""}
-          </div>
-        </div>`;
-      });
-    }else if(showAll){html+=`<div class="wf-empty-day">—</div>`;}
+    html+=`<div class="wf-day-row"><div class="wf-day-label ${isToday?"today-lbl":allDone?"done-lbl":isPast?"past-lbl":""}"><div class="wf-day-date">${day.getDate()}</div><div class="wf-day-name">${MND[day.getDay()]}${isToday?" · Өнөөдөр":""}</div><div class="wf-day-name" style="font-size:8px;margin-top:1px">${MNM[day.getMonth()]} сар</div></div><div class="wf-day-tasks">`;
+    if(dayItems.length){dayItems.forEach(w=>{const wDone=normalizeStatus(w.status)==="дууссан";const isU=w.level==="Яаралтай"&&!wDone;html+=`<div class="wf-task-chip${isToday&&!wDone?" today-chip":""}${isPast&&!wDone?" past-chip":""}${isU?" urgent-chip":""}${wDone?" done-chip":""}"><div style="flex:1;min-width:0"><div class="wf-task-title${wDone?" done-title":""}">${w.title||"—"}</div>${w.desc?`<div class="wf-task-sub">${w.desc}</div>`:""}${w.owner?`<div class="wf-task-sub"><svg width="9" height="9"><use href="#ic-user"/></svg> ${w.owner}</div>`:""}</div><div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">${w.level&&!wDone?`<span class="wf-badge ${w.level==="Яаралтай"?"wf-badge-red":w.level==="Чухал"?"wf-badge-amber":"wf-badge-green"}">${w.level}</span>`:""}${wDone?`<span class="wf-badge wf-badge-green">✓ Дууссан</span>`:""}</div></div>`;});}
+    else if(showAll){html+=`<div class="wf-empty-day">—</div>`;}
     html+=`</div></div><div class="wf-day-spacer"></div>`;
   });
   tl.innerHTML=html;
 }
 
-// ── WF FETCH ──
-async function fetchWF(){
-  if(!sheetId)return;
-  setSyncDot("wf-dot","spin");document.getElementById("wf-lbl").textContent="Татаж байна...";
-  try{
-    const r=await fetch(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=WeeklyFocus`);
-    if(!r.ok)throw new Error();
-    const txt=await r.text();const m=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);if(!m)throw new Error();
-    const json=JSON.parse(m[1]);const cols=(json.table.cols||[]).map(c=>c.label.trim());
-    wfData=(json.table.rows||[]).filter(r=>r&&r.c&&r.c.some(c=>c&&c.v)).map(r=>mapWFRow(r,cols)).filter(w=>w.title&&w.date);
-    setSyncDot("wf-dot","ok");document.getElementById("wf-lbl").textContent=`WeeklyFocus — ${wfData.length} ажил`;
-    renderWFTimeline();
-  }catch(e){setSyncDot("wf-dot","err");document.getElementById("wf-lbl").textContent="WeeklyFocus байхгүй";}
-}
+async function fetchWF(){if(!sheetId)return;setSyncDot("wf-dot","spin");document.getElementById("wf-lbl").textContent="Татаж байна...";try{const r=await fetch(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=WeeklyFocus`);if(!r.ok)throw new Error();const txt=await r.text();const m=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);if(!m)throw new Error();const json=JSON.parse(m[1]);const cols=(json.table.cols||[]).map(c=>c.label.trim());wfData=(json.table.rows||[]).filter(r=>r&&r.c&&r.c.some(c=>c&&c.v)).map(r=>mapWFRow(r,cols)).filter(w=>w.title&&w.date);setSyncDot("wf-dot","ok");document.getElementById("wf-lbl").textContent=`WeeklyFocus — ${wfData.length} ажил`;renderWFTimeline();}catch(e){setSyncDot("wf-dot","err");document.getElementById("wf-lbl").textContent="WeeklyFocus байхгүй";}}
 
-// ── DRILL ──
 function openDrill(key){
-  const pLabel=getPR().label;
-  let items=[],title="";
+  const pLabel=getPR().label;let items=[],title="";
   if(key==="total"){items=tasks;title="Бүх ажил";}
   else if(key==="hiih"){items=tasks.filter(t=>normalizeStatus(t.status)==="хийх");title="Хийх ажлууд";}
   else if(key==="hiij"){items=tasks.filter(t=>normalizeStatus(t.status)==="хийж байна");title="Хийж байна";}
@@ -837,34 +640,14 @@ function openDrill(key){
   else if(key==="duussn-period"){items=tasks.filter(t=>isDuussn(t)&&inPeriod(t));title=pLabel+" дууссан";}
   else if(key==="duussn-year"){items=tasks.filter(t=>isDuussn(t)&&inYear2026(t));title="2026 онд дууссан";}
   document.getElementById("drill-title").textContent=title+` (${items.length})`;
-  document.getElementById("drill-body").innerHTML=items.length?items.map(t=>{
-    const st=STATUS_STYLE[normalizeStatus(t.status)];
-    return`<div class="drill-item${isDuussn(t)?" done-row":""}"><div style="width:8px;height:8px;border-radius:50%;background:${st?st.dot:"var(--blue)"};flex-shrink:0;margin-top:3px"></div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600${isDuussn(t)?";text-decoration:line-through;color:var(--text3)":""}">${t.ajil||"—"}</div><div style="font-size:9px;color:var(--text3);margin-top:2px">${[t.kompani,t.brand,t.date].filter(Boolean).join(" · ")}</div></div><div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">${statusBadge(t.status)}${t.owner?`<span style="font-size:8px;color:var(--text3)">${t.owner}</span>`:""}</div></div>`;
-  }).join(""):`<div style="padding:18px;text-align:center;font-size:11px;color:var(--text3)">Ажил байхгүй</div>`;
+  document.getElementById("drill-body").innerHTML=items.length?items.map(t=>{const st=STATUS_STYLE[normalizeStatus(t.status)];return`<div class="drill-item${isDuussn(t)?" done-row":""}"><div style="width:8px;height:8px;border-radius:50%;background:${st?st.dot:"var(--blue)"};flex-shrink:0;margin-top:3px"></div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600${isDuussn(t)?";text-decoration:line-through;color:var(--text3)":""}">${t.ajil||"—"}</div><div style="font-size:9px;color:var(--text3);margin-top:2px">${[t.kompani,t.brand,t.date].filter(Boolean).join(" · ")}</div></div><div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">${statusBadge(t.status)}${t.owner?`<span style="font-size:8px;color:var(--text3)">${t.owner}</span>`:""}</div></div>`;}).join(""):`<div style="padding:18px;text-align:center;font-size:11px;color:var(--text3)">Ажил байхгүй</div>`;
   document.getElementById("drill-ov").style.display="flex";
 }
 function closeDrill(e){if(!e||e.target===document.getElementById("drill-ov"))document.getElementById("drill-ov").style.display="none";}
 
-// ── REQUESTS ──
-function populateFilters(){
-  [["f-kompani",new Set(tasks.map(t=>t.kompani).filter(Boolean))],["f-owner",new Set(tasks.map(t=>t.owner).filter(Boolean))],["kf-owner",new Set(tasks.map(t=>t.owner).filter(Boolean))],["kf-brand",new Set(tasks.map(t=>t.brand).filter(Boolean))]].forEach(([id,set])=>{const sel=document.getElementById(id);if(!sel)return;while(sel.options.length>1)sel.remove(1);set.forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v;sel.appendChild(o);});});
-}
-function renderRequests(){
-  const q=(document.getElementById("sq").value||"").toLowerCase(),fk=document.getElementById("f-kompani").value,fo=document.getElementById("f-owner").value,fs=document.getElementById("f-status").value;
-  const f=tasks.filter(t=>(!q||(t.ajil||"").toLowerCase().includes(q)||(t.kompani||"").toLowerCase().includes(q))&&(!fk||t.kompani===fk)&&(!fo||t.owner===fo)&&(!fs||normalizeStatus(t.status)===fs));
-  document.getElementById("req-body").innerHTML=f.map(t=>`<tr${isDuussn(t)?' class="done-row"':""}>
-    <td style="font-size:10px;color:${isOvTask(t)?"#dc2626":"var(--text2)"};white-space:nowrap">${t.date||"—"}</td>
-    <td style="font-size:10px">${t.kompani||"—"}</td>
-    <td style="font-size:10px">${t.brand||"—"}</td>
-    <td><span style="font-size:8px;padding:2px 5px;border-radius:99px;font-weight:600;background:#f8fafc;color:var(--text2)">${t.torol||"—"}</span></td>
-    <td><div style="font-size:11px;font-weight:600${isDuussn(t)?";text-decoration:line-through;color:var(--text3)":""}">${t.ajil||"—"}</div>${t.davtamj?`<div style="font-size:9px;color:var(--text3)">${t.davtamj}</div>`:""}</td>
-    <td><span style="font-size:8px;padding:2px 7px;border-radius:99px;background:var(--blue-l);color:var(--blue);font-weight:600">${t.owner||"—"}</span></td>
-    <td style="font-size:10px">${t.hours||"—"}</td>
-    <td>${statusBadge(t.status)}</td>
-  </tr>`).join("")||`<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text3)">Ажил байхгүй</td></tr>`;
-}
+function populateFilters(){[["f-kompani",new Set(tasks.map(t=>t.kompani).filter(Boolean))],["f-owner",new Set(tasks.map(t=>t.owner).filter(Boolean))],["kf-owner",new Set(tasks.map(t=>t.owner).filter(Boolean))],["kf-brand",new Set(tasks.map(t=>t.brand).filter(Boolean))]].forEach(([id,set])=>{const sel=document.getElementById(id);if(!sel)return;while(sel.options.length>1)sel.remove(1);set.forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v;sel.appendChild(o);});});}
+function renderRequests(){const q=(document.getElementById("sq").value||"").toLowerCase(),fk=document.getElementById("f-kompani").value,fo=document.getElementById("f-owner").value,fs=document.getElementById("f-status").value;const f=tasks.filter(t=>(!q||(t.ajil||"").toLowerCase().includes(q)||(t.kompani||"").toLowerCase().includes(q))&&(!fk||t.kompani===fk)&&(!fo||t.owner===fo)&&(!fs||normalizeStatus(t.status)===fs));document.getElementById("req-body").innerHTML=f.map(t=>`<tr${isDuussn(t)?' class="done-row"':''}><td style="font-size:10px;color:${isOvTask(t)?"#dc2626":"var(--text2)"};white-space:nowrap">${t.date||"—"}</td><td style="font-size:10px">${t.kompani||"—"}</td><td style="font-size:10px">${t.brand||"—"}</td><td><span style="font-size:8px;padding:2px 5px;border-radius:99px;font-weight:600;background:#f8fafc;color:var(--text2)">${t.torol||"—"}</span></td><td><div style="font-size:11px;font-weight:600${isDuussn(t)?";text-decoration:line-through;color:var(--text3)":""}">${t.ajil||"—"}</div>${t.davtamj?`<div style="font-size:9px;color:var(--text3)">${t.davtamj}</div>`:""}</td><td><span style="font-size:8px;padding:2px 7px;border-radius:99px;background:var(--blue-l);color:var(--blue);font-weight:600">${t.owner||"—"}</span></td><td style="font-size:10px">${t.hours||"—"}</td><td>${statusBadge(t.status)}</td></tr>`).join("")||`<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text3)">Ажил байхгүй</td></tr>`;}
 
-// ── KANBAN by STATUS ──
 function setKV(v){kbv=v;["k","m","w","d"].forEach(k=>{const b=document.getElementById("vb-"+k);if(b)b.classList.toggle("active",k===v);});document.getElementById("kb-board").style.display=v==="k"?"block":"none";document.getElementById("kb-cal").style.display=v!=="k"?"block":"none";if(v!=="k")setCV(v==="m"?"m":v==="w"?"w":"d");else renderKanban();}
 function renderKV(){if(kbv==="k")renderKanban();else renderCal();}
 function renderKanban(){
@@ -872,19 +655,10 @@ function renderKanban(){
   const A=tasks.filter(t=>(!fo||t.owner===fo)&&(!fb||t.brand===fb));
   const cols={"хийх":[],"хийж байна":[],"хүлээгдэж буй":[],"дууссан":[]};
   A.forEach(t=>cols[normalizeStatus(t.status)].push(t));
-  [["hiih","хийх"],["hiij","хийж байна"],["huleg","хүлээгдэж буй"],["duussn","дууссан"]].forEach(([k,s])=>{
-    document.getElementById("cc-"+k).textContent=cols[s].length;
-    document.getElementById("kc-"+k).innerHTML=cols[s].map(t=>`<div class="k-card${s==="дууссан"?" done-card":""}">
-      <div class="k-title" style="${s==="дууссан"?"text-decoration:line-through;color:var(--text3)":""}">${t.ajil||"—"}</div>
-      <div class="k-sub">${[t.kompani,t.brand].filter(Boolean).join(" · ")||"—"}</div>
-      <div class="k-meta">${statusBadge(t.status)}<span style="font-size:8px;padding:2px 7px;border-radius:99px;background:var(--blue-l);color:var(--blue);font-weight:600">${t.owner||"—"}</span></div>
-      ${t.date?`<div style="font-size:9px;color:${isOvTask(t)?"var(--red)":"var(--text3)"};margin-top:4px">${t.date}</div>`:""}
-    </div>`).join("");
-  });
-  const bd=document.getElementById("kf-brand");if(bd.options.length<=1){[...new Set(tasks.map(t=>t.brand).filter(Boolean))].forEach(b=>{const o=document.createElement("option");o.value=b;o.textContent=b;bd.appendChild(o);});}
+  [["hiih","хийх"],["hiij","хийж байна"],["huleg","хүлээгдэж буй"],["duussn","дууссан"]].forEach(([k,s])=>{document.getElementById("cc-"+k).textContent=cols[s].length;document.getElementById("kc-"+k).innerHTML=cols[s].map(t=>`<div class="k-card${s==="дууссан"?" done-card":""}"><div class="k-title" style="${s==="дууссан"?"text-decoration:line-through;color:var(--text3)":""}">${t.ajil||"—"}</div><div class="k-sub">${[t.kompani,t.brand].filter(Boolean).join(" · ")||"—"}</div><div class="k-meta">${statusBadge(t.status)}<span style="font-size:8px;padding:2px 7px;border-radius:99px;background:var(--blue-l);color:var(--blue);font-weight:600">${t.owner||"—"}</span></div>${t.date?`<div style="font-size:9px;color:${isOvTask(t)?"var(--red)":"var(--text3)"};margin-top:4px">${t.date}</div>`:""}</div>`).join("");});
+  const bd=document.getElementById("kf-brand");if(bd&&bd.options.length<=1){[...new Set(tasks.map(t=>t.brand).filter(Boolean))].forEach(b=>{const o=document.createElement("option");o.value=b;o.textContent=b;bd.appendChild(o);});}
 }
 
-// ── CALENDAR ──
 const MNM_CAL=["1-р сар","2-р сар","3-р сар","4-р сар","5-р сар","6-р сар","7-р сар","8-р сар","9-р сар","10-р сар","11-р сар","12-р сар"];
 const MND_CAL=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 function getEvsByDate(d){const target=new Date(d);target.setHours(0,0,0,0);return tasks.filter(t=>t.dateObj&&t.dateObj.getTime()===target.getTime());}
@@ -898,13 +672,7 @@ function renderCal(){
     const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),prevD=new Date(y,m,0).getDate();
     let html=`<div class="cal-ghd">${MND_CAL.map(d=>`<div class="cal-ghd-cell">${d}</div>`).join("")}</div><div class="cal-grid">`;
     for(let i=first-1;i>=0;i--)html+=`<div class="cal-cell om"><div class="cal-dn">${prevD-i}</div></div>`;
-    for(let d=1;d<=days;d++){
-      const dt=new Date(y,m,d);const isT=dt.getTime()===tod.getTime();const evs=getEvsByDate(dt);
-      html+=`<div class="cal-cell${isT?" today":""}"><div class="cal-dn">${d}</div>`;
-      evs.slice(0,3).forEach(t=>{html+=`<div class="cal-ev ${calEvCls(t)}" title="${t.ajil||""}"><div class="cal-ev-d"></div><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.ajil||""}</span></div>`;});
-      if(evs.length>3)html+=`<div style="font-size:7px;color:var(--blue);font-weight:600;padding:1px 3px">+${evs.length-3}</div>`;
-      html+=`</div>`;
-    }
+    for(let d=1;d<=days;d++){const dt=new Date(y,m,d);const isT=dt.getTime()===tod.getTime();const evs=getEvsByDate(dt);html+=`<div class="cal-cell${isT?" today":""}"><div class="cal-dn">${d}</div>`;evs.slice(0,3).forEach(t=>{html+=`<div class="cal-ev ${calEvCls(t)}" title="${t.ajil||""}"><div class="cal-ev-d"></div><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.ajil||""}</span></div>`;});if(evs.length>3)html+=`<div style="font-size:7px;color:var(--blue);font-weight:600;padding:1px 3px">+${evs.length-3}</div>`;html+=`</div>`;}
     const rem=(7-(first+days)%7)%7;for(let i=1;i<=rem;i++)html+=`<div class="cal-cell om"><div class="cal-dn">${i}</div></div>`;
     document.getElementById("cal-body").innerHTML=html+"</div>";
   }else if(calV==="w"){
@@ -923,29 +691,10 @@ function renderCal(){
   }
 }
 
-// ── MY JOBS ──
-function renderMyJobs(){
-  const me=currentUser;
-  if(!me){document.getElementById("myjob-list").innerHTML=`<div style="text-align:center;padding:24px;font-size:12px;color:var(--text3)">Топбараас хэрэглэгч сонгоно уу</div>`;["mj-total","mj-ov","mj-done","mj-hrs"].forEach(id=>document.getElementById(id).textContent=id==="mj-hrs"?"0h":"0");return;}
-  const myJ=myJobsData.filter(j=>(j.owner||"").includes(me));
-  const totalH=myJ.reduce((s,j)=>s+parseHours(j.hours),0);
-  document.getElementById("mj-total").textContent=myJ.length;document.getElementById("mj-ov").textContent=0;document.getElementById("mj-done").textContent=0;document.getElementById("mj-hrs").textContent=totalH.toFixed(0)+"h";
-  document.getElementById("myjob-badge").textContent=myJ.length;
-  document.getElementById("myjob-list").innerHTML=myJ.length?myJ.map(j=>`<div class="job-card"><div class="job-card-title">${j.ajil||"—"}</div>${j.role?`<span style="font-size:8px;padding:2px 8px;border-radius:99px;background:#f5f3ff;color:var(--purple);font-weight:600;display:inline-block;margin-bottom:6px">${j.role}</span>`:""}${j.tailbar?`<div class="job-card-desc">${j.tailbar}</div>`:""}<div class="job-card-meta">${j.owner?`<span class="meta-chip"><svg width="9" height="9"><use href="#ic-user"/></svg> ${j.owner}</span>`:""}${j.hours?`<span class="meta-chip hours"><svg width="9" height="9"><use href="#ic-clock"/></svg> ${j.hours}h / нэг удаа</span>`:""}</div></div>`).join(""):`<div style="text-align:center;padding:24px;font-size:12px;color:var(--text3)">${myJobsData.length===0?"MyJobs sheet холбоогүй байна":"Энэ ажилтанд ажил олдсонгүй"}</div>`;
-}
+function renderMyJobs(){const me=currentUser;if(!me){document.getElementById("myjob-list").innerHTML=`<div style="text-align:center;padding:24px;font-size:12px;color:var(--text3)">Топбараас хэрэглэгч сонгоно уу</div>`;["mj-total","mj-ov","mj-done","mj-hrs"].forEach(id=>document.getElementById(id).textContent=id==="mj-hrs"?"0h":"0");return;}const myJ=myJobsData.filter(j=>(j.owner||"").includes(me));const totalH=myJ.reduce((s,j)=>s+parseHours(j.hours),0);document.getElementById("mj-total").textContent=myJ.length;document.getElementById("mj-ov").textContent=0;document.getElementById("mj-done").textContent=0;document.getElementById("mj-hrs").textContent=totalH.toFixed(0)+"h";document.getElementById("myjob-badge").textContent=myJ.length;document.getElementById("myjob-list").innerHTML=myJ.length?myJ.map(j=>`<div class="job-card"><div class="job-card-title">${j.ajil||"—"}</div>${j.role?`<span style="font-size:8px;padding:2px 8px;border-radius:99px;background:#f5f3ff;color:var(--purple);font-weight:600;display:inline-block;margin-bottom:6px">${j.role}</span>`:""}${j.tailbar?`<div class="job-card-desc">${j.tailbar}</div>`:""}<div class="job-card-meta">${j.owner?`<span class="meta-chip"><svg width="9" height="9"><use href="#ic-user"/></svg> ${j.owner}</span>`:""}${j.hours?`<span class="meta-chip hours"><svg width="9" height="9"><use href="#ic-clock"/></svg> ${j.hours}h / нэг удаа</span>`:""}</div></div>`).join(""):`<div style="text-align:center;padding:24px;font-size:12px;color:var(--text3)">${myJobsData.length===0?"MyJobs sheet холбоогүй байна":"Энэ ажилтанд ажил олдсонгүй"}</div>`;}
 
-// ── DEPT JOBS ──
-function renderDeptJobs(){
-  const q=(document.getElementById("dj-search").value||"").toLowerCase(),fr=document.getElementById("dj-filter-role").value,fo=document.getElementById("dj-filter-owner").value;
-  const f=deptJobsData.filter(j=>(!q||(j.ajil||"").toLowerCase().includes(q)||(j.tailbar||"").toLowerCase().includes(q)||(j.owner||"").toLowerCase().includes(q))&&(!fr||j.role===fr)&&(!fo||j.owner===fo));
-  document.getElementById("dj-total").textContent=deptJobsData.length;document.getElementById("dj-hrs").textContent=deptJobsData.reduce((s,j)=>s+parseHours(j.hours),0).toFixed(0)+"h";document.getElementById("dj-owners").textContent=new Set(deptJobsData.map(j=>j.owner).filter(Boolean)).size;document.getElementById("dept-badge").textContent=deptJobsData.length;
-  const rfil=document.getElementById("dj-filter-role"),ofil=document.getElementById("dj-filter-owner");
-  if(rfil.options.length<=1){[...new Set(deptJobsData.map(j=>j.role).filter(Boolean))].forEach(r=>{const o=document.createElement("option");o.value=r;o.textContent=r;rfil.appendChild(o);});}
-  if(ofil.options.length<=1){[...new Set(deptJobsData.map(j=>j.owner).filter(Boolean))].forEach(r=>{const o=document.createElement("option");o.value=r;o.textContent=r;ofil.appendChild(o);});}
-  document.getElementById("deptjob-list").innerHTML=f.length?f.map(j=>`<div class="dept-card"><div class="dept-card-hd"><div class="dept-card-title">${j.ajil||"—"}</div>${j.hours?`<span style="font-size:10px;font-weight:700;color:var(--amber);flex-shrink:0">${j.hours}h</span>`:""}</div>${j.role?`<div style="margin-bottom:5px"><span style="font-size:8px;padding:2px 7px;border-radius:99px;background:#f5f3ff;color:var(--purple);font-weight:600">${j.role}</span></div>`:""}${j.tailbar?`<div class="dept-card-desc">${j.tailbar}</div>`:""}<div class="dept-card-meta">${j.owner?`<span class="meta-chip"><svg width="9" height="9"><use href="#ic-user"/></svg> ${j.owner}</span>`:""}${j.hours?`<span class="meta-chip hours"><svg width="9" height="9"><use href="#ic-clock"/></svg> ${j.hours}h / нэг удаа</span>`:""}</div></div>`).join(""):`<div style="text-align:center;padding:28px;font-size:12px;color:var(--text3)">${deptJobsData.length===0?"DeptJobs sheet холбоогүй байна":"Ажил олдсонгүй"}</div>`;
-}
+function renderDeptJobs(){const q=(document.getElementById("dj-search").value||"").toLowerCase(),fr=document.getElementById("dj-filter-role").value,fo=document.getElementById("dj-filter-owner").value;const f=deptJobsData.filter(j=>(!q||(j.ajil||"").toLowerCase().includes(q)||(j.tailbar||"").toLowerCase().includes(q)||(j.owner||"").toLowerCase().includes(q))&&(!fr||j.role===fr)&&(!fo||j.owner===fo));document.getElementById("dj-total").textContent=deptJobsData.length;document.getElementById("dj-hrs").textContent=deptJobsData.reduce((s,j)=>s+parseHours(j.hours),0).toFixed(0)+"h";document.getElementById("dj-owners").textContent=new Set(deptJobsData.map(j=>j.owner).filter(Boolean)).size;document.getElementById("dept-badge").textContent=deptJobsData.length;const rfil=document.getElementById("dj-filter-role"),ofil=document.getElementById("dj-filter-owner");if(rfil.options.length<=1){[...new Set(deptJobsData.map(j=>j.role).filter(Boolean))].forEach(r=>{const o=document.createElement("option");o.value=r;o.textContent=r;rfil.appendChild(o);});}if(ofil.options.length<=1){[...new Set(deptJobsData.map(j=>j.owner).filter(Boolean))].forEach(r=>{const o=document.createElement("option");o.value=r;o.textContent=r;ofil.appendChild(o);});}document.getElementById("deptjob-list").innerHTML=f.length?f.map(j=>`<div class="dept-card"><div class="dept-card-hd"><div class="dept-card-title">${j.ajil||"—"}</div>${j.hours?`<span style="font-size:10px;font-weight:700;color:var(--amber);flex-shrink:0">${j.hours}h</span>`:""}</div>${j.role?`<div style="margin-bottom:5px"><span style="font-size:8px;padding:2px 7px;border-radius:99px;background:#f5f3ff;color:var(--purple);font-weight:600">${j.role}</span></div>`:""}${j.tailbar?`<div class="dept-card-desc">${j.tailbar}</div>`:""}<div class="dept-card-meta">${j.owner?`<span class="meta-chip"><svg width="9" height="9"><use href="#ic-user"/></svg> ${j.owner}</span>`:""}${j.hours?`<span class="meta-chip hours"><svg width="9" height="9"><use href="#ic-clock"/></svg> ${j.hours}h / нэг удаа</span>`:""}</div></div>`).join(""):`<div style="text-align:center;padding:28px;font-size:12px;color:var(--text3)">${deptJobsData.length===0?"DeptJobs sheet холбоогүй байна":"Ажил олдсонгүй"}</div>`;}
 
-// ── STAFF ──
 function renderStaff(){
   document.getElementById("staff-grid").innerHTML=STAFF.map(s=>{
     const myT=tasks.filter(t=>(t.owner||"").includes(s.name)||(t.hamtarch||"").includes(s.name));
@@ -962,16 +711,8 @@ function selectStaff(name){
   document.getElementById("staff-detail").style.display="block";renderStaff();
 }
 
-// ── WORKLOAD ──
-function renderWorkload(){
-  document.getElementById("wl-body").innerHTML=STAFF.map(s=>{
-    const myT=tasks.filter(t=>(t.owner||"").includes(s.name)||(t.hamtarch||"").includes(s.name));
-    const ov=myT.filter(isOvTask).length,done=myT.filter(isDuussn).length,active=myT.filter(t=>!isDuussn(t)).length,totalH=myT.reduce((a,t)=>a+parseHours(t.hours),0),col=aColor(s.name);
-    const pct=myT.length>0?Math.round(done/myT.length*100):0;
-    return`<div class="wl-card"><div style="display:flex;align-items:center;gap:9px;margin-bottom:5px"><div style="width:34px;height:34px;border-radius:50%;background:${col};color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">${initials(s.name)}</div><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">${s.name}</div><div style="font-size:9px;color:var(--text3);margin-top:1px">${s.role}</div><div style="font-size:9px;color:var(--text3)">${active} идэвхтэй · ${done} дууссан · ${totalH.toFixed(0)}h</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">${ov?`<span style="font-size:9px;padding:2px 7px;border-radius:99px;font-weight:600;background:#fef2f2;color:#dc2626">${ov} хэтэрсэн</span>`:""}<span style="font-size:10px;font-weight:700;color:var(--green)">${pct}%</span></div></div><div class="pbar"><div class="pfill" style="width:${pct}%;background:var(--green)"></div></div></div>`;
-  }).join("")||`<div style="font-size:11px;color:var(--text3)">Өгөгдөл байхгүй.</div>`;}
+function renderWorkload(){document.getElementById("wl-body").innerHTML=STAFF.map(s=>{const myT=tasks.filter(t=>(t.owner||"").includes(s.name)||(t.hamtarch||"").includes(s.name));const ov=myT.filter(isOvTask).length,done=myT.filter(isDuussn).length,active=myT.filter(t=>!isDuussn(t)).length,totalH=myT.reduce((a,t)=>a+parseHours(t.hours),0),col=aColor(s.name);const pct=myT.length>0?Math.round(done/myT.length*100):0;return`<div class="wl-card"><div style="display:flex;align-items:center;gap:9px;margin-bottom:5px"><div style="width:34px;height:34px;border-radius:50%;background:${col};color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">${initials(s.name)}</div><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">${s.name}</div><div style="font-size:9px;color:var(--text3);margin-top:1px">${s.role}</div><div style="font-size:9px;color:var(--text3)">${active} идэвхтэй · ${done} дууссан · ${totalH.toFixed(0)}h</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">${ov?`<span style="font-size:9px;padding:2px 7px;border-radius:99px;font-weight:600;background:#fef2f2;color:#dc2626">${ov} хэтэрсэн</span>`:""}<span style="font-size:10px;font-weight:700;color:var(--green)">${pct}%</span></div></div><div class="pbar"><div class="pfill" style="width:${pct}%;background:var(--green)"></div></div></div>`;}).join("")||`<div style="font-size:11px;color:var(--text3)">Өгөгдөл байхгүй.</div>`;}
 
-// ── SHEETS ──
 function setSyncDot(id,st){const d=document.getElementById(id);if(d)d.className="sync-dot"+(st==="ok"?" ok":st==="err"?" err":st==="spin"?" spin":"");}
 function checkSid(){document.getElementById("conn-btn").disabled=document.getElementById("sid-inp").value.trim().length<20;}
 async function fetchTasks(){if(!sheetId)return false;try{const r=await fetch(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Tasks`);if(!r.ok)throw new Error();const txt=await r.text();const m=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);if(!m)throw new Error();const json=JSON.parse(m[1]);if(!json.table||!json.table.rows)return false;const cols=json.table.cols.map(c=>c.label||"");tasks=json.table.rows.filter(r=>r&&r.c&&r.c.some(c=>c&&c.v)).map(r=>mapRow(r,cols));return true;}catch(e){return false;}}
@@ -981,16 +722,14 @@ async function connectSheet(){sheetId=document.getElementById("sid-inp").value.t
 async function syncAll(){if(syncing||!sheetId)return;syncing=true;setSyncDot("sync-dot","spin");document.getElementById("sync-lbl").textContent="Татаж...";document.getElementById("sync-main-btn").disabled=true;await Promise.all([fetchTasks(),fetchMyJobs(),fetchDeptJobs(),fetchWF()]);setSyncDot("sync-dot","ok");document.getElementById("sync-lbl").textContent="Синк";document.getElementById("sync-main-btn").disabled=false;syncing=false;populateFilters();refreshCurrent();}
 function disconnect(){sheetId="";tasks=[];wfData=[];myJobsData=[];deptJobsData=[];document.getElementById("step-ok").style.display="none";document.getElementById("sid-inp").value="";document.getElementById("conn-res").innerHTML="";document.getElementById("conn-btn").disabled=true;setSyncDot("sync-dot","");document.getElementById("sync-lbl").textContent="Синк";document.getElementById("sync-main-btn").disabled=true;renderDeptJobs();renderMyJobs();renderWFTimeline();refreshCurrent();}
 
-// ── USER ──
 function populateUserSels(){[document.getElementById("cur-user-sel")].forEach(sel=>{if(!sel)return;while(sel.options.length>1)sel.remove(1);STAFF.forEach(s=>{const o=document.createElement("option");o.value=s.name;o.textContent=s.name;sel.appendChild(o);});});}
 function onUserChange(){const v=document.getElementById("cur-user-sel").value;currentUser=v||null;document.getElementById("cur-user-name").textContent=v||"—";if(currentUser){const s=STAFF.find(x=>x.name===currentUser);const nameEl=document.getElementById("myjob-name");const roleEl=document.getElementById("myjob-role");if(nameEl)nameEl.textContent=currentUser+" — Миний хийх ёстой ажлууд";if(roleEl)roleEl.textContent=s?s.role:"";const av=document.getElementById("myjob-avatar");if(av){av.textContent=initials(currentUser);av.style.background=aColor(currentUser);}}renderMyJobs();}
 
-// ── NAV ──
 const titles={dashboard:"Хяналтын самбар",myjobs:"Миний хийх ёстой ажлууд",deptjobs:"Хэлтсийн ерөнхий ажлууд",staff:"Ажилчид",requests:"Бүх хүсэлт",kanban:"Канбан / Календарь",workload:"Ажлын ачаалал",setup:"Sheets холболт"};
 function gp(name,el){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));document.getElementById("page-"+name).classList.add("active");if(el)el.classList.add("active");document.getElementById("ptitle").textContent=titles[name]||name;refreshPage(name);}
 function refreshPage(n){if(n==="dashboard")renderDashboard();else if(n==="myjobs")renderMyJobs();else if(n==="deptjobs")renderDeptJobs();else if(n==="staff")renderStaff();else if(n==="requests")renderRequests();else if(n==="kanban")renderKV();else if(n==="workload")renderWorkload();}
 function refreshCurrent(){const a=document.querySelector(".page.active");if(a)refreshPage(a.id.replace("page-",""));}
 
 populateUserSels();
-renderDashboard();
+renderStaff();
 </script>
