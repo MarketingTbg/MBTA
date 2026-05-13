@@ -56,21 +56,26 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .sync-btn:hover{background:#f1f5f9}.sync-btn:disabled{opacity:.45;cursor:not-allowed}
 .content{flex:1;overflow:auto;padding:15px 18px}
 .page{display:none}.page.active{display:block}
+
+/* STATUS BADGE */
+.st-badge{font-size:8px;padding:2px 7px;border-radius:99px;font-weight:600;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.st-hiih{background:#eff6ff;color:var(--blue)}.st-hiij{background:#fff7ed;color:var(--orange)}.st-duussn{background:#f0fdf4;color:var(--green)}.st-huleg{background:#f5f3ff;color:var(--purple)}
+
+/* STAT ROWS */
 .dash-section-title{font-size:11px;font-weight:700;color:var(--text2);margin:0 0 8px;display:flex;align-items:center;gap:6px}
 .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:6px}
 .stat-row-2{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:13px}
 .stat-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:11px 10px;cursor:pointer;transition:all .13s}
 .stat-card:hover{border-color:#93c5fd;box-shadow:0 2px 8px rgba(29,78,216,.09);transform:translateY(-1px)}
-.stat-card.ov-hl{border:1.5px solid #fca5a5}
 .stat-card.done-hl{border:1.5px solid #bbf7d0}
 .sc-lbl{font-size:8px;font-weight:700;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
 .si{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center}
-.si-b{background:var(--blue-l);color:var(--blue)}.si-r{background:#fef2f2;color:var(--red)}.si-y{background:#fefce8;color:#ca8a04}.si-gr{background:#f8fafc;color:var(--text2)}.si-g{background:#f0fdf4;color:var(--green)}.si-o{background:#fff7ed;color:var(--orange)}.si-p{background:#f5f3ff;color:var(--purple)}
+.si-b{background:var(--blue-l);color:var(--blue)}.si-r{background:#fef2f2;color:var(--red)}.si-g{background:#f0fdf4;color:var(--green)}.si-o{background:#fff7ed;color:var(--orange)}.si-p{background:#f5f3ff;color:var(--purple)}.si-gr{background:#f8fafc;color:var(--text2)}
 .sv{font-size:22px;font-weight:700;margin:3px 0 2px}
-.vb{color:var(--blue)}.vr{color:var(--red)}.vy{color:#ca8a04}.vgr{color:var(--text2)}.vg{color:var(--green)}.vo{color:var(--orange)}.vp{color:var(--purple)}
+.vb{color:var(--blue)}.vr{color:var(--red)}.vg{color:var(--green)}.vo{color:var(--orange)}.vp{color:var(--purple)}.vgr{color:var(--text2)}
 .st{font-size:8px;color:var(--text3)}
-.st-badge{font-size:8px;padding:2px 7px;border-radius:99px;font-weight:600;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
-.st-hiih{background:#eff6ff;color:var(--blue)}.st-hiij{background:#fff7ed;color:var(--orange)}.st-duussn{background:#f0fdf4;color:var(--green)}.st-huleg{background:#f5f3ff;color:var(--purple)}
+.progress-bar-wrap{background:var(--gray);border-radius:6px;overflow:hidden;height:6px;margin-top:4px}
+.progress-bar-fill{height:100%;border-radius:6px;transition:width .4s}
 .wf-header-card{background:#fff;border:1px solid var(--blue-b);border-left:4px solid var(--blue);border-radius:10px;padding:12px 14px;margin-bottom:13px}
 .wf-top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .wf-title{font-size:12px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:5px}
@@ -79,30 +84,19 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .wf-day-row{display:flex;gap:0}
 .wf-day-label{width:90px;min-width:90px;padding:8px 10px 8px 0;display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;border-right:2px solid var(--border2);position:relative}
 .wf-day-label::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--blue-b);border:2px solid var(--blue);position:absolute;right:-5px;top:14px}
-.wf-day-label.today-lbl::after{background:var(--blue)}
-.wf-day-label.past-lbl::after{background:var(--border2);border-color:var(--text3)}
-.wf-day-label.done-lbl::after{background:var(--green);border-color:var(--green)}
-.wf-day-date{font-size:11px;font-weight:700;color:var(--text)}
-.wf-day-name{font-size:9px;color:var(--text3);margin-top:1px}
-.wf-day-label.today-lbl .wf-day-date{color:var(--blue)}
-.wf-day-label.past-lbl .wf-day-date{color:var(--text3)}
+.wf-day-label.today-lbl::after{background:var(--blue)}.wf-day-label.past-lbl::after{background:var(--border2);border-color:var(--text3)}.wf-day-label.done-lbl::after{background:var(--green);border-color:var(--green)}
+.wf-day-date{font-size:11px;font-weight:700;color:var(--text)}.wf-day-name{font-size:9px;color:var(--text3);margin-top:1px}
+.wf-day-label.today-lbl .wf-day-date{color:var(--blue)}.wf-day-label.past-lbl .wf-day-date{color:var(--text3)}
 .wf-day-tasks{flex:1;padding:6px 0 6px 14px;display:flex;flex-direction:column;gap:5px}
 .wf-task-chip{display:flex;align-items:flex-start;gap:8px;background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:7px 10px;transition:all .12s}
 .wf-task-chip:hover{border-color:#93c5fd;background:#fff}
-.wf-task-chip.today-chip{background:var(--blue-l);border-color:var(--blue-b)}
-.wf-task-chip.past-chip{opacity:.65}
-.wf-task-chip.urgent-chip{border-left:3px solid var(--red);background:#fef9f9}
-.wf-task-chip.done-chip{background:#f0fdf4;border-color:#bbf7d0;opacity:.8}
-.wf-task-title{font-size:11px;font-weight:600;color:var(--text);flex:1}
-.wf-task-title.done-title{text-decoration:line-through;color:var(--text3)}
+.wf-task-chip.today-chip{background:var(--blue-l);border-color:var(--blue-b)}.wf-task-chip.past-chip{opacity:.65}.wf-task-chip.urgent-chip{border-left:3px solid var(--red);background:#fef9f9}.wf-task-chip.done-chip{background:#f0fdf4;border-color:#bbf7d0;opacity:.8}
+.wf-task-title{font-size:11px;font-weight:600;color:var(--text);flex:1}.wf-task-title.done-title{text-decoration:line-through;color:var(--text3)}
 .wf-task-sub{font-size:9px;color:var(--text3);margin-top:2px;line-height:1.4}
 .wf-badge{font-size:8px;padding:2px 6px;border-radius:99px;font-weight:600;flex-shrink:0}
 .wf-badge-red{background:#fef2f2;color:#dc2626}.wf-badge-amber{background:#fff7ed;color:#ea580c}.wf-badge-green{background:#f0fdf4;color:var(--green)}.wf-badge-gray{background:#f8fafc;color:var(--text2)}
 .wf-empty-day{font-size:10px;color:var(--text3);padding:6px 0;font-style:italic}
-.wf-no-data{text-align:center;padding:20px;font-size:12px;color:var(--text3)}
-.wf-day-spacer{height:3px}
-.progress-bar-wrap{background:var(--gray);border-radius:6px;overflow:hidden;height:6px;margin-top:4px}
-.progress-bar-fill{height:100%;border-radius:6px;transition:width .4s}
+.wf-no-data{text-align:center;padding:20px;font-size:12px;color:var(--text3)}.wf-day-spacer{height:3px}
 .bottom-grid{display:grid;grid-template-columns:1fr 260px;gap:11px}
 .chart-card,.attn-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px}
 .card-tr{display:flex;align-items:center;gap:6px;margin-bottom:12px}
@@ -119,38 +113,33 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .attn-sec-hd{background:#fff5f5;padding:5px 8px;display:flex;align-items:center;justify-content:space-between}
 .attn-sec-lbl{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--red)}
 .attn-b{width:14px;height:14px;border-radius:50%;background:var(--red);color:#fff;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center}
-.attn-item{padding:6px 8px;border-top:1px solid #fde8e8}
-.attn-item-t{font-size:11px;font-weight:600}
-.attn-item-s{font-size:9px;color:var(--text3);margin-top:1px}
+.attn-item{padding:6px 8px;border-top:1px solid #fde8e8}.attn-item-t{font-size:11px;font-weight:600}.attn-item-s{font-size:9px;color:var(--text3);margin-top:1px}
 .done-sec{border:1.5px solid #bbf7d0;border-radius:7px;overflow:hidden;margin-bottom:6px}
 .done-sec-hd{background:#f0fdf4;padding:5px 8px;display:flex;align-items:center;justify-content:space-between}
 .done-sec-lbl{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:700;color:var(--green)}
 .done-b{width:14px;height:14px;border-radius:50%;background:var(--green);color:#fff;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center}
-.done-item{padding:6px 8px;border-top:1px solid #dcfce7}
-.done-item-t{font-size:11px;font-weight:600;color:var(--text2);text-decoration:line-through}
-.done-item-s{font-size:9px;color:var(--text3);margin-top:1px}
+.done-item{padding:6px 8px;border-top:1px solid #dcfce7}.done-item-t{font-size:11px;font-weight:600;color:var(--text2);text-decoration:line-through}.done-item-s{font-size:9px;color:var(--text3);margin-top:1px}
+
+/* TABLE */
 .tbl-wrap{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
 .ltbl{width:100%;border-collapse:collapse;font-size:11px}
 .ltbl th{text-align:left;font-size:8px;font-weight:700;color:var(--text3);padding:8px 10px;border-bottom:1px solid var(--border2);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
 .ltbl td{padding:8px 10px;border-bottom:1px solid var(--border2);vertical-align:top}
-.ltbl tr:last-child td{border-bottom:none}
-.ltbl tr:hover td{background:#fafbff}
-.ltbl tr.done-row td{background:#f9fffe;opacity:.8}
+.ltbl tr:last-child td{border-bottom:none}.ltbl tr:hover td{background:#fafbff}.ltbl tr.done-row td{background:#f9fffe;opacity:.8}
+
+/* KANBAN */
 .kb-tb{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;gap:7px}
 .kb-vbtns{display:flex;border:1px solid var(--border);border-radius:7px;overflow:hidden}
 .kb-vbtn{padding:5px 10px;border:none;background:#fff;cursor:pointer;font-size:10px;font-weight:600;color:var(--text2);border-right:1px solid var(--border);display:flex;align-items:center;gap:3px;font-family:var(--font)}
-.kb-vbtn:last-child{border-right:none}
-.kb-vbtn.active{background:var(--blue);color:#fff}
-.kb-vbtn:hover:not(.active){background:#f8fafc}
+.kb-vbtn:last-child{border-right:none}.kb-vbtn.active{background:var(--blue);color:#fff}.kb-vbtn:hover:not(.active){background:#f8fafc}
 .kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .col-hd{font-size:10px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;padding:6px 8px;border-radius:7px}
 .col-cnt{font-size:10px;font-weight:700;border-radius:99px;padding:2px 7px}
 .k-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:9px 10px;margin-bottom:6px;cursor:pointer;transition:all .12s}
-.k-card:hover{border-color:#93c5fd}
-.k-card.done-card{opacity:.7;border-style:dashed}
-.k-title{font-size:11px;font-weight:600;margin-bottom:2px}
-.k-sub{font-size:9px;color:var(--text3);margin-bottom:5px}
-.k-meta{display:flex;gap:3px;flex-wrap:wrap;align-items:center}
+.k-card:hover{border-color:#93c5fd}.k-card.done-card{opacity:.7;border-style:dashed}
+.k-title{font-size:11px;font-weight:600;margin-bottom:2px}.k-sub{font-size:9px;color:var(--text3);margin-bottom:5px}.k-meta{display:flex;gap:3px;flex-wrap:wrap;align-items:center}
+
+/* CAL */
 .cal-wrap{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
 .cal-hdr{display:flex;align-items:center;padding:9px 12px;border-bottom:1px solid var(--border2);gap:6px}
 .cal-nav-btn{width:26px;height:26px;border-radius:6px;border:1px solid var(--border);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text2)}
@@ -159,87 +148,87 @@ svg{display:inline-block;vertical-align:middle;flex-shrink:0}
 .cal-title-text{font-size:13px;font-weight:700;margin:0 auto}
 .cal-vbtns{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
 .cal-vbtn{padding:4px 10px;border:none;background:#fff;cursor:pointer;font-size:11px;font-weight:600;color:var(--text2);border-right:1px solid var(--border);font-family:var(--font)}
-.cal-vbtn:last-child{border-right:none}
-.cal-vbtn.active{background:var(--blue);color:#fff}
-.cal-vbtn:hover:not(.active){background:#f8fafc}
+.cal-vbtn:last-child{border-right:none}.cal-vbtn.active{background:var(--blue);color:#fff}.cal-vbtn:hover:not(.active){background:#f8fafc}
 .cal-ghd{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--border2)}
 .cal-ghd-cell{padding:6px;text-align:right;font-size:10px;font-weight:600;color:var(--text3);border-right:1px solid var(--border2)}
 .cal-ghd-cell:last-child{border-right:none}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr)}
 .cal-cell{min-height:80px;border-right:1px solid var(--border2);border-bottom:1px solid var(--border2);padding:4px}
-.cal-cell:nth-child(7n){border-right:none}
-.cal-cell.om .cal-dn{color:#cbd5e1}
-.cal-cell.today{background:#fafbff}
+.cal-cell:nth-child(7n){border-right:none}.cal-cell.om .cal-dn{color:#cbd5e1}.cal-cell.today{background:#fafbff}
 .cal-cell.today .cal-dn{background:var(--blue);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700}
 .cal-dn{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:3px;width:22px;height:22px;display:flex;align-items:center;justify-content:center}
 .cal-ev{display:flex;align-items:center;gap:3px;border-radius:4px;padding:2px 5px;font-size:9px;font-weight:600;margin-bottom:2px;overflow:hidden;cursor:pointer}
 .cal-ev:hover{opacity:.85}
-.cal-ev.hiih{background:var(--blue-l);color:var(--blue);border:1px solid var(--blue-b)}
-.cal-ev.hiij{background:#fff7ed;color:var(--orange);border:1px solid #fed7aa}
-.cal-ev.duussn{background:#f0fdf4;color:var(--green);border:1px solid #bbf7d0;text-decoration:line-through;opacity:.75}
-.cal-ev.huleg{background:#f5f3ff;color:var(--purple);border:1px solid #ddd6fe}
+.cal-ev.hiih{background:var(--blue-l);color:var(--blue);border:1px solid var(--blue-b)}.cal-ev.hiij{background:#fff7ed;color:var(--orange);border:1px solid #fed7aa}.cal-ev.duussn{background:#f0fdf4;color:var(--green);border:1px solid #bbf7d0;text-decoration:line-through;opacity:.75}.cal-ev.huleg{background:#f5f3ff;color:var(--purple);border:1px solid #ddd6fe}
 .cal-ev-d{width:4px;height:4px;border-radius:50%;flex-shrink:0;background:currentColor;opacity:.6}
+
+/* MYJOB */
 .myjob-header{display:flex;align-items:center;gap:10px;background:var(--blue-l);border:1px solid var(--blue-b);border-radius:10px;padding:12px 16px;margin-bottom:14px}
 .myjob-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
 .myjob-stat{background:#fff;border:1px solid var(--border);border-radius:9px;padding:10px;text-align:center}
-.myjob-stat-val{font-size:20px;font-weight:700;margin-bottom:2px}
-.myjob-stat-lbl{font-size:8px;color:var(--text3);font-weight:600;text-transform:uppercase}
+.myjob-stat-val{font-size:20px;font-weight:700;margin-bottom:2px}.myjob-stat-lbl{font-size:8px;color:var(--text3);font-weight:600;text-transform:uppercase}
 .job-card{background:#fff;border:1px solid var(--border);border-radius:9px;padding:12px 14px;margin-bottom:8px}
-.job-card:hover{border-color:#93c5fd}
-.job-card-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.job-card:hover{border-color:#93c5fd}.job-card-title{font-size:13px;font-weight:700;margin-bottom:4px}
 .job-card-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:8px}
 .job-card-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.meta-chip{font-size:9px;padding:2px 8px;border-radius:99px;font-weight:500;background:#f8fafc;border:1px solid var(--border);color:var(--text2)}
-.meta-chip.hours{background:#fff7ed;border-color:#fed7aa;color:#ea580c}
+.meta-chip{font-size:9px;padding:2px 8px;border-radius:99px;font-weight:500;background:#f8fafc;border:1px solid var(--border);color:var(--text2)}.meta-chip.hours{background:#fff7ed;border-color:#fed7aa;color:#ea580c}
 .dept-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
 .dept-stat{background:#fff;border:1px solid var(--border);border-radius:9px;padding:10px;text-align:center}
-.dept-stat-val{font-size:20px;font-weight:700;margin-bottom:2px}
-.dept-stat-lbl{font-size:8px;color:var(--text3);font-weight:600;text-transform:uppercase}
+.dept-stat-val{font-size:20px;font-weight:700;margin-bottom:2px}.dept-stat-lbl{font-size:8px;color:var(--text3);font-weight:600;text-transform:uppercase}
 .dept-card{background:#fff;border:1px solid var(--border);border-radius:9px;padding:11px 13px;margin-bottom:7px}
-.dept-card:hover{border-color:#93c5fd}
-.dept-card-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px}
-.dept-card-title{font-size:12px;font-weight:700;flex:1;margin-right:8px}
-.dept-card-desc{font-size:10px;color:var(--text2);line-height:1.5;margin-bottom:7px}
-.dept-card-meta{display:flex;gap:5px;flex-wrap:wrap}
+.dept-card:hover{border-color:#93c5fd}.dept-card-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:5px}
+.dept-card-title{font-size:12px;font-weight:700;flex:1;margin-right:8px}.dept-card-desc{font-size:10px;color:var(--text2);line-height:1.5;margin-bottom:7px}.dept-card-meta{display:flex;gap:5px;flex-wrap:wrap}
+
+/* ── STAFF PAGE — шинэ filter + task list ── */
+.staff-filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:12px}
+.staff-filter-bar input{flex:1;min-width:140px;padding:6px 9px;border-radius:7px;border:1px solid var(--border);font-size:11px;color:var(--text);background:#fff;font-family:var(--font)}
+.staff-filter-bar input:focus{outline:none;border-color:var(--blue)}
+.staff-filter-bar select{padding:5px 8px;border-radius:7px;border:1px solid var(--border);font-size:10px;color:var(--text2);background:#fff;font-family:var(--font)}
+.sf-btn{padding:5px 11px;border-radius:7px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:10px;font-weight:600;color:var(--text2);font-family:var(--font);transition:all .12s}
+.sf-btn:hover{background:#f1f5f9}
+.sf-btn.active{background:var(--blue-l);color:var(--blue);border-color:var(--blue-b);font-weight:700}
+.sf-btn.active-green{background:#f0fdf4;color:var(--green);border-color:#bbf7d0;font-weight:700}
+.sf-btn.active-orange{background:#fff7ed;color:var(--orange);border-color:#fed7aa;font-weight:700}
+.sf-btn.active-purple{background:#f5f3ff;color:var(--purple);border-color:#ddd6fe;font-weight:700}
+.sf-btn.active-red{background:#fef2f2;color:var(--red);border-color:#fecaca;font-weight:700}
 .staff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .staff-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:13px;cursor:pointer;transition:all .13s}
-.staff-card:hover{border-color:#93c5fd}
-.staff-card.sel{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue-b)}
+.staff-card:hover{border-color:#93c5fd}.staff-card.sel{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue-b)}
 .staff-stats{display:flex;gap:5px;margin-top:8px}
 .s-stat{text-align:center;flex:1;background:var(--gray);border-radius:6px;padding:4px}
-.s-stat-val{font-size:13px;font-weight:700}
-.s-stat-lbl{font-size:7px;color:var(--text3);font-weight:500;text-transform:uppercase}
+.s-stat-val{font-size:13px;font-weight:700}.s-stat-lbl{font-size:7px;color:var(--text3);font-weight:500;text-transform:uppercase}
 .staff-detail{background:#fff;border:1px solid var(--border);border-radius:10px;margin-top:12px;overflow:hidden}
 .staff-detail-hd{padding:11px 14px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:10px;background:var(--blue-l)}
+
+/* Staff detail task filter */
+.detail-filter-bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border2);background:#f9fafb}
+.df-btn{padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:10px;font-weight:600;color:var(--text2);font-family:var(--font);transition:all .12s}
+.df-btn:hover{background:#f1f5f9}
+.df-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.df-btn.active-orange{background:var(--orange);color:#fff;border-color:var(--orange)}
+.df-btn.active-green{background:var(--green);color:#fff;border-color:var(--green)}
+.df-btn.active-purple{background:var(--purple);color:#fff;border-color:var(--purple)}
+.df-count{font-size:9px;padding:1px 5px;border-radius:99px;margin-left:3px;font-weight:700}
+
 .wl-card{background:#fff;border:1px solid var(--border);border-radius:9px;padding:11px 12px;margin-bottom:7px}
 .pbar{height:4px;background:#f1f5f9;border-radius:99px;margin:5px 0 4px}
 .pfill{height:100%;border-radius:99px}
 .drill-overlay{position:absolute;inset:0;background:rgba(15,23,42,.45);display:flex;align-items:flex-start;justify-content:center;z-index:300;padding-top:45px}
 .drill-modal{background:#fff;border-radius:12px;width:540px;max-width:96%;max-height:76vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.18)}
 .drill-hd{padding:11px 15px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
-.drill-hd h3{font-size:13px;font-weight:700}
-.drill-body{overflow-y:auto;flex:1}
+.drill-hd h3{font-size:13px;font-weight:700}.drill-body{overflow-y:auto;flex:1}
 .drill-item{padding:9px 15px;border-bottom:1px solid var(--border2);display:flex;align-items:flex-start;gap:8px}
-.drill-item:last-child{border-bottom:none}
-.drill-item:hover{background:#fafbff}
+.drill-item:last-child{border-bottom:none}.drill-item:hover{background:#fafbff}
 .setup-step{background:#fff;border:1px solid var(--border);border-radius:10px;padding:13px;margin-bottom:8px}
 .step-hd{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
 .step-num{width:21px;height:21px;border-radius:50%;background:var(--blue);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.step-num.done{background:var(--green)}
-.step-title{font-size:11px;font-weight:700}
-.step-sub{font-size:10px;color:var(--text2);margin-top:2px}
+.step-num.done{background:var(--green)}.step-title{font-size:11px;font-weight:700}.step-sub{font-size:10px;color:var(--text2);margin-top:2px}
 .code-block{background:#f8fafc;border:1px solid var(--border);border-radius:6px;padding:6px 8px;font-family:'Courier New',monospace;font-size:9px;white-space:pre;overflow-x:auto;line-height:1.6;color:#334155}
 .url-inp{width:100%;padding:8px 12px;border-radius:8px;border:1.5px solid var(--blue-b);color:var(--text);font-size:12px;font-family:'Courier New',monospace;background:var(--blue-l)}
-.url-inp:focus{outline:none;border-color:var(--blue);background:#fff}
-.url-inp::placeholder{color:var(--text3)}
-.tip{font-size:10px;padding:6px 8px;border-radius:6px;margin-top:6px}
-.tip-blue{background:var(--blue-l);color:#1e40af;border:1px solid var(--blue-b)}
-.tip-green{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
+.url-inp:focus{outline:none;border-color:var(--blue);background:#fff}.url-inp::placeholder{color:var(--text3)}
+.tip{font-size:10px;padding:6px 8px;border-radius:6px;margin-top:6px}.tip-blue{background:var(--blue-l);color:#1e40af;border:1px solid var(--blue-b)}.tip-green{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
 .btn-act{padding:7px 14px;border-radius:7px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:12px;font-weight:600;color:var(--text2);font-family:var(--font)}
-.btn-act:hover{background:#f8fafc}
-.btn-act.primary{background:var(--blue);color:#fff;border-color:var(--blue);font-size:13px;padding:8px 18px}
-.btn-act.primary:hover{background:var(--blue-h)}
-.btn-act:disabled{opacity:.4;cursor:not-allowed}
+.btn-act:hover{background:#f8fafc}.btn-act.primary{background:var(--blue);color:#fff;border-color:var(--blue);font-size:13px;padding:8px 18px}.btn-act.primary:hover{background:var(--blue-h)}.btn-act:disabled{opacity:.4;cursor:not-allowed}
 select{font-family:var(--font)}
 </style>
 
@@ -267,6 +256,8 @@ select{font-family:var(--font)}
   <symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
   <symbol id="ic-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></symbol>
   <symbol id="ic-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="ic-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+  <symbol id="ic-filter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></symbol>
 </svg>
 
 <div class="app" style="position:relative">
@@ -347,7 +338,7 @@ select{font-family:var(--font)}
         <div class="stat-card done-hl" onclick="openDrill('duussn')"><div class="sc-lbl">ДУУССАН <div class="si si-g"><svg width="11" height="11"><use href="#ic-check"/></svg></div></div><div class="sv vg" id="s-duussn">0</div><div class="st" id="st-duussn"></div></div>
         <div class="stat-card done-hl" onclick="openDrill('duussn-period')"><div class="sc-lbl">ХУГАЦААНД ДУУССАН <div class="si si-g"><svg width="11" height="11"><use href="#ic-check"/></svg></div></div><div class="sv vg" id="s-duussn-p">0</div><div class="st" id="st-duussn-p"></div></div>
         <div class="stat-card" onclick="openDrill('duussn-year')"><div class="sc-lbl">2026 ОНД ДУУССАН <div class="si si-g"><svg width="11" height="11"><use href="#ic-check"/></svg></div></div><div class="sv vg" id="s-duussn-y">0</div><div class="st" id="st-duussn-y"></div></div>
-        <div class="stat-card"><div class="sc-lbl">ГҮЙЦЭТГЭЛ <div class="si si-g"><svg width="11" height="11"><use href="#ic-chart"/></svg></div></div><div class="sv vg" id="s-pct">0%</div><div id="pct-bar" class="progress-bar-wrap"><div class="progress-bar-fill" id="pct-fill" style="width:0%;background:var(--green)"></div></div></div>
+        <div class="stat-card"><div class="sc-lbl">ГҮЙЦЭТГЭЛ <div class="si si-g"><svg width="11" height="11"><use href="#ic-chart"/></svg></div></div><div class="sv vg" id="s-pct">0%</div><div class="progress-bar-wrap"><div class="progress-bar-fill" id="pct-fill" style="width:0%;background:var(--green)"></div></div></div>
       </div>
       <div class="wf-header-card">
         <div class="wf-top-row">
@@ -400,9 +391,35 @@ select{font-family:var(--font)}
       <div id="deptjob-list"><div style="text-align:center;padding:30px;font-size:12px;color:var(--text3)">Sheet холбоогүй байна.</div></div>
     </div>
 
-    <!-- STAFF -->
+    <!-- ── STAFF PAGE — шинэ filter ── -->
     <div class="page active" id="page-staff">
-      <div style="margin-bottom:12px;font-size:12px;color:var(--text2)">Нийт <b>8</b> ажилтан</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:12px;color:var(--text2)">Нийт <b>8</b> ажилтан</div>
+        <div style="font-size:10px;color:var(--text3)" id="staff-filter-summary"></div>
+      </div>
+
+      <!-- FILTER BAR -->
+      <div class="staff-filter-bar">
+        <div style="display:flex;align-items:center;gap:6px;flex:1;min-width:140px">
+          <svg width="13" height="13" style="color:var(--text3);flex-shrink:0"><use href="#ic-search"/></svg>
+          <input type="text" id="staff-search" placeholder="Ажилтан хайх..." oninput="renderStaff()" style="border:none;outline:none;font-size:11px;color:var(--text);background:transparent;width:100%;font-family:var(--font)">
+        </div>
+        <div style="width:1px;height:20px;background:var(--border);flex-shrink:0"></div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center">
+          <span style="font-size:10px;color:var(--text3);font-weight:600;white-space:nowrap">Төлөв:</span>
+          <button class="sf-btn active" id="sfb-all" onclick="setStaffStatusFilter('')">Бүгд</button>
+          <button class="sf-btn" id="sfb-hiih" onclick="setStaffStatusFilter('хийх')">📋 Хийх</button>
+          <button class="sf-btn" id="sfb-hiij" onclick="setStaffStatusFilter('хийж байна')">⚙️ Хийж байна</button>
+          <button class="sf-btn" id="sfb-huleg" onclick="setStaffStatusFilter('хүлээгдэж буй')">⏳ Хүлээгдэж буй</button>
+          <button class="sf-btn" id="sfb-duussn" onclick="setStaffStatusFilter('дууссан')">✅ Дууссан</button>
+        </div>
+        <div style="width:1px;height:20px;background:var(--border);flex-shrink:0"></div>
+        <div style="display:flex;gap:5px;align-items:center">
+          <span style="font-size:10px;color:var(--text3);font-weight:600;white-space:nowrap">Харуулах:</span>
+          <button class="sf-btn" id="sfb-ov" onclick="toggleStaffOvFilter()" title="Хугацаа хэтэрсэн ажилтнуудыг харуулах">🔴 Хэтэрсэн</button>
+        </div>
+      </div>
+
       <div class="staff-grid" id="staff-grid"></div>
       <div id="staff-detail" style="display:none"></div>
     </div>
@@ -414,11 +431,7 @@ select{font-family:var(--font)}
         <select id="f-kompani" onchange="renderRequests()" style="padding:5px 8px;border-radius:6px;border:1px solid var(--border);font-size:10px;color:var(--text2);background:#fff"><option value="">Бүх компани</option></select>
         <select id="f-owner" onchange="renderRequests()" style="padding:5px 8px;border-radius:6px;border:1px solid var(--border);font-size:10px;color:var(--text2);background:#fff"><option value="">Бүх хариуцагч</option></select>
         <select id="f-status" onchange="renderRequests()" style="padding:5px 8px;border-radius:6px;border:1px solid var(--border);font-size:10px;color:var(--text2);background:#fff">
-          <option value="">Бүх төлөв</option>
-          <option value="хийх">Хийх</option>
-          <option value="хийж байна">Хийж байна</option>
-          <option value="дууссан">Дууссан</option>
-          <option value="хүлээгдэж буй">Хүлээгдэж буй</option>
+          <option value="">Бүх төлөв</option><option value="хийх">Хийх</option><option value="хийж байна">Хийж байна</option><option value="дууссан">Дууссан</option><option value="хүлээгдэж буй">Хүлээгдэж буй</option>
         </select>
       </div>
       <div class="tbl-wrap"><table class="ltbl"><thead><tr><th>Огноо</th><th>Компани</th><th>Брэнд/Хэлтэс</th><th>Төрөл</th><th>Ажил</th><th>Хариуцах</th><th>Зарцуулах</th><th>Төлөв</th></tr></thead><tbody id="req-body"></tbody></table></div>
@@ -501,18 +514,16 @@ select{font-family:var(--font)}
 </div>
 
 <script>
-// ── STAFF — ЭНД ЗАСВАР: Б.Хүслэний албан тушаал өөрчлөгдлөө ──
 const STAFF=[
   {name:"Г.Билигсайхан",role:"Маркетинг бодлого төлөвлөлтийн албаны дарга"},
   {name:"М.Мөнхцацрал",role:"Маркетингийн бодлогын менежер"},
   {name:"Б.Оюунгэрэл",role:"Маркетингийн бодлогын менежер"},
   {name:"Г.Урангоо",role:"Маркетингийн менежер"},
   {name:"Б.Үүрийнтуяа",role:"PR менежер"},
-  {name:"Б.Хүслэн",role:"Дижитал маркетингийн менежер"}, // ← ЗАСВАРЛАСАН
+  {name:"Б.Хүслэн",role:"Дижитал маркетингийн менежер"},
   {name:"С.Ган-Очир",role:"Дизайнер"},
   {name:"Х.Түвшин",role:"Дизайнер"},
 ];
-
 const COLORS=["#1d4ed8","#7c3aed","#0891b2","#059669","#d97706","#dc2626","#db2777","#65a30d"];
 function aColor(n){let h=0;for(let i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))%COLORS.length;return COLORS[h];}
 function initials(n){const p=n.split(".");const l=p[p.length-1].trim();return l.slice(0,2).toUpperCase();}
@@ -529,13 +540,14 @@ let sheetId="",syncing=false;
 let kbv="k",calV="m",calDate=new Date();
 let period="week",customFrom=null,customTo=null;
 let currentUser=null,selectedStaff=null;
+// Staff filter state
+let staffStatusFilter="",staffOvFilter=false,staffDetailFilter="all";
 
 function parseGSheetDate(cell){
   if(!cell)return null;const v=cell.v;if(v===null||v===undefined)return null;
   if(v instanceof Date){const d=new Date(v);d.setHours(0,0,0,0);return d;}
   const s=String(v).trim();
-  const dm=s.match(/Date\((\d+),(\d+),(\d+)\)/);
-  if(dm){const d=new Date(+dm[1],+dm[2],+dm[3]);d.setHours(0,0,0,0);return d;}
+  const dm=s.match(/Date\((\d+),(\d+),(\d+)\)/);if(dm){const d=new Date(+dm[1],+dm[2],+dm[3]);d.setHours(0,0,0,0);return d;}
   if(/^\d{4}-\d{2}-\d{2}$/.test(s)){const d=new Date(s+"T00:00:00");d.setHours(0,0,0,0);return d;}
   if(/^\d+(\.\d+)?$/.test(s)){const serial=parseFloat(s);if(serial>40000&&serial<60000){const d=new Date(Date.UTC(1899,11,30)+serial*86400000);d.setHours(0,0,0,0);return d;}}
   const d=new Date(s);if(!isNaN(d)){d.setHours(0,0,0,0);return d;}
@@ -569,7 +581,6 @@ function getPR(){
 }
 function inPeriod(t){if(!t.dateObj)return false;const{from,to}=getPR();return t.dateObj>=from&&t.dateObj<=to;}
 function isOvTask(t){return t.dateObj&&t.dateObj<now0()&&!isDuussn(t);}
-function isDueToday(t){return t.dateObj&&t.dateObj.getTime()===now0().getTime()&&!isDuussn(t);}
 function parseHours(s){return parseFloat((s||"0").replace(/[^\d.]/g,""))||0;}
 function inYear2026(t){if(!t.dateObj)return false;return t.dateObj.getFullYear()===2026;}
 
@@ -584,6 +595,148 @@ function applyCustom(){const f=document.getElementById("date-from").value,t=docu
 function updatePeriodBtn(){const{label}=getPR();document.getElementById("period-val-display").innerHTML=`<svg width="13" height="13"><use href="#ic-week"/></svg><span>${label}</span>`;const wft=document.getElementById("wf-period-title");if(wft)wft.textContent=label+"т анхаарах ажлууд";const dl=document.getElementById("dash-period-lbl");if(dl)dl.textContent="· "+label;}
 (function(){const n=new Date();n.setHours(0,0,0,0);const dow=n.getDay(),m=new Date(n);m.setDate(n.getDate()-dow+(dow===0?-6:1));const e=new Date(m);e.setDate(m.getDate()+6);document.getElementById("date-from").value=fmtDate(m);document.getElementById("date-to").value=fmtDate(e);customFrom=m;customTo=e;document.getElementById("pchk-week").style.background="var(--blue)";document.getElementById("pchk-week").style.borderColor="var(--blue)";})();
 
+// ── STAFF FILTER CONTROLS ──
+function setStaffStatusFilter(val){
+  staffStatusFilter=val;
+  // update button styles
+  const map={"":"sfb-all","хийх":"sfb-hiih","хийж байна":"sfb-hiij","хүлээгдэж буй":"sfb-huleg","дууссан":"sfb-duussn"};
+  const cls={"":"active","хийх":"active","хийж байна":"active-orange","хүлээгдэж буй":"active-purple","дууссан":"active-green"};
+  Object.entries(map).forEach(([k,id])=>{
+    const btn=document.getElementById(id);if(!btn)return;
+    btn.className="sf-btn"+(k===val?" "+cls[k]:"");
+  });
+  renderStaff();
+}
+function toggleStaffOvFilter(){
+  staffOvFilter=!staffOvFilter;
+  const btn=document.getElementById("sfb-ov");
+  if(btn)btn.className="sf-btn"+(staffOvFilter?" active-red":"");
+  renderStaff();
+}
+
+// ── STAFF PAGE ──
+function renderStaff(){
+  const search=(document.getElementById("staff-search")?.value||"").toLowerCase();
+  let filtered=STAFF.filter(s=>{
+    if(search&&!s.name.toLowerCase().includes(search)&&!s.role.toLowerCase().includes(search))return false;
+    const myT=tasks.filter(t=>(t.owner||"").includes(s.name)||(t.hamtarch||"").includes(s.name));
+    if(staffOvFilter&&myT.filter(isOvTask).length===0)return false;
+    if(staffStatusFilter){const cnt=myT.filter(t=>normalizeStatus(t.status)===staffStatusFilter).length;if(cnt===0)return false;}
+    return true;
+  });
+
+  // Update summary
+  const sumEl=document.getElementById("staff-filter-summary");
+  if(sumEl){
+    const parts=[];
+    if(staffStatusFilter)parts.push(`"${staffStatusFilter}" төлөвтэй`);
+    if(staffOvFilter)parts.push("хугацаа хэтэрсэн");
+    if(search)parts.push(`"${search}" хайлт`);
+    sumEl.textContent=parts.length?`Шүүлтүүр: ${parts.join(", ")} · ${filtered.length} ажилтан`:"";
+  }
+
+  const el=document.getElementById("staff-grid");
+  if(!el)return;
+  if(!filtered.length){el.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:32px;font-size:12px;color:var(--text3)">Шүүлтүүрт тохирох ажилтан олдсонгүй</div>`;return;}
+
+  el.innerHTML=filtered.map(s=>{
+    const myT=tasks.filter(t=>(t.owner||"").includes(s.name)||(t.hamtarch||"").includes(s.name));
+    const ov=myT.filter(isOvTask).length,done=myT.filter(isDuussn).length,active=myT.filter(t=>!isDuussn(t)).length;
+    const hiih=myT.filter(t=>normalizeStatus(t.status)==="хийх").length;
+    const hiij=myT.filter(t=>normalizeStatus(t.status)==="хийж байна").length;
+    const huleg=myT.filter(t=>normalizeStatus(t.status)==="хүлээгдэж буй").length;
+    const col=aColor(s.name),isSel=selectedStaff&&selectedStaff.name===s.name;
+    return`<div class="staff-card${isSel?" sel":""}" onclick="selectStaff('${s.name}')">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:8px">
+        <div style="width:38px;height:38px;border-radius:50%;background:${col};color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">${initials(s.name)}</div>
+        <div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">${s.name}</div><div style="font-size:9px;color:var(--text2);margin-top:2px;line-height:1.3">${s.role}</div></div>
+        ${ov>0?`<span style="font-size:8px;background:#fef2f2;color:var(--red);border-radius:99px;padding:2px 6px;font-weight:700;flex-shrink:0">⚠️ ${ov}</span>`:""}
+      </div>
+      <div class="staff-stats">
+        <div class="s-stat"><div class="s-stat-val" style="color:var(--blue)">${hiih}</div><div class="s-stat-lbl">Хийх</div></div>
+        <div class="s-stat"><div class="s-stat-val" style="color:var(--orange)">${hiij}</div><div class="s-stat-lbl">Хийж байна</div></div>
+        <div class="s-stat"><div class="s-stat-val" style="color:var(--purple)">${huleg}</div><div class="s-stat-lbl">Хүлээгдэж</div></div>
+        <div class="s-stat"><div class="s-stat-val vg">${done}</div><div class="s-stat-lbl">Дууссан</div></div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function selectStaff(name){
+  const s=STAFF.find(x=>x.name===name);if(!s)return;
+  if(selectedStaff&&selectedStaff.name===name){selectedStaff=null;document.getElementById("staff-detail").style.display="none";renderStaff();return;}
+  selectedStaff=s;staffDetailFilter="all";
+  renderStaffDetail(s);
+}
+
+function renderStaffDetail(s){
+  const col=aColor(s.name);
+  const myT=tasks.filter(t=>(t.owner||"").includes(s.name)||(t.hamtarch||"").includes(s.name));
+  const hiih=myT.filter(t=>normalizeStatus(t.status)==="хийх");
+  const hiij=myT.filter(t=>normalizeStatus(t.status)==="хийж байна");
+  const huleg=myT.filter(t=>normalizeStatus(t.status)==="хүлээгдэж буй");
+  const done=myT.filter(isDuussn);
+  const ov=myT.filter(isOvTask);
+
+  // Filter by staffDetailFilter
+  let filtered;
+  if(staffDetailFilter==="all")filtered=myT;
+  else if(staffDetailFilter==="хийх")filtered=hiih;
+  else if(staffDetailFilter==="хийж байна")filtered=hiij;
+  else if(staffDetailFilter==="хүлээгдэж буй")filtered=huleg;
+  else if(staffDetailFilter==="дууссан")filtered=done;
+  else if(staffDetailFilter==="хэтэрсэн")filtered=ov;
+  else filtered=myT;
+
+  const filterBtns=[
+    {key:"all",label:`Бүгд`,count:myT.length,cls:""},
+    {key:"хийх",label:"📋 Хийх",count:hiih.length,cls:"active-blue"},
+    {key:"хийж байна",label:"⚙️ Хийж байна",count:hiij.length,cls:"active-orange"},
+    {key:"хүлээгдэж буй",label:"⏳ Хүлээгдэж",count:huleg.length,cls:"active-purple"},
+    {key:"дууссан",label:"✅ Дууссан",count:done.length,cls:"active-green"},
+    {key:"хэтэрсэн",label:"⚠️ Хэтэрсэн",count:ov.length,cls:"active-red"},
+  ].filter(b=>b.key==="all"||b.count>0);
+
+  const btnHtml=filterBtns.map(b=>{
+    const isActive=staffDetailFilter===b.key;
+    const clsMap={"active-blue":"df-btn active","active-orange":"df-btn active-orange","active-purple":"df-btn active-purple","active-green":"df-btn active-green","active-red":"df-btn"};
+    let cls="df-btn";
+    if(isActive){if(b.key==="all")cls="df-btn active";else if(b.key==="хийж байна")cls="df-btn active-orange";else if(b.key==="хүлээгдэж буй")cls="df-btn active-purple";else if(b.key==="дууссан")cls="df-btn active-green";else if(b.key==="хэтэрсэн")cls="df-btn";else cls="df-btn active";}
+    return`<button class="${cls}" onclick="setDetailFilter('${s.name}','${b.key}')">${b.label} <span class="df-count" style="background:${isActive?"rgba(255,255,255,.25)":"var(--border2)};color:${isActive?"#fff":"var(--text2)"}">${b.count}</span></button>`;
+  }).join("");
+
+  const tasksHtml=filtered.length?filtered.map(t=>`<div style="display:flex;align-items:flex-start;gap:8px;padding:8px 14px;border-bottom:1px solid var(--border2)${isDuussn(t)?";opacity:.65":""}">
+    <div style="width:7px;height:7px;border-radius:50%;background:${STATUS_STYLE[normalizeStatus(t.status)]?.dot||"var(--blue)"};flex-shrink:0;margin-top:3px"></div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:11px;font-weight:600${isDuussn(t)?";text-decoration:line-through;color:var(--text3)":""}">${t.ajil||"—"}</div>
+      <div style="font-size:9px;color:var(--text3);margin-top:1px">${[t.kompani,t.brand,t.date].filter(Boolean).join(" · ")}</div>
+    </div>
+    ${statusBadge(t.status)}
+    ${t.hours?`<span style="font-size:8px;color:var(--text3);flex-shrink:0">${t.hours}</span>`:""}
+  </div>`).join(""):`<div style="text-align:center;padding:18px;font-size:11px;color:var(--text3)">Ажил олдсонгүй</div>`;
+
+  document.getElementById("staff-detail").innerHTML=`<div class="staff-detail">
+    <div class="staff-detail-hd">
+      <div style="width:36px;height:36px;border-radius:50%;background:${col};color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0">${initials(s.name)}</div>
+      <div><div style="font-size:13px;font-weight:700;color:var(--blue)">${s.name}</div><div style="font-size:11px;color:var(--blue-h)">${s.role}</div></div>
+      <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+        <span style="font-size:11px;color:var(--text2)">${myT.length} ажил · ${done.length} дууссан</span>
+        ${ov.length?`<span style="font-size:9px;padding:2px 7px;border-radius:99px;font-weight:600;background:#fef2f2;color:var(--red)">⚠️ ${ov.length} хэтэрсэн</span>`:""}
+      </div>
+    </div>
+    <div class="detail-filter-bar">${btnHtml}</div>
+    <div id="detail-task-list">${tasksHtml}</div>
+  </div>`;
+  document.getElementById("staff-detail").style.display="block";
+  renderStaff();
+}
+
+function setDetailFilter(staffName,filterKey){
+  staffDetailFilter=filterKey;
+  const s=STAFF.find(x=>x.name===staffName);if(s)renderStaffDetail(s);
+}
+
+// ── DASHBOARD ──
 function renderDashboard(){
   const pLabel=getPR().label;const pT=tasks.filter(inPeriod);
   const total=tasks.length,hiih=tasks.filter(t=>normalizeStatus(t.status)==="хийх").length,hiij=tasks.filter(t=>normalizeStatus(t.status)==="хийж байна").length,huleg=tasks.filter(t=>normalizeStatus(t.status)==="хүлээгдэж буй").length,duussn=tasks.filter(isDuussn).length;
@@ -618,8 +771,7 @@ function renderWFTimeline(){
   let html="";
   daysToShow.forEach(day=>{
     const ds=fmtDate(day);const dayItems=periodItems.filter(w=>w.date===ds);
-    const isToday=ds===todayStr,isPast=day<now0();
-    const allDone=dayItems.length>0&&dayItems.every(w=>normalizeStatus(w.status)==="дууссан");
+    const isToday=ds===todayStr,isPast=day<now0();const allDone=dayItems.length>0&&dayItems.every(w=>normalizeStatus(w.status)==="дууссан");
     html+=`<div class="wf-day-row"><div class="wf-day-label ${isToday?"today-lbl":allDone?"done-lbl":isPast?"past-lbl":""}"><div class="wf-day-date">${day.getDate()}</div><div class="wf-day-name">${MND[day.getDay()]}${isToday?" · Өнөөдөр":""}</div><div class="wf-day-name" style="font-size:8px;margin-top:1px">${MNM[day.getMonth()]} сар</div></div><div class="wf-day-tasks">`;
     if(dayItems.length){dayItems.forEach(w=>{const wDone=normalizeStatus(w.status)==="дууссан";const isU=w.level==="Яаралтай"&&!wDone;html+=`<div class="wf-task-chip${isToday&&!wDone?" today-chip":""}${isPast&&!wDone?" past-chip":""}${isU?" urgent-chip":""}${wDone?" done-chip":""}"><div style="flex:1;min-width:0"><div class="wf-task-title${wDone?" done-title":""}">${w.title||"—"}</div>${w.desc?`<div class="wf-task-sub">${w.desc}</div>`:""}${w.owner?`<div class="wf-task-sub"><svg width="9" height="9"><use href="#ic-user"/></svg> ${w.owner}</div>`:""}</div><div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">${w.level&&!wDone?`<span class="wf-badge ${w.level==="Яаралтай"?"wf-badge-red":w.level==="Чухал"?"wf-badge-amber":"wf-badge-green"}">${w.level}</span>`:""}${wDone?`<span class="wf-badge wf-badge-green">✓ Дууссан</span>`:""}</div></div>`;});}
     else if(showAll){html+=`<div class="wf-empty-day">—</div>`;}
@@ -632,13 +784,7 @@ async function fetchWF(){if(!sheetId)return;setSyncDot("wf-dot","spin");document
 
 function openDrill(key){
   const pLabel=getPR().label;let items=[],title="";
-  if(key==="total"){items=tasks;title="Бүх ажил";}
-  else if(key==="hiih"){items=tasks.filter(t=>normalizeStatus(t.status)==="хийх");title="Хийх ажлууд";}
-  else if(key==="hiij"){items=tasks.filter(t=>normalizeStatus(t.status)==="хийж байна");title="Хийж байна";}
-  else if(key==="huleg"){items=tasks.filter(t=>normalizeStatus(t.status)==="хүлээгдэж буй");title="Хүлээгдэж буй";}
-  else if(key==="duussn"){items=tasks.filter(isDuussn);title="Дууссан ажлууд";}
-  else if(key==="duussn-period"){items=tasks.filter(t=>isDuussn(t)&&inPeriod(t));title=pLabel+" дууссан";}
-  else if(key==="duussn-year"){items=tasks.filter(t=>isDuussn(t)&&inYear2026(t));title="2026 онд дууссан";}
+  if(key==="total"){items=tasks;title="Бүх ажил";}else if(key==="hiih"){items=tasks.filter(t=>normalizeStatus(t.status)==="хийх");title="Хийх ажлууд";}else if(key==="hiij"){items=tasks.filter(t=>normalizeStatus(t.status)==="хийж байна");title="Хийж байна";}else if(key==="huleg"){items=tasks.filter(t=>normalizeStatus(t.status)==="хүлээгдэж буй");title="Хүлээгдэж буй";}else if(key==="duussn"){items=tasks.filter(isDuussn);title="Дууссан ажлууд";}else if(key==="duussn-period"){items=tasks.filter(t=>isDuussn(t)&&inPeriod(t));title=pLabel+" дууссан";}else if(key==="duussn-year"){items=tasks.filter(t=>isDuussn(t)&&inYear2026(t));title="2026 онд дууссан";}
   document.getElementById("drill-title").textContent=title+` (${items.length})`;
   document.getElementById("drill-body").innerHTML=items.length?items.map(t=>{const st=STATUS_STYLE[normalizeStatus(t.status)];return`<div class="drill-item${isDuussn(t)?" done-row":""}"><div style="width:8px;height:8px;border-radius:50%;background:${st?st.dot:"var(--blue)"};flex-shrink:0;margin-top:3px"></div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600${isDuussn(t)?";text-decoration:line-through;color:var(--text3)":""}">${t.ajil||"—"}</div><div style="font-size:9px;color:var(--text3);margin-top:2px">${[t.kompani,t.brand,t.date].filter(Boolean).join(" · ")}</div></div><div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">${statusBadge(t.status)}${t.owner?`<span style="font-size:8px;color:var(--text3)">${t.owner}</span>`:""}</div></div>`;}).join(""):`<div style="padding:18px;text-align:center;font-size:11px;color:var(--text3)">Ажил байхгүй</div>`;
   document.getElementById("drill-ov").style.display="flex";
@@ -694,22 +840,6 @@ function renderCal(){
 function renderMyJobs(){const me=currentUser;if(!me){document.getElementById("myjob-list").innerHTML=`<div style="text-align:center;padding:24px;font-size:12px;color:var(--text3)">Топбараас хэрэглэгч сонгоно уу</div>`;["mj-total","mj-ov","mj-done","mj-hrs"].forEach(id=>document.getElementById(id).textContent=id==="mj-hrs"?"0h":"0");return;}const myJ=myJobsData.filter(j=>(j.owner||"").includes(me));const totalH=myJ.reduce((s,j)=>s+parseHours(j.hours),0);document.getElementById("mj-total").textContent=myJ.length;document.getElementById("mj-ov").textContent=0;document.getElementById("mj-done").textContent=0;document.getElementById("mj-hrs").textContent=totalH.toFixed(0)+"h";document.getElementById("myjob-badge").textContent=myJ.length;document.getElementById("myjob-list").innerHTML=myJ.length?myJ.map(j=>`<div class="job-card"><div class="job-card-title">${j.ajil||"—"}</div>${j.role?`<span style="font-size:8px;padding:2px 8px;border-radius:99px;background:#f5f3ff;color:var(--purple);font-weight:600;display:inline-block;margin-bottom:6px">${j.role}</span>`:""}${j.tailbar?`<div class="job-card-desc">${j.tailbar}</div>`:""}<div class="job-card-meta">${j.owner?`<span class="meta-chip"><svg width="9" height="9"><use href="#ic-user"/></svg> ${j.owner}</span>`:""}${j.hours?`<span class="meta-chip hours"><svg width="9" height="9"><use href="#ic-clock"/></svg> ${j.hours}h / нэг удаа</span>`:""}</div></div>`).join(""):`<div style="text-align:center;padding:24px;font-size:12px;color:var(--text3)">${myJobsData.length===0?"MyJobs sheet холбоогүй байна":"Энэ ажилтанд ажил олдсонгүй"}</div>`;}
 
 function renderDeptJobs(){const q=(document.getElementById("dj-search").value||"").toLowerCase(),fr=document.getElementById("dj-filter-role").value,fo=document.getElementById("dj-filter-owner").value;const f=deptJobsData.filter(j=>(!q||(j.ajil||"").toLowerCase().includes(q)||(j.tailbar||"").toLowerCase().includes(q)||(j.owner||"").toLowerCase().includes(q))&&(!fr||j.role===fr)&&(!fo||j.owner===fo));document.getElementById("dj-total").textContent=deptJobsData.length;document.getElementById("dj-hrs").textContent=deptJobsData.reduce((s,j)=>s+parseHours(j.hours),0).toFixed(0)+"h";document.getElementById("dj-owners").textContent=new Set(deptJobsData.map(j=>j.owner).filter(Boolean)).size;document.getElementById("dept-badge").textContent=deptJobsData.length;const rfil=document.getElementById("dj-filter-role"),ofil=document.getElementById("dj-filter-owner");if(rfil.options.length<=1){[...new Set(deptJobsData.map(j=>j.role).filter(Boolean))].forEach(r=>{const o=document.createElement("option");o.value=r;o.textContent=r;rfil.appendChild(o);});}if(ofil.options.length<=1){[...new Set(deptJobsData.map(j=>j.owner).filter(Boolean))].forEach(r=>{const o=document.createElement("option");o.value=r;o.textContent=r;ofil.appendChild(o);});}document.getElementById("deptjob-list").innerHTML=f.length?f.map(j=>`<div class="dept-card"><div class="dept-card-hd"><div class="dept-card-title">${j.ajil||"—"}</div>${j.hours?`<span style="font-size:10px;font-weight:700;color:var(--amber);flex-shrink:0">${j.hours}h</span>`:""}</div>${j.role?`<div style="margin-bottom:5px"><span style="font-size:8px;padding:2px 7px;border-radius:99px;background:#f5f3ff;color:var(--purple);font-weight:600">${j.role}</span></div>`:""}${j.tailbar?`<div class="dept-card-desc">${j.tailbar}</div>`:""}<div class="dept-card-meta">${j.owner?`<span class="meta-chip"><svg width="9" height="9"><use href="#ic-user"/></svg> ${j.owner}</span>`:""}${j.hours?`<span class="meta-chip hours"><svg width="9" height="9"><use href="#ic-clock"/></svg> ${j.hours}h / нэг удаа</span>`:""}</div></div>`).join(""):`<div style="text-align:center;padding:28px;font-size:12px;color:var(--text3)">${deptJobsData.length===0?"DeptJobs sheet холбоогүй байна":"Ажил олдсонгүй"}</div>`;}
-
-function renderStaff(){
-  document.getElementById("staff-grid").innerHTML=STAFF.map(s=>{
-    const myT=tasks.filter(t=>(t.owner||"").includes(s.name)||(t.hamtarch||"").includes(s.name));
-    const ov=myT.filter(isOvTask).length,done=myT.filter(isDuussn).length,col=aColor(s.name),isSel=selectedStaff&&selectedStaff.name===s.name;
-    return`<div class="staff-card${isSel?" sel":""}" onclick="selectStaff('${s.name}')"><div style="display:flex;align-items:center;gap:9px;margin-bottom:8px"><div style="width:38px;height:38px;border-radius:50%;background:${col};color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">${initials(s.name)}</div><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">${s.name}</div><div style="font-size:9px;color:var(--text2);margin-top:2px;line-height:1.3">${s.role}</div></div></div><div class="staff-stats"><div class="s-stat"><div class="s-stat-val vb">${myT.filter(t=>!isDuussn(t)).length}</div><div class="s-stat-lbl">Идэвхтэй</div></div><div class="s-stat"><div class="s-stat-val vg">${done}</div><div class="s-stat-lbl">Дууссан</div></div><div class="s-stat"><div class="s-stat-val vr">${ov}</div><div class="s-stat-lbl">Хэтэрсэн</div></div></div></div>`;
-  }).join("");
-}
-function selectStaff(name){
-  const s=STAFF.find(x=>x.name===name);if(!s)return;
-  if(selectedStaff&&selectedStaff.name===name){selectedStaff=null;document.getElementById("staff-detail").style.display="none";renderStaff();return;}
-  selectedStaff=s;
-  const myT=tasks.filter(t=>(t.owner||"").includes(s.name)||(t.hamtarch||"").includes(s.name));const col=aColor(s.name);
-  document.getElementById("staff-detail").innerHTML=`<div class="staff-detail"><div class="staff-detail-hd"><div style="width:36px;height:36px;border-radius:50%;background:${col};color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0">${initials(s.name)}</div><div><div style="font-size:13px;font-weight:700;color:var(--blue)">${s.name}</div><div style="font-size:11px;color:var(--blue-h)">${s.role}</div></div><div style="margin-left:auto;font-size:11px;color:var(--text2)">${myT.length} ажил · ${myT.filter(isDuussn).length} дууссан</div></div><div style="padding:12px 14px">${myT.length?myT.map(t=>`<div style="display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--border2)${isDuussn(t)?";opacity:.65":""}"><div style="width:7px;height:7px;border-radius:50%;background:${STATUS_STYLE[normalizeStatus(t.status)]?.dot||"var(--blue)"};flex-shrink:0;margin-top:3px"></div><div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:600${isDuussn(t)?";text-decoration:line-through;color:var(--text3)":""}">${t.ajil||"—"}</div><div style="font-size:9px;color:var(--text3);margin-top:1px">${[t.kompani,t.brand,t.date].filter(Boolean).join(" · ")}</div></div>${statusBadge(t.status)}</div>`).join(""):`<div style="text-align:center;padding:16px;font-size:11px;color:var(--text3)">Ажил олдсонгүй</div>`}</div></div>`;
-  document.getElementById("staff-detail").style.display="block";renderStaff();
-}
 
 function renderWorkload(){document.getElementById("wl-body").innerHTML=STAFF.map(s=>{const myT=tasks.filter(t=>(t.owner||"").includes(s.name)||(t.hamtarch||"").includes(s.name));const ov=myT.filter(isOvTask).length,done=myT.filter(isDuussn).length,active=myT.filter(t=>!isDuussn(t)).length,totalH=myT.reduce((a,t)=>a+parseHours(t.hours),0),col=aColor(s.name);const pct=myT.length>0?Math.round(done/myT.length*100):0;return`<div class="wl-card"><div style="display:flex;align-items:center;gap:9px;margin-bottom:5px"><div style="width:34px;height:34px;border-radius:50%;background:${col};color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">${initials(s.name)}</div><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700">${s.name}</div><div style="font-size:9px;color:var(--text3);margin-top:1px">${s.role}</div><div style="font-size:9px;color:var(--text3)">${active} идэвхтэй · ${done} дууссан · ${totalH.toFixed(0)}h</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">${ov?`<span style="font-size:9px;padding:2px 7px;border-radius:99px;font-weight:600;background:#fef2f2;color:#dc2626">${ov} хэтэрсэн</span>`:""}<span style="font-size:10px;font-weight:700;color:var(--green)">${pct}%</span></div></div><div class="pbar"><div class="pfill" style="width:${pct}%;background:var(--green)"></div></div></div>`;}).join("")||`<div style="font-size:11px;color:var(--text3)">Өгөгдөл байхгүй.</div>`;}
 
