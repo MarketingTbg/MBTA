@@ -708,13 +708,179 @@ function filterCBX(){const q=(document.getElementById("kpi-sinp")?.value||"").to
 function setKPIF(f){kpiFilt=f;["all","hi","mid","low"].forEach(k=>{const btn=document.getElementById("kf-"+k);if(btn)btn.className="kfb"+(k===f?" active":"");});renderKPI();}
 function toggleKPI(name){openKpiCard=openKpiCard===name?null:name;renderKPI();if(openKpiCard){setTimeout(()=>{const el=document.getElementById("kpic-"+name.replace(/[^a-z0-9]/gi,"_"));if(el)el.scrollIntoView({behavior:"smooth",block:"nearest"});},100);}}
 function setKTF(name,f){kpiTaskFilt[name]=f;renderKPI();}
-function renderKPI(){const pfEl=document.getElementById("kpi-pf");const pfv=pfEl?pfEl.value:"month";const n2=new Date();let baseTasks;if(pfv==="month")baseTasks=tasks.filter(t=>t.dateObj&&t.dateObj.getFullYear()===n2.getFullYear()&&t.dateObj.getMonth()===n2.getMonth());else if(pfv==="week")baseTasks=tasks.filter(inP);else if(pfv==="year")baseTasks=tasks.filter(inY26);else baseTasks=tasks;updKPIPlbl();const allKpiT=baseTasks.filter(isKpi);["ks-total","ks-done","ks-active","ks-ov"].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=[allKpiT.length,allKpiT.filter(isDone).length,allKpiT.filter(t=>!isDone(t)).length,allKpiT.filter(isOv).length][i];});const staff=gS();const allKPI=staff.map(s=>({...s,...calcStaffKPI(getStaffTasks(s.name).filter(t=>baseTasks.includes(t)))}));const totE=allKPI.reduce((s,x)=>s+x.earned,0),totP=allKPI.reduce((s,x)=>s+x.totalPoss,0);const ovPct=totP>0?Math.round(totE/totP*10000)/100:0;const ko=document.getElementById("kpi-overall");if(ko)ko.textContent=`Нийт гүйцэтгэл: ${ovPct}%`;let staffList=allKPI.filter(s=>{if(s.totalPoss===0)return false;if(selKPIStaff&&s.name!==selKPIStaff)return false;if(kpiFilt==="hi")return s.finalPct>=80;if(kpiFilt==="mid")return s.finalPct>=50&&s.finalPct<80;if(kpiFilt==="low")return s.finalPct<50;return true;}).sort((a,b)=>b.finalPct-a.finalPct);const list=document.getElementById("kpi-list");if(!list)return;if(!staffList.length){list.innerHTML=`<div style="text-align:center;padding:50px;background:#fff;border-radius:12px;border:1px solid #e2e8f0;box-shadow:var(--shadow)"><div style="font-size:15px;font-weight:700;color:#64748b">${selKPIStaff?"Энэ ажилтанд KPI ажил байхгүй":"KPI ажил байхгүй байна"}</div></div>`;return;}const pd=dateReqPerDay||0;list.innerHTML=staffList.map(s=>{const col=aC(s.name),barCol=s.finalPct>=80?"#16a34a":s.finalPct>=50?"#f59e0b":"#ef4444";const grade=s.finalPct>=80?"🏆 Өндөр":s.finalPct>=50?"📊 Дунд":"⚠️ Бага";const isOpen=openKpiCard===s.name;const cid="kpic-"+s.name.replace(/[^a-z0-9]/gi,"_");const tf=kpiTaskFilt[s.name]||"all";
-const scoreVis=`<div class="score-bd"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px"><div style="font-size:14px;font-weight:700">Оноон задаргаа</div><div style="font-size:28px;font-weight:900;color:${barCol};letter-spacing:-1px">${s.finalPct}%${s.prop?`<span style="font-size:12px;color:#94a3b8;font-weight:400"> (пропорц)</span>`:""}</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px"><div><div style="font-size:10px;font-weight:700;color:#94a3b8;margin-bottom:5px;letter-spacing:.06em;text-transform:uppercase">◆ KPI АЖЛААС</div><div style="font-size:24px;font-weight:800;color:#1d4ed8;letter-spacing:-1px">${s.kpiEarned}%<span style="font-size:12px;color:#94a3b8;font-weight:400"> / ${s.kpiPoss}%</span></div><div class="sbtrack"><div class="sbfill" style="width:${s.kpiPoss>0?Math.min(100,Math.round(s.kpiEarned/s.kpiPoss*100)):0}%;background:#1d4ed8"></div></div></div><div><div style="font-size:10px;font-weight:700;color:#94a3b8;margin-bottom:5px;letter-spacing:.06em;text-transform:uppercase">⭐ KPI-ГҮЙ АЖЛААС</div><div style="font-size:24px;font-weight:800;color:#7c3aed;letter-spacing:-1px">${s.nokpiEarned}%<span style="font-size:12px;color:#94a3b8;font-weight:400"> / ${s.nokpiPoss}%</span></div><div class="sbtrack"><div class="sbfill" style="width:${s.nokpiPoss>0?Math.min(100,Math.round(s.nokpiEarned/s.nokpiPoss*100)):0}%;background:#7c3aed"></div></div><div style="font-size:11px;color:#94a3b8;margin-top:3px">${s.nokpiDone}/${s.nokpiTotal} дууссан</div></div></div><div style="font-size:11px;font-weight:700;color:#94a3b8;margin-bottom:5px;letter-spacing:.06em;text-transform:uppercase">НИЙТ — Авсан: ${s.earned}% / Боломжтой: ${s.totalPoss}%</div><div class="sbtrack" style="height:18px"><div class="sbfill" style="width:${Math.min(s.finalPct,100)}%;background:${barCol};display:flex;align-items:center;justify-content:flex-end;padding-right:6px">${s.finalPct>10?`<span style="font-size:11px;font-weight:800;color:#fff">${s.finalPct}%</span>`:""}</div></div>${s.prop?`<div style="background:#fef9c3;border-radius:8px;padding:8px 12px;margin-top:10px;font-size:12px;color:#92400e">⚖️ Пропорциональчлал: ${s.earned}/${s.totalPoss}×100 = ${s.finalPct}%</div>`:""}</div>`;
-const kpiAll=[...s.details.filter(isKpi)].sort((a,b)=>{if(a.type==="done"&&b.type!=="done")return 1;if(a.type!=="done"&&b.type==="done")return-1;return 0;});const activeCnt=kpiAll.filter(t=>t.type!=="done").length;const doneCnt=kpiAll.filter(t=>t.type==="done").length;let kpiShow=kpiAll;if(tf==="active")kpiShow=kpiAll.filter(t=>t.type!=="done");else if(tf==="done")kpiShow=kpiAll.filter(t=>t.type==="done");
-const taskSec=kpiAll.length?`<div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:8px">◆ KPI ажлуудын задаргаа<span style="font-size:11px;font-weight:400;color:#94a3b8;margin-left:6px">· ажил дарахад дэлгэрэнгүй</span></div><div class="ktfbar"><button class="ktf${tf==="all"?" on":""}" onclick="setKTF('${s.name}','all')">Бүгд (${kpiAll.length})</button><button class="ktf${tf==="active"?" on":""}" onclick="setKTF('${s.name}','active')">⚙️ Дуусаагүй (${activeCnt})</button><button class="ktf${tf==="done"?" on-g":""}" onclick="setKTF('${s.name}','done')">✅ Дууссан (${doneCnt})</button></div>${kpiShow.length?kpiShow.map(t=>{const ov2=ovDays(t);const rc=t.type==="done"?"kt-done":t.type==="ov"?"kt-ov":"kt-nd";const sc=t.type==="done"?"ksg":t.type==="ov"?"ksa":"ks0";return`<div class="ktask ${rc}" onclick="openTP(${JSON.stringify(t).replace(/"/g,'&quot;')})"><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600${t.type==="done"?";text-decoration:line-through;color:#94a3b8":""}">${t.ajil||"—"}</div><div style="font-size:11px;color:#94a3b8;margin-top:2px;display:flex;align-items:center;gap:7px"><span>${[t.kompani,t.brand].filter(Boolean).join(" · ")||"—"}</span>${t.deadline?`<span>📅 ${t.deadline}</span>`:""}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">${ov2>0?`<span style="font-size:11px;color:#dc2626;font-weight:600">🔴 ${ov2}өдөр</span>`:""}<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#eff6ff;color:#1d4ed8">${kpiPct(t)}% KPI</span><span class="ksc ${sc}">${t.type==="nd"?"0":"+"+t.score}%</span></div></div>`;}).join(""):`<div class="empty">Ажил байхгүй</div>}`:"";
-const nokpiSec=s.nokpiTotal>0?`<div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;padding:12px 14px;margin-top:12px"><div style="font-size:13px;font-weight:700;color:#7c3aed;margin-bottom:6px">⭐ KPI-гүй ажлуудын үнэлгээ</div><div style="font-size:13px;color:#475569">${s.nokpiDone}/${s.nokpiTotal} дууссан · Боломжтой: ${s.nokpiPoss}% → Авсан: <b>${s.nokpiEarned}%</b></div></div>`:"";
-const detHtml=`<div class="kdet${isOpen?" open":""}"><div class="kdet-in">${pd>0?`<div style="background:#1e293b;color:#a5f3fc;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px"><b>📅 DateReq:</b> 1 хоногт −${pd}% · Хэтэрсэн хоног × ${pd}% = нийт суутгал</div>`:""}${scoreVis}${taskSec}${nokpiSec}</div></div>`;
-return`<div class="kcard2" id="${cid}"><div class="kch" onclick="toggleKPI('${s.name}')"><div class="kcir" style="background:${col}20;border:2px solid ${col}"><span style="color:${col};font-size:13px;font-weight:700">${ini(s.name)}</span></div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:9px;margin-bottom:4px"><div style="font-size:15px;font-weight:700">${s.name}</div><span style="font-size:11px;color:${barCol};font-weight:700">${grade}</span>${s.ovT.length>0?`<span style="font-size:11px;padding:2px 8px;border-radius:99px;background:#fef2f2;color:#dc2626;font-weight:700">⚠️ ${s.ovT.length}</span>`:""}</div><div style="font-size:11px;color:#94a3b8;margin-bottom:7px">${s.role}${s.dept?" · "+s.dept:""}</div><div class="kprog"><div class="kpf" style="width:${Math.min(s.finalPct,100)}%;background:${barCol}"></div></div><div style="display:flex;gap:12px;font-size:12px;margin-top:5px"><span style="color:#1d4ed8">KPI: <b>${s.kpiEarned}%</b>/${s.kpiPoss}%</span><span style="color:#7c3aed">KPI-гүй: <b>${s.nokpiEarned}%</b></span>${s.ovT.length>0?`<span style="color:#dc2626">🔴 ${s.ovT.length}</span>`:""}</div></div><div style="text-align:right;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:5px"><div style="font-size:36px;font-weight:900;color:${barCol};line-height:1;letter-spacing:-2px">${s.finalPct}%</div><svg width="16" height="16" style="color:#94a3b8"><use href="#${isOpen?"i-chu":"i-chd"}"/></svg></div></div>${detHtml}</div>`;}).join("");}
+
+function renderKPI(){
+  var pfEl=document.getElementById("kpi-pf"),pfv=pfEl?pfEl.value:"month";
+  var n2=new Date(),baseTasks;
+  if(pfv==="month")baseTasks=tasks.filter(function(t){return t.dateObj&&t.dateObj.getFullYear()===n2.getFullYear()&&t.dateObj.getMonth()===n2.getMonth();});
+  else if(pfv==="week")baseTasks=tasks.filter(inP);
+  else if(pfv==="year")baseTasks=tasks.filter(inY26);
+  else baseTasks=tasks;
+  updKPIPlbl();
+  var allKpiT=baseTasks.filter(isKpi);
+  var elT=document.getElementById("ks-total");if(elT)elT.textContent=allKpiT.length;
+  var elD=document.getElementById("ks-done");if(elD)elD.textContent=allKpiT.filter(isDone).length;
+  var elA=document.getElementById("ks-active");if(elA)elA.textContent=allKpiT.filter(function(t){return!isDone(t);}).length;
+  var elO=document.getElementById("ks-ov");if(elO)elO.textContent=allKpiT.filter(isOv).length;
+  var staff=gS();
+  var allKPI=staff.map(function(s){
+    var st=getStaffTasks(s.name).filter(function(t){return baseTasks.indexOf(t)>=0;});
+    return Object.assign({},s,calcStaffKPI(st));
+  });
+  var totE=allKPI.reduce(function(a,x){return a+x.earned;},0);
+  var totP=allKPI.reduce(function(a,x){return a+x.totalPoss;},0);
+  var ovPct=totP>0?Math.round(totE/totP*10000)/100:0;
+  var koEl=document.getElementById("kpi-overall");if(koEl)koEl.textContent="Нийт гүйцэтгэл: "+ovPct+"%";
+  var staffList=allKPI.filter(function(s){
+    if(s.totalPoss===0)return false;
+    if(selKPIStaff&&s.name!==selKPIStaff)return false;
+    if(kpiFilt==="hi")return s.finalPct>=80;
+    if(kpiFilt==="mid")return s.finalPct>=50&&s.finalPct<80;
+    if(kpiFilt==="low")return s.finalPct<50;
+    return true;
+  }).sort(function(a,b){return b.finalPct-a.finalPct;});
+  var list=document.getElementById("kpi-list");if(!list)return;
+  if(!staffList.length){
+    list.innerHTML='<div style="text-align:center;padding:50px;background:#fff;border-radius:12px;border:1px solid #e2e8f0">'+(selKPIStaff?"Энэ ажилтанд KPI ажил байхгүй":"KPI ажил байхгүй байна")+"</div>";
+    return;
+  }
+  var pd=dateReqPerDay||0;
+  var parts=[];
+  for(var si=0;si<staffList.length;si++){
+    parts.push(buildKPICard(staffList[si],pd));
+  }
+  list.innerHTML=parts.join("");
+  // Attach event listeners via delegation
+  list.onclick=function(ev){
+    var el=ev.target;
+    while(el&&el!==list){
+      if(el.dataset.tpidx!==undefined){openTP(kpiTaskCache[el.dataset.tpidx]);return;}
+      if(el.dataset.kname){toggleKPI(el.dataset.kname);return;}
+      if(el.dataset.ktf){setKTF(el.dataset.kname2,el.dataset.ktf);return;}
+      el=el.parentElement;
+    }
+  };
+}
+var kpiTaskCache=[];
+function buildKPICard(s,pd){
+  var col=aC(s.name);
+  var barCol=s.finalPct>=80?"#16a34a":s.finalPct>=50?"#f59e0b":"#ef4444";
+  var grade=s.finalPct>=80?"Өндөр":s.finalPct>=50?"Дунд":"Бага";
+  var isOpen=openKpiCard===s.name;
+  var cid="kpic-"+s.name.replace(/[^a-z0-9]/gi,"_");
+  var tf=kpiTaskFilt[s.name]||"all";
+  var kpiBarW=s.kpiPoss>0?Math.min(100,Math.round(s.kpiEarned/s.kpiPoss*100)):0;
+  var nokpiBarW=s.nokpiPoss>0?Math.min(100,Math.round(s.nokpiEarned/s.nokpiPoss*100)):0;
+  var totalBarW=Math.min(s.finalPct,100);
+  // Score visual
+  var sv="";
+  sv+='<div class="score-bd">';
+  sv+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">';
+  sv+='<div style="font-size:14px;font-weight:700">Оноон задаргаа</div>';
+  sv+='<div style="font-size:26px;font-weight:900;color:'+barCol+'">'+s.finalPct+'%';
+  if(s.prop)sv+=' <span style="font-size:12px;color:#94a3b8;font-weight:400">(пропорц)</span>';
+  sv+='</div></div>';
+  sv+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">';
+  sv+='<div><div style="font-size:10px;font-weight:700;color:#94a3b8;margin-bottom:5px;text-transform:uppercase">KPI АЖЛААС</div>';
+  sv+='<div style="font-size:22px;font-weight:800;color:#1d4ed8">'+s.kpiEarned+'%';
+  sv+=' <span style="font-size:12px;color:#94a3b8;font-weight:400">/ '+s.kpiPoss+'%</span></div>';
+  sv+='<div class="sbtrack"><div class="sbfill" style="width:'+kpiBarW+'%;background:#1d4ed8"></div></div></div>';
+  sv+='<div><div style="font-size:10px;font-weight:700;color:#94a3b8;margin-bottom:5px;text-transform:uppercase">KPI-ГҮЙ АЖЛААС</div>';
+  sv+='<div style="font-size:22px;font-weight:800;color:#7c3aed">'+s.nokpiEarned+'%';
+  sv+=' <span style="font-size:12px;color:#94a3b8;font-weight:400">/ '+s.nokpiPoss+'%</span></div>';
+  sv+='<div class="sbtrack"><div class="sbfill" style="width:'+nokpiBarW+'%;background:#7c3aed"></div></div>';
+  sv+='<div style="font-size:11px;color:#94a3b8;margin-top:3px">'+s.nokpiDone+"/"+s.nokpiTotal+' дууссан</div></div></div>';
+  sv+='<div style="font-size:11px;font-weight:700;color:#94a3b8;margin-bottom:5px;text-transform:uppercase">НИЙТ — Авсан: '+s.earned+'% / Боломжтой: '+s.totalPoss+'%</div>';
+  sv+='<div class="sbtrack" style="height:16px"><div class="sbfill" style="width:'+totalBarW+'%;background:'+barCol+'">';
+  if(s.finalPct>10)sv+='<span style="font-size:11px;font-weight:800;color:#fff;float:right;padding-right:6px">'+s.finalPct+'%</span>';
+  sv+='</div></div>';
+  if(s.prop)sv+='<div style="background:#fef9c3;border-radius:8px;padding:8px 12px;margin-top:10px;font-size:12px;color:#92400e">Пропорциональчлал: '+s.earned+'/'+s.totalPoss+'x100 = '+s.finalPct+'%</div>';
+  sv+='</div>';
+  // Task list
+  var kpiAll=[].concat(s.details.filter(isKpi)).sort(function(a,b){
+    if(a.type==="done"&&b.type!=="done")return 1;
+    if(a.type!=="done"&&b.type==="done")return-1;
+    return 0;
+  });
+  var activeCnt=kpiAll.filter(function(t){return t.type!=="done";}).length;
+  var doneCnt=kpiAll.filter(function(t){return t.type==="done";}).length;
+  var kpiShow=kpiAll;
+  if(tf==="active")kpiShow=kpiAll.filter(function(t){return t.type!=="done";});
+  else if(tf==="done")kpiShow=kpiAll.filter(function(t){return t.type==="done";});
+  var taskRows="";
+  for(var ti=0;ti<kpiShow.length;ti++){
+    var t=kpiShow[ti];
+    var idx=kpiTaskCache.length; kpiTaskCache.push(t);
+    var ov2=ovDays(t);
+    var rc=t.type==="done"?"kt-done":t.type==="ov"?"kt-ov":"kt-nd";
+    var sc2=t.type==="done"?"ksg":t.type==="ov"?"ksa":"ks0";
+    var scoreStr=t.type==="nd"?"0":"+"+t.score;
+    var tr='<div class="ktask '+rc+'" data-tpidx="'+idx+'">';
+    tr+='<div style="flex:1;min-width:0">';
+    tr+='<div style="font-size:13px;font-weight:600'+(t.type==="done"?';text-decoration:line-through;color:#94a3b8':'')+'">'+escH(t.ajil||"—")+'</div>';
+    tr+='<div style="font-size:11px;color:#94a3b8;margin-top:2px">';
+    var bp=[t.kompani,t.brand].filter(Boolean);
+    tr+=escH(bp.length?bp.join(" · "):"—");
+    if(t.deadline)tr+=' | '+t.deadline;
+    tr+='</div></div>';
+    tr+='<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">';
+    if(ov2>0)tr+='<span style="font-size:11px;color:#dc2626;font-weight:600">'+ov2+' өдөр хэтэрсэн</span>';
+    tr+='<span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:#eff6ff;color:#1d4ed8">'+kpiPct(t)+'% KPI</span>';
+    tr+='<span class="ksc '+sc2+'">'+scoreStr+'%</span>';
+    tr+='</div></div>';
+    taskRows+=tr;
+  }
+  var taskSec="";
+  if(kpiAll.length){
+    taskSec='<div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:8px">KPI ажлуудын задаргаа</div>';
+    taskSec+='<div class="ktfbar">';
+    taskSec+='<button class="ktf'+(tf==="all"?" on":"")+'" data-kname2="'+escAt(s.name)+'" data-ktf="all">Бүгд ('+kpiAll.length+')</button>';
+    taskSec+='<button class="ktf'+(tf==="active"?" on":"")+'" data-kname2="'+escAt(s.name)+'" data-ktf="active">Дуусаагүй ('+activeCnt+')</button>';
+    taskSec+='<button class="ktf'+(tf==="done"?" on-g":"")+'" data-kname2="'+escAt(s.name)+'" data-ktf="done">Дууссан ('+doneCnt+')</button>';
+    taskSec+='</div>';
+    taskSec+=kpiShow.length?taskRows:'<div class="empty">Ажил байхгүй</div>';
+  }
+  var nokpiSec="";
+  if(s.nokpiTotal>0){
+    nokpiSec='<div style="background:#f5f3ff;border:1px solid #ddd6fe;border-radius:10px;padding:12px 14px;margin-top:12px">';
+    nokpiSec+='<div style="font-size:13px;font-weight:700;color:#7c3aed;margin-bottom:6px">KPI-гүй ажлуудын үнэлгээ</div>';
+    nokpiSec+='<div style="font-size:13px;color:#475569">'+s.nokpiDone+"/"+s.nokpiTotal+' дууссан | Боломжтой: '+s.nokpiPoss+'% &rarr; Авсан: <b>'+s.nokpiEarned+'%</b></div>';
+    nokpiSec+='</div>';
+  }
+  var drInfo="";
+  if(pd>0){
+    drInfo='<div style="background:#1e293b;color:#a5f3fc;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px">';
+    drInfo+='DateReq: 1 хоногт -'+pd+'% | Хэтэрсэн хоног x '+pd+'% = нийт суутгал</div>';
+  }
+  var detHtml='<div class="kdet'+(isOpen?" open":"")+'"><div class="kdet-in">'+drInfo+sv+taskSec+nokpiSec+'</div></div>';
+  var ovBadge=s.ovT.length>0?'<span style="font-size:11px;padding:2px 8px;border-radius:99px;background:#fef2f2;color:#dc2626;font-weight:700">'+s.ovT.length+' хэтэрсэн</span>':"";
+  var card='<div class="kcard2" id="'+cid+'">';
+  card+='<div class="kch" data-kname="'+escAt(s.name)+'">';
+  card+='<div class="kcir" style="background:'+col+'22;border:2px solid '+col+'"><span style="color:'+col+';font-size:13px;font-weight:700">'+ini(s.name)+'</span></div>';
+  card+='<div style="flex:1;min-width:0">';
+  card+='<div style="display:flex;align-items:center;gap:9px;margin-bottom:4px">';
+  card+='<div style="font-size:15px;font-weight:700">'+escH(s.name)+'</div>';
+  card+='<span style="font-size:11px;color:'+barCol+';font-weight:700">'+grade+'</span>';
+  card+=ovBadge;
+  card+='</div>';
+  card+='<div style="font-size:11px;color:#94a3b8;margin-bottom:7px">'+escH(s.role||"")+'</div>';
+  card+='<div class="kprog"><div class="kpf" style="width:'+totalBarW+'%;background:'+barCol+'"></div></div>';
+  card+='<div style="display:flex;gap:12px;font-size:12px;margin-top:5px">';
+  card+='<span style="color:#1d4ed8">KPI: <b>'+s.kpiEarned+'%</b>/'+s.kpiPoss+'%</span>';
+  card+='<span style="color:#7c3aed">KPI-гүй: <b>'+s.nokpiEarned+'%</b></span>';
+  if(s.ovT.length>0)card+='<span style="color:#dc2626">'+s.ovT.length+' хэтэрсэн</span>';
+  card+='</div></div>';
+  card+='<div style="text-align:right;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:5px">';
+  card+='<div style="font-size:36px;font-weight:900;color:'+barCol+';line-height:1;letter-spacing:-2px">'+s.finalPct+'%</div>';
+  card+='<svg width="16" height="16" style="color:#94a3b8"><use href="#'+(isOpen?"i-chu":"i-chd")+'"/></svg>';
+  card+='</div></div>'+detHtml+'</div>';
+  return card;
+}
+function escH(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function escAt(s){return String(s||"").replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
+
+function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
 // KANBAN + CAL
 function setKV(v){kbv=v;["k","m","w","d"].forEach(k=>{const btn=document.getElementById("vb-"+k);if(btn)btn.classList.toggle("active",k===v);});document.getElementById("kb-board").style.display=v==="k"?"block":"none";document.getElementById("kb-cal").style.display=v!=="k"?"block":"none";if(v!=="k")setCV(v==="m"?"m":v==="w"?"w":"d");else renderKanban();}
 function renderKV(){if(kbv==="k")renderKanban();else renderCal();}
