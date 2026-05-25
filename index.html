@@ -913,7 +913,38 @@ function gp(name){document.querySelectorAll(".page").forEach(p=>p.classList.remo
 function refreshPage(n){if(n==="dashboard")renderDashboard();else if(n==="requests")renderRequests();else if(n==="staff")renderStaff();else if(n==="kanban")renderKV();else if(n==="kpi")renderKPI();else if(n==="deptjobs")renderDJ();else if(n==="workload")renderWorkload();else if(n==="setup")updSetupUI();}
 function refreshCurrent(){const a=document.querySelector(".page.active");if(a)refreshPage(a.id.replace("page-",""));}
 updUserSel();buildCBX();
-(async function(){const saved=loadConn();if(saved&&saved.length>20){sheetId=saved;document.getElementById("sync-btn").disabled=false;setSyncDot("sync-dot","spin");document.getElementById("sync-lbl").textContent="Татаж...";await Promise.all([fetchTasks(),fetchEmployees(),fetchDeptJobs(),fetchWF(),fetchDateReq()]);setSyncDot("sync-dot","ok");document.getElementById("sync-lbl").textContent="Синк";populateFilters();updSetupUI();updUserSel();}else{updSetupUI();}gp("dashboard");})();
+const DEFAULT_SHEET_ID="1qDD_9ONcMOF0dAvo7sosgUa1kFE3wwqfU-1V2ICRM30";
+(async function(){
+  // Default ID эсвэл localStorage-с татна
+  const saved=loadConn();
+  sheetId=saved&&saved.length>20?saved:DEFAULT_SHEET_ID;
+  // localStorage-д хадгална
+  try{localStorage.setItem("mbta_sheet_id",sheetId);}catch(e){}
+  document.getElementById("sync-btn").disabled=false;
+  // Ачааллах дэлгэц
+  document.body.innerHTML='<div style="position:fixed;inset:0;background:#f8fafc;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:9999" id="splash"><div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:800;line-height:1.2;text-align:center;box-shadow:0 4px 20px rgba(29,78,216,.35)">MB<br>TA</div><div style="font-size:18px;font-weight:700;color:#0f172a">MBTA Ажлууд</div><div style="font-size:13px;color:#94a3b8" id="splash-msg">Мэдээлэл татаж байна...</div><div style="width:220px;height:4px;background:#e2e8f0;border-radius:99px;overflow:hidden"><div id="splash-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#1d4ed8,#3b82f6);border-radius:99px;transition:width .3s"></div></div></div>'+document.body.innerHTML;
+  const bar=document.getElementById("splash-bar");
+  const msg=document.getElementById("splash-msg");
+  const setP=(p,t)=>{if(bar)bar.style.width=p+"%";if(msg)msg.textContent=t;};
+  setP(10,"Tasks татаж байна...");
+  await fetchTasks();
+  setP(35,"Ажилчид татаж байна...");
+  await fetchEmployees();
+  setP(55,"Хэлтсийн ажлууд татаж байна...");
+  await fetchDeptJobs();
+  setP(72,"Анхаарах ажлууд татаж байна...");
+  await fetchWF();
+  setP(88,"DateReq татаж байна...");
+  await fetchDateReq();
+  setP(100,"Бэлэн боллоо!");
+  setSyncDot("sync-dot","ok");
+  document.getElementById("sync-lbl").textContent="Синк";
+  populateFilters();
+  updSetupUI();
+  updUserSel();
+  setTimeout(()=>{const sp=document.getElementById("splash");if(sp)sp.remove();},350);
+  gp("dashboard");
+})();
 </script>
 </body>
 </html>
