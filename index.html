@@ -646,6 +646,22 @@ select{font-family:inherit}
           <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-blue" onclick="syncAll()"><svg width="14" height="14"><use href="#i-ref"/></svg> Дахин татах</button><div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2);padding:7px 12px;background:var(--bg2);border-radius:var(--radius);border:1px solid var(--bdr)"><svg width="13" height="13"><use href="#i-link"/></svg><span id="conn-id" style="font-family:'Courier New',monospace;font-size:11px"></span></div></div>
         </div>
       </div>
+      <!-- Apps Script URL -->
+      <div class="ss" style="border:2px solid #ddd6fe;margin-bottom:14px" id="gas-section">
+        <div class="ssh" style="margin-bottom:8px">
+          <div class="ssn" style="background:#7c3aed">⚡</div>
+          <div style="flex:1">
+            <div class="sst" style="color:#7c3aed;font-size:14px">KPI Төлөвлөгөөний Apps Script URL</div>
+            <div style="font-size:11px;color:var(--tx3);margin-top:2px">script.google.com → Deploy → Web app → URL-г энд оруулна</div>
+          </div>
+          <div id="gas-dot" class="syncdot" style="flex-shrink:0"></div>
+        </div>
+        <input class="uid" id="gas-inp" placeholder="https://script.google.com/macros/s/..." oninput="chkGasUrl()" style="font-size:11px">
+        <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+          <button class="btn btn-blue" id="gas-btn" onclick="saveGasUrl()" disabled>Хадгалах</button>
+          <div id="gas-res" style="flex:1;font-size:12px"></div>
+        </div>
+      </div>
       <div id="setup-nc">
         <div class="ss" style="border:2px solid var(--bb);background:var(--bl)">
           <div class="ssh"><div class="ssn">▶</div><div><div class="sst" style="font-size:15px;color:var(--blue)">Spreadsheet ID оруулж холбоно уу</div></div></div>
@@ -953,9 +969,41 @@ function renderWorkload(){const staff=gS();document.getElementById("wl-body").in
 // SHEETS
 function setSyncDot(id,st){const d=document.getElementById(id);if(d)d.className=(id==="nav-dot"?"sb-dot":"syncdot")+(st==="ok"?" ok":st==="err"?" err":st==="spin"?" spin":"");}
 function chkSid(){const inp=document.getElementById("sid-inp");if(inp)document.getElementById("conn-btn").disabled=inp.value.trim().length<20;}
+function chkGasUrl(){const inp=document.getElementById("gas-inp");const btn=document.getElementById("gas-btn");if(btn)btn.disabled=!(inp&&inp.value.trim().startsWith("https://script.google.com"));}
+async function saveGasUrl(){
+  const inp=document.getElementById("gas-inp");if(!inp)return;
+  const url=inp.value.trim();
+  if(!url.startsWith("https://script.google.com")){alert("URL буруу байна");return;}
+  const btn=document.getElementById("gas-btn");
+  const res=document.getElementById("gas-res");
+  btn.disabled=true;btn.textContent="Шалгаж байна...";
+  // Test connection
+  try{
+    const r=await fetch(url+"?action=getEmployees");
+    const data=await r.json();
+    if(data.ok){
+      KPI_GAS_URL=url;
+      try{localStorage.setItem("mbta_gas_url",url);}catch(e){}
+      setSyncDot("gas-dot","ok");
+      if(res)res.innerHTML='<span style="color:#16a34a;font-weight:600">✓ Амжилттай холбогдлоо — '+( data.data?data.data.length:'?')+' ажилтан</span>';
+      btn.textContent="Хадгалагдлаа";btn.style.background="#16a34a";
+    } else {
+      setSyncDot("gas-dot","err");
+      if(res)res.innerHTML='<span style="color:#dc2626">Алдаа: '+(data.error||"Холбогдож чадсангүй")+'</span>';
+      btn.disabled=false;btn.textContent="Хадгалах";
+    }
+  }catch(e){
+    setSyncDot("gas-dot","err");
+    if(res)res.innerHTML='<span style="color:#dc2626">Холбогдож чадсангүй: '+e.message+'</span>';
+    btn.disabled=false;btn.textContent="Хадгалах";
+  }
+}
 function saveConn(){try{localStorage.setItem("mbta_sheet_id",sheetId);}catch(e){}}
 function loadConn(){try{return localStorage.getItem("mbta_sheet_id")||"";}catch(e){return "";}}
-function updSetupUI(){const c=!!sheetId;const cd=document.getElementById("setup-conn"),nd=document.getElementById("setup-nc");if(cd)cd.style.display=c?"block":"none";if(nd)nd.style.display=c?"none":"block";const dot=document.getElementById("nav-dot");if(dot){dot.className="sb-dot"+(c?" ok":"");}if(c){const lbl=document.getElementById("conn-lbl");if(lbl)lbl.textContent=`Tasks: ${tasks.length} · Employees: ${STAFF.length} · DateReq: ${dateReqPerDay!==null?dateReqPerDay+"%/өдөр":"байхгүй"}`;const idd=document.getElementById("conn-id");if(idd)idd.textContent=sheetId.slice(0,30)+"...";}}
+function updSetupUI(){
+  // Apps Script URL load хийх
+  try{const g=localStorage.getItem('mbta_gas_url');if(g){KPI_GAS_URL=g;const inp=document.getElementById('gas-inp');if(inp)inp.value=g;setSyncDot('gas-dot','ok');}}catch(e){}
+  const c=!!sheetId;const cd=document.getElementById("setup-conn"),nd=document.getElementById("setup-nc");if(cd)cd.style.display=c?"block":"none";if(nd)nd.style.display=c?"none":"block";const dot=document.getElementById("nav-dot");if(dot){dot.className="sb-dot"+(c?" ok":"");}if(c){const lbl=document.getElementById("conn-lbl");if(lbl)lbl.textContent=`Tasks: ${tasks.length} · Employees: ${STAFF.length} · DateReq: ${dateReqPerDay!==null?dateReqPerDay+"%/өдөр":"байхгүй"}`;const idd=document.getElementById("conn-id");if(idd)idd.textContent=sheetId.slice(0,30)+"...";}}
 function updUserSel(){const sel=document.getElementById("usr-sel");if(!sel)return;const cur=sel.value;while(sel.options.length>1)sel.remove(1);gS().forEach(s=>{const o=document.createElement("option");o.value=s.name;o.textContent=s.name;sel.appendChild(o);});if(cur)sel.value=cur;buildCBX();}
 function onUC(){const v=document.getElementById("usr-sel").value;curUser=v||null;document.getElementById("cur-uname").textContent=v||"—";}
 async function fetchEmployees(){if(!sheetId)return false;setSyncDot("emp-dot","spin");try{const r=await fetch(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=Employees`);if(!r.ok)throw new Error();const txt=await r.text();const m=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);if(!m)throw new Error();const json=JSON.parse(m[1]);const cols=(json.table.cols||[]).map(c=>c.label.trim());const emp=(json.table.rows||[]).filter(r=>r&&r.c&&r.c.some(c=>c&&c.v)).map(r=>{const get=k=>{const i=cols.findIndex(c=>c&&c.trim()===k);return(i>=0&&r.c[i]&&r.c[i].v!==null)?String(r.c[i].v).trim():"";};return{name:get("Нэр"),role:get("Албан тушаал"),dept:get("Хэлтэс"),active:get("Идэвхтэй")};}).filter(e=>e.name&&e.active.toLowerCase()!=="false"&&e.active!=="0"&&e.active.toLowerCase()!=="үгүй");if(emp.length>0){STAFF=emp;setSyncDot("emp-dot","ok");const b=document.getElementById("staff-cnt-badge");if(b)b.textContent=STAFF.length;const t=document.getElementById("staff-total-cnt");if(t)t.textContent=STAFF.length;updUserSel();renderStaff();}else setSyncDot("emp-dot","err");return emp.length>0;}catch(e){setSyncDot("emp-dot","err");return false;}}
@@ -1495,10 +1543,13 @@ function kppOpenDeptModal() {
   var role = emp ? emp.role : '';
 
   // Filter DeptJobs by role, exclude already added
+  var empNameShort2 = st.selEmp ? st.selEmp.split('.').pop().trim() : '';
   var candidates = deptData.filter(function(j){
     if (!j.ajil) return false;
-    var roleMatch = !role || j.role===role || role.includes(j.role) || j.role.includes(role.split(' ')[0]);
-    return roleMatch;
+    var ownerStr = String(j.owner || '').toLowerCase();
+    var nameMatch = empNameShort2 && ownerStr.includes(empNameShort2.toLowerCase());
+    var roleMatch = role && j.role && (j.role===role || role.includes(j.role) || j.role.includes(role.split(' ')[0]));
+    return nameMatch || roleMatch;
   }).filter(function(j){
     return !st.rows.tog.some(function(r){ return r['Ажлын нэр']===j.ajil; });
   });
@@ -1612,8 +1663,19 @@ async function kppLoad() {
       if (saved) existing = JSON.parse(saved);
     } catch(e) {}
     // Use already-loaded deptData
+    // Тухайн ажилтны нэр эсвэл албан тушаалаар шүүх
+    var empNameShort = st.selEmp ? st.selEmp.split('.').pop().trim() : '';
     st.deptJobs = deptData.filter(function(j){
-      return !role || j.role===role || role.includes(j.role) || (j.role && role.includes(j.role.split(' ')[0]));
+      if (!j.ajil) return false;
+      // 1. Хариуцагч баганад нэр байгаа эсэх (хамгийн нарийвчлалтай)
+      var ownerStr = String(j.owner || '').toLowerCase();
+      var nameMatch = empNameShort && ownerStr.includes(empNameShort.toLowerCase());
+      var fullNameMatch = st.selEmp && ownerStr.includes(st.selEmp.toLowerCase().split('.').pop().trim());
+      // 2. Альтернатив: Lastname.Firstname форматаар
+      var altMatch = st.selEmp && ownerStr.replace(/\n/g,' ').includes(st.selEmp.toLowerCase());
+      // 3. Albан тушаалаар шүүх (fallback)
+      var roleMatch = role && j.role && (j.role === role || role.includes(j.role) || j.role.includes(role.split(' ')[0]));
+      return nameMatch || fullNameMatch || altMatch || roleMatch;
     });
   }
 
@@ -1623,11 +1685,14 @@ async function kppLoad() {
     st.rows.gen = existing.filter(function(r){ return r['Төрөл']==='Гэнэтийн ажил'; });
   } else {
     // New: pre-fill from DeptJobs (first 12 items)
-    st.rows.tog = st.deptJobs.slice(0,12).map(function(j,i){
+    // Жин% тэнцүү хуваах: 60% / ажлын тоо (нэг бүрд тэнцүү жин)
+    var togCount = st.deptJobs.length;
+    var defJin = togCount > 0 ? Math.round(60 / togCount * 10) / 10 : 0;
+    st.rows.tog = st.deptJobs.map(function(j,i){
       return {
         'Сар': st.selMonth, 'Төрөл':'Тогтмол',
         'дд': '1.'+(i+1), 'Ажлын нэр': j.ajil,
-        'Жин%': '', 'Биелэлт%': '', 'Тайлбар': j.tailbar||'',
+        'Жин%': defJin, 'Биелэлт%': '', 'Тайлбар': j.tailbar||'',
         'Үнэлгээ%': '', 'Статус': 'Хүлээгдэж буй', 'Менежерийн тайлбар': '',
         '_isNew': true
       };
