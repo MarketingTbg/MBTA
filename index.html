@@ -1053,19 +1053,18 @@ const DEFAULT_SHEET_ID="1qDD_9ONcMOF0dAvo7sosgUa1kFE3wwqfU-1V2ICRM30";
 
 
 
+
 // ═══════════════════════════════════════════════════
-// KPI PLAN MODULE — data-attribute event delegation
+// KPI PLAN v2 — Sheets-тэй шууд холбогдоно
 // ═══════════════════════════════════════════════════
 
 var KPI_GAS_URL = '';
-var kpiPlanState = {
-  view: 'employee',
-  selEmp: '',
-  selMonth: '',
-  sections: { tog: true, udr: true, gen: true },
-  rows: { tog: [], udr: [], gen: [] },
-  deptJobs: [],
-  modalJobs: []
+var kpiState = {
+  emp: '',
+  month: '',
+  rows: [],        // одоо харагдаж буй мөрүүд
+  loading: false,
+  sheetReady: false
 };
 
 function kppMonthStr(d) {
@@ -1073,99 +1072,325 @@ function kppMonthStr(d) {
   return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
 }
 
-async function kppApiFetch(params) {
-  if (!KPI_GAS_URL) return { ok: false, error: 'Apps Script URL тохируулаагүй' };
+// ── API дуудах ──
+async function kppCall(params) {
+  if (!KPI_GAS_URL) return { ok: false, error: 'Apps Script URL тохируулаагүй. Setup хуудсаас оруулна уу.' };
   try {
-    var qs = Object.keys(params).map(function(k){ return k+'='+encodeURIComponent(params[k]); }).join('&');
+    var qs = Object.keys(params).map(function(k){ return k+'='+encodeURIComponent(String(params[k])); }).join('&');
     var r = await fetch(KPI_GAS_URL + '?' + qs);
     return await r.json();
   } catch(e) { return { ok: false, error: e.message }; }
 }
-
-async function kppApiPost(body) {
-  if (!KPI_GAS_URL) return { ok: false, error: 'Apps Script URL тохируулаагүй' };
+async function kppPost(body) {
+  if (!KPI_GAS_URL) return { ok: false, error: 'Apps Script URL тохируулаагүй.' };
   try {
     var r = await fetch(KPI_GAS_URL, { method:'POST', body: JSON.stringify(body) });
     return await r.json();
   } catch(e) { return { ok: false, error: e.message }; }
 }
 
+// ── Эхлүүлэх ──
 function initKPIPlan() {
   var root = document.getElementById('kpiplan-root');
   if (!root) return;
+  // GAS URL localStorage-с авах
+  try {
+    var g = localStorage.getItem('mbta_gas_url');
+    if (g) KPI_GAS_URL = g;
+  } catch(e) {}
   var staff = gS();
-  var now = new Date();
-  if (!kpiPlanState.selEmp && staff.length) kpiPlanState.selEmp = staff[0].name;
-  if (!kpiPlanState.selMonth) kpiPlanState.selMonth = kppMonthStr(now);
-  // Setup event delegation on root
-  root.onclick = function(e) { kppHandleClick(e); };
-  root.onchange = function(e) { kppHandleChange(e); };
+  var now   = new Date();
+  if (!kpiState.emp && staff.length) kpiState.emp = staff[0].name;
+  if (!kpiState.month) kpiState.month = kppMonthStr(now);
+  root.onclick  = kppClick;
+  root.onchange = kppChange;
   renderKPIPlan();
 }
 
-// ── Event delegation handler ──
-function kppHandleClick(e) {
+// ── Click delegation ──
+function kppClick(e) {
   var el = e.target;
   while (el && el !== e.currentTarget) {
-    var act = el.dataset.act;
-    if (act) {
+    var a = el.dataset.a;
+    if (a) {
       e.stopPropagation();
-      var sec = el.dataset.sec || '';
-      var idx = el.dataset.idx !== undefined ? parseInt(el.dataset.idx) : -1;
-      var val = el.dataset.val || '';
-      switch(act) {
-        case 'setview':   kpiPlanState.view = val; renderKPIPlan(); break;
-        case 'setemp':    kpiPlanState.selEmp = val; break;
-        case 'setmonth':  kpiPlanState.selMonth = val; break;
-        case 'load':      kppLoad(); break;
-        case 'save':      kppSave(); break;
-        case 'togsec':    kpiPlanState.sections[val] = !kpiPlanState.sections[val]; renderKPIContent(); break;
-        case 'delrow':    kppDelRow(sec, idx); break;
-        case 'addrow':    kppAddRow(val); break;
-        case 'adddept':   kppOpenDeptModal(); break;
-        case 'deptsel':   kppAddDeptItem(idx); break;
-        case 'deptok':    kppConfirmDept(); break;
-        case 'closemodal':kppCloseModal(); break;
-        case 'approverow':kppApproveRow(sec, idx); break;
-        case 'rejectrow': kppRejectRow(sec, idx); break;
-        case 'approveall':kppApproveAll(); break;
+      switch(a) {
+        case 'setemp':   break; // onchange handles it
+        case 'setmonth': break;
+        case 'load':     kppLoad(); break;
+        case 'initsh':   kppInitSheets(); break;
+        case 'opensheet':kppOpenSheet(); break;
+        case 'approve':  kppApprove(el.dataset.row, el.dataset.emp, 'Батлагдсан', ''); break;
+        case 'reject':   kppReject(el.dataset.row, el.dataset.emp); break;
+        case 'view':     kppState.view=el.dataset.v; renderKPIPlan(); break;
       }
       break;
     }
     el = el.parentElement;
   }
 }
-
-function kppHandleChange(e) {
-  var el = e.target;
-  var act = el.dataset.act;
-  if (!act) return;
-  var sec = el.dataset.sec || '';
-  var idx = el.dataset.idx !== undefined ? parseInt(el.dataset.idx) : -1;
-  var field = el.dataset.field || '';
-  switch(act) {
-    case 'setemp':   kpiPlanState.selEmp = el.value; break;
-    case 'setmonth': kpiPlanState.selMonth = el.value; break;
-    case 'setkpiperiod': document.getElementById('kpi-pf') && (document.getElementById('kpi-pf').value = el.value); renderKPI(); break;
-    case 'editfield':
-      if (sec && field && idx >= 0) {
-        kpiPlanState.rows[sec][idx][field] = el.value;
-        var row = kpiPlanState.rows[sec][idx];
-        var jin = parseFloat(row['Жин%']) || 0;
-        var biel = parseFloat(row['Биелэлт%']) || 0;
-        row['Үнэлгээ%'] = Math.round(jin * biel / 100 * 100) / 100;
-        // Re-render footer only (avoid full re-render while typing)
-        kppUpdateFooter();
-      }
-      break;
-    case 'mgrcomment':
-      if (sec && idx >= 0) kpiPlanState.rows[sec][idx]['Менежерийн тайлбар'] = el.value;
-      break;
+function kppChange(e) {
+  var el  = e.target;
+  var a   = el.dataset.a;
+  if (!a) return;
+  switch(a) {
+    case 'setemp':   kpiState.emp   = el.value; break;
+    case 'setmonth': kpiState.month = el.value; break;
   }
 }
 
-// ── Month list ──
-function kppGenMonths() {
+var kppState = { view: 'emp' }; // 'emp' | 'mgr'
+
+// ── Үндсэн render ──
+function renderKPIPlan() {
+  var root = document.getElementById('kpiplan-root');
+  if (!root) return;
+  var staff  = gS();
+  var months = kppMonths();
+  var st     = kpiState;
+  var hasURL = !!KPI_GAS_URL;
+
+  var h = '';
+  // Header
+  h += '<div class="kpp-hdr">';
+  h += '<div style="width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0">';
+  h += '<svg width="24" height="24" style="color:#fff"><use href="#i-plan"></use></svg></div>';
+  h += '<div style="flex:1"><div style="font-size:17px;font-weight:800;margin-bottom:3px">KPI Төлөвлөгөө</div>';
+  h += '<div style="font-size:12px;opacity:.7">Тогтмол 60% · Удирдлагын ажил 20% · Гэнэтийн ажил 20%</div></div>';
+  if (!hasURL) {
+    h += '<div style="background:#fef9c3;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;color:#92400e">⚠️ Apps Script URL тохируулаагүй байна<br><span style="font-weight:400">→ Sheets холболт цэснээс оруулна уу</span></div>';
+  }
+  h += '</div>';
+
+  // URL байхгүй бол зааварчилгаа
+  if (!hasURL) {
+    h += '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:20px;margin-top:8px">';
+    h += '<div style="font-size:14px;font-weight:700;margin-bottom:12px">🔧 Тохиргоо хийх заавар:</div>';
+    h += '<div style="display:flex;flex-direction:column;gap:10px">';
+    var steps = [
+      'script.google.com руу орно',
+      'Шинэ төсөл үүсгэж, Apps Script кодыг тавина',
+      'Deploy → New deployment → Web app → Execute as: Me, Access: Anyone → Deploy',
+      'Гарч ирсэн URL-г "Sheets холболт" цэснээс оруулна'
+    ];
+    steps.forEach(function(s,i){
+      h += '<div style="display:flex;align-items:flex-start;gap:10px"><div style="width:24px;height:24px;border-radius:50%;background:#1d4ed8;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+(i+1)+'</div>';
+      h += '<div style="font-size:13px;padding-top:2px">'+s+'</div></div>';
+    });
+    h += '</div></div>';
+    root.innerHTML = h;
+    return;
+  }
+
+  // Selector мөр
+  h += '<div class="kpp-month" style="margin-bottom:12px">';
+  h += '<select data-a="setemp" style="flex:1;padding:8px 12px;border-radius:8px;border:1px solid #e2e8f0;font-size:13px;font-family:inherit">';
+  staff.forEach(function(s){
+    h += '<option value="'+escAt(s.name)+'"'+(s.name===st.emp?' selected':'')+'>'+escH(s.name)+' — '+escH(s.role)+'</option>';
+  });
+  h += '</select>';
+  h += '<select data-a="setmonth" style="padding:8px 12px;border-radius:8px;border:1px solid #e2e8f0;font-size:13px;font-family:inherit">';
+  months.forEach(function(m){
+    h += '<option value="'+m.val+'"'+(m.val===st.month?' selected':'')+'>'+m.lbl+'</option>';
+  });
+  h += '</select>';
+  h += '<button class="bsm" data-a="load" style="padding:8px 16px;font-size:13px;font-weight:700">';
+  h += '<svg width="13" height="13"><use href="#i-ref"></use></svg> Татах</button>';
+  h += '<button class="btn" data-a="opensheet" style="padding:7px 12px;font-size:12px;gap:5px" title="Google Sheets дотор нээх">';
+  h += '<svg width="13" height="13"><use href="#i-link"></use></svg> Sheets</button>';
+  h += '</div>';
+
+  // View tabs
+  h += '<div class="kpp-tabs">';
+  h += '<button class="kpp-tab'+(kppState.view==='emp'?' active':'')+'" data-a="view" data-v="emp">✏️ Ажилтны харагдац</button>';
+  h += '<button class="kpp-tab'+(kppState.view==='mgr'?' active':'')+'" data-a="view" data-v="mgr">✅ Менежерийн харагдац</button>';
+  h += '</div>';
+
+  // Sheet үүсгэх товч
+  h += '<div style="margin-bottom:12px;display:flex;gap:8px;align-items:center">';
+  h += '<button class="btn" data-a="initsh" style="font-size:12px;gap:6px">';
+  h += '<svg width="13" height="13"><use href="#i-plug"></use></svg> Sheet үүсгэх (нэг удаа)</button>';
+  h += '<span style="font-size:11px;color:#94a3b8">Employees sheet-д байгаа ажилтан бүрт KPI sheet үүсгэнэ</span>';
+  h += '</div>';
+
+  // Content
+  h += '<div id="kpp-body">';
+  if (kpiState.rows.length) {
+    h += kppBuildTable();
+  } else {
+    h += '<div class="kpp-loading" style="text-align:center;padding:40px;color:#94a3b8">';
+    h += '<svg width="32" height="32" style="color:#cbd5e1;margin-bottom:8px"><use href="#i-plan"></use></svg><br>';
+    h += 'Ажилтан болон сар сонгоод <b>Татах</b> товчийг дарна уу<br>';
+    h += '<span style="font-size:11px;margin-top:6px;display:block">Дата Google Sheets дотор хадгалагдана</span>';
+    h += '</div>';
+  }
+  h += '</div>';
+
+  root.innerHTML = h;
+}
+
+// ── Sheet нэрийг HTML-д тооцоолох (JS дээр) ──
+function kppSheetNameJS(empName) {
+  return 'KPI_' + empName.replace(/\./g,'_').replace(/\s+/g,'_');
+}
+
+// ── Sheet-ийг шинэ tab-д нээх ──
+function kppOpenSheet() {
+  var sName = kppSheetNameJS(kpiState.emp);
+  var url = 'https://docs.google.com/spreadsheets/d/' + DEFAULT_SHEET_ID + '/edit#gid=0&range=A1';
+  // Sheet-ийн gid-г мэдэхгүй тул spreadsheet-ийг нээж хэрэглэгч өөрөө sheet сонгоно
+  window.open('https://docs.google.com/spreadsheets/d/' + DEFAULT_SHEET_ID, '_blank');
+}
+
+// ── Table render ──
+function kppBuildTable() {
+  var rows = kpiState.rows;
+  var emp  = kpiState.emp;
+  var isMgr = kppState.view === 'mgr';
+
+  // Ерөнхий тооцоо
+  var totalJin  = 0, totalUnel = 0;
+  var byType = { 'Тогтмол':0, 'Удирдлагын ажил':0, 'Гэнэтийн ажил':0 };
+  rows.forEach(function(r){
+    var jin  = parseFloat(r['Жин%']) || 0;
+    var biel = parseFloat(r['Биелэлт%']) || 0;
+    var unel = Math.round(jin*biel/100*100)/100;
+    totalJin  += jin;
+    totalUnel += unel;
+    if (byType[r['Төрөл']] !== undefined) byType[r['Төрөл']] += jin;
+  });
+  var pending = rows.filter(function(r){ return r['Статус'] !== 'Батлагдсан' && r['Статус'] !== 'Буцаагдсан'; });
+
+  var h = '';
+
+  // Summary
+  h += '<div class="kpp-sum-grid" style="margin-bottom:14px">';
+  h += kppCard(Math.round(byType['Тогтмол']*10)/10+'%', 'Тогтмол', '#1d4ed8', '≈60%');
+  h += kppCard(Math.round(byType['Удирдлагын ажил']*10)/10+'%', 'Удирдлагын', '#7c3aed', '≈20%');
+  h += kppCard(Math.round(byType['Гэнэтийн ажил']*10)/10+'%', 'Гэнэтийн', '#059669', '≈20%');
+  h += kppCard(Math.round(totalUnel*10)/10+'%', 'Нийт биелэлт', '#0891b2', rows.length+' ажил');
+  h += '</div>';
+
+  // Жингийн анхааруулга
+  if (Math.abs(totalJin - 100) > 0.5) {
+    h += '<div class="kpp-warn">⚠️ Нийт жин <b>'+Math.round(totalJin*10)/10+'%</b> байна — 100% байх ёстой</div>';
+  }
+
+  // Ажилтны горим: зөвхөн харна, Sheets дотор засна
+  if (!isMgr) {
+    h += '<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#1e40af;display:flex;align-items:center;gap:8px">';
+    h += '<svg width="16" height="16"><use href="#i-link"></use></svg>';
+    h += '<span>Ажлын нэр, жин, биелэлтийг <b>Google Sheets</b> дотор шууд оруулна. Оруулсны дараа дахин <b>Татах</b> дарна.</span>';
+    h += '</div>';
+  }
+
+  // Менежерийн горим: батлах товчтой
+  if (isMgr && pending.length > 0) {
+    h += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding:10px 14px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px">';
+    h += '<span style="font-size:13px;color:#92400e"><b>'+pending.length+'</b> ажил батлагдаагүй байна</span>';
+    h += '<button class="btn btn-blue" data-a="approveall" style="font-size:12px;background:#16a34a;border-color:#16a34a">✓ Бүгдийг батлах</button>';
+    h += '</div>';
+  }
+
+  // Table
+  var cols = isMgr
+    ? ['дд','Ажлын нэр','Төрөл','Жин%','Биелэлт%','Үнэлгээ%','Тайлбар','Статус','Үйлдэл']
+    : ['дд','Ажлын нэр','Төрөл','Жин%','Биелэлт%','Үнэлгээ%','Тайлбар','Статус'];
+
+  h += '<div class="tw"><table class="lt">';
+  h += '<thead><tr>';
+  cols.forEach(function(c){ h += '<th>'+c+'</th>'; });
+  h += '</tr></thead><tbody>';
+
+  // Төрлөөр эрэмблэх
+  var sorted = [].concat(
+    rows.filter(function(r){return r['Төрөл']==='Тогтмол';}),
+    rows.filter(function(r){return r['Төрөл']==='Удирдлагын ажил';}),
+    rows.filter(function(r){return r['Төрөл']==='Гэнэтийн ажил';}),
+    rows.filter(function(r){return r['Төрөл']!=='Тогтмол'&&r['Төрөл']!=='Удирдлагын ажил'&&r['Төрөл']!=='Гэнэтийн ажил';})
+  );
+
+  var prevType = '';
+  sorted.forEach(function(r){
+    var jin  = parseFloat(r['Жин%']) || 0;
+    var biel = parseFloat(r['Биелэлт%']) || 0;
+    var unel = jin && biel ? Math.round(jin*biel/100*100)/100 : '';
+    var st   = String(r['Статус'] || 'Хүлээгдэж буй');
+    var rowCls = st==='Батлагдсан'?'dr':st==='Буцаагдсан'?'or':'';
+
+    // Төрлийн хэсэг хуваагч
+    if (r['Төрөл'] !== prevType) {
+      prevType = r['Төрөл'];
+      var typeCols = isMgr ? 9 : 8;
+      var typeColor = r['Төрөл']==='Тогтмол'?'#eff6ff':r['Төрөл']==='Удирдлагын ажил'?'#faf5ff':'#f0fdf4';
+      var typeTxt   = r['Төрөл']==='Тогтмол'?'📋 Тогтмол ажил (60%)':r['Төрөл']==='Удирдлагын ажил'?'👔 Удирдлагын ажил (20%)':'⚡ Гэнэтийн ажил (20%)';
+      h += '<tr><td colspan="'+typeCols+'" style="background:'+typeColor+';font-weight:700;font-size:12px;color:#1e293b;padding:7px 12px">'+typeTxt+'</td></tr>';
+    }
+
+    h += '<tr class="'+rowCls+'">';
+    h += '<td style="font-size:11px;color:#94a3b8;white-space:nowrap">'+escH(String(r['дд']||''))+'</td>';
+    h += '<td style="font-size:13px;font-weight:600">'+escH(String(r['Ажлын нэр']||'—'))+'</td>';
+    h += '<td>'+kppTypeBadge(r['Төрөл'])+'</td>';
+    h += '<td style="text-align:center;font-weight:700;color:#1d4ed8">'+(jin||'—')+'%</td>';
+    h += '<td style="text-align:center;font-weight:700;color:#0891b2">'+(biel||'—')+'%</td>';
+    h += '<td style="text-align:center;font-weight:700;color:#16a34a">'+(unel?unel+'%':'—')+'</td>';
+    h += '<td style="font-size:11px;color:#64748b">'+escH(String(r['Тайлбар']||'').slice(0,50))+'</td>';
+    h += '<td>'+kppStatusBadge(st)+'</td>';
+    if (isMgr) {
+      h += '<td style="white-space:nowrap">';
+      if (st !== 'Батлагдсан') {
+        h += '<button data-a="approve" data-row="'+r._row+'" data-emp="'+escAt(emp)+'" style="padding:3px 9px;border-radius:6px;background:#16a34a;color:#fff;border:none;cursor:pointer;font-size:11px;font-weight:600;font-family:inherit;margin-right:4px">✓ Батлах</button>';
+      }
+      if (st !== 'Буцаагдсан') {
+        h += '<button data-a="reject" data-row="'+r._row+'" data-emp="'+escAt(emp)+'" style="padding:3px 9px;border-radius:6px;background:#fef2f2;color:#ef4444;border:1px solid #fecaca;cursor:pointer;font-size:11px;font-weight:600;font-family:inherit">✕</button>';
+      }
+      if (r['Менежерийн тайлбар']) {
+        h += '<div style="font-size:10px;color:#1d4ed8;margin-top:3px">💬 '+escH(String(r['Менежерийн тайлбар']).slice(0,40))+'</div>';
+      }
+      h += '</td>';
+    }
+    h += '</tr>';
+  });
+
+  // Нийт мөр
+  h += '<tr style="background:#f8fafc;font-weight:700">';
+  h += '<td colspan="3" style="font-size:12px;text-align:right;padding-right:12px">Нийт:</td>';
+  h += '<td style="text-align:center;font-size:13px;color:#1d4ed8">'+Math.round(totalJin*10)/10+'%</td>';
+  h += '<td></td>';
+  h += '<td style="text-align:center;font-size:13px;color:#16a34a">'+Math.round(totalUnel*10)/10+'%</td>';
+  h += '<td colspan="'+(isMgr?3:2)+'"></td>';
+  h += '</tr>';
+
+  h += '</tbody></table></div>';
+  return h;
+}
+
+function kppCard(val, lbl, color, sub) {
+  return '<div class="kpp-sum-card">' +
+    '<div class="kpp-sum-val" style="color:'+color+'">'+val+'</div>' +
+    '<div class="kpp-sum-lbl">'+lbl+'</div>' +
+    '<div style="font-size:10px;color:#94a3b8;margin-top:2px">'+sub+'</div>' +
+    '</div>';
+}
+
+function kppTypeBadge(type) {
+  var map = {
+    'Тогтмол': 'background:#eff6ff;color:#1d4ed8',
+    'Удирдлагын ажил': 'background:#faf5ff;color:#7c3aed',
+    'Гэнэтийн ажил': 'background:#f0fdf4;color:#16a34a'
+  };
+  var s = map[type] || 'background:#f1f5f9;color:#475569';
+  return '<span style="font-size:10px;padding:2px 8px;border-radius:99px;font-weight:600;'+s+'">'+escH(String(type||''))+'</span>';
+}
+
+function kppStatusBadge(st) {
+  var s = st==='Батлагдсан'?'background:#f0fdf4;color:#16a34a':
+          st==='Буцаагдсан'?'background:#fef2f2;color:#ef4444':
+          'background:#fffbeb;color:#92400e';
+  return '<span style="font-size:10px;padding:2px 8px;border-radius:99px;font-weight:600;'+s+'">'+escH(st)+'</span>';
+}
+
+function kppMonths() {
   var arr = [];
   var now = new Date();
   var MNM = ['1-р','2-р','3-р','4-р','5-р','6-р','7-р','8-р','9-р','10-р','11-р','12-р'];
@@ -1176,576 +1401,69 @@ function kppGenMonths() {
   return arr;
 }
 
-// ── Main render ──
-function renderKPIPlan() {
-  var root = document.getElementById('kpiplan-root');
-  if (!root) return;
-  var staff = gS();
-  var months = kppGenMonths();
-  var st = kpiPlanState;
-
-  var h = '';
-  // Header
-  h += '<div class="kpp-hdr">';
-  h += '<div style="width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(255,255,255,.2)">';
-  h += '<svg width="24" height="24" style="color:#fff"><use href="#i-plan"></use></svg></div>';
-  h += '<div style="flex:1"><div style="font-size:17px;font-weight:800;margin-bottom:3px">KPI Төлөвлөгөө</div>';
-  h += '<div style="font-size:12px;opacity:.7">Тогтмол 60% · Удирдлагын ажил 20% · Гэнэтийн ажил 20%</div></div>';
-  h += '<div style="text-align:right"><div style="font-size:11px;opacity:.6">'+escH(st.selEmp)+'</div>';
-  h += '<div style="font-size:13px;font-weight:700;margin-top:2px">'+st.selMonth+'</div></div>';
-  h += '</div>';
-
-  // Tabs
-  h += '<div class="kpp-tabs">';
-  h += '<button class="kpp-tab'+(st.view==='employee'?' active':'')+'" data-act="setview" data-val="employee">✏️ Ажилтан горим</button>';
-  h += '<button class="kpp-tab'+(st.view==='manager'?' active':'')+'" data-act="setview" data-val="manager">✅ Менежер горим</button>';
-  h += '</div>';
-
-  // Selectors
-  h += '<div class="kpp-month">';
-  h += '<select data-act="setmonth">';
-  months.forEach(function(m) {
-    h += '<option value="'+escAt(m.val)+'"'+(m.val===st.selMonth?' selected':'')+'>'+escH(m.lbl)+'</option>';
-  });
-  h += '</select>';
-  h += '<select data-act="setemp">';
-  staff.forEach(function(s) {
-    h += '<option value="'+escAt(s.name)+'"'+(s.name===st.selEmp?' selected':'')+'>'+escH(s.name)+' — '+escH(s.role)+'</option>';
-  });
-  h += '</select>';
-  h += '<button class="bsm" data-act="load" style="padding:7px 14px;font-size:12px">';
-  h += '<svg width="12" height="12"><use href="#i-ref"></use></svg> Татах</button>';
-  h += '</div>';
-
-  // Content area
-  h += '<div id="kpp-content">';
-  if (!st.rows.tog.length && !st.rows.udr.length && !st.rows.gen.length) {
-    h += '<div class="kpp-loading">Ажилтан болон сар сонгоод "Татах" товчийг дарна уу</div>';
+// ── Sheet үүсгэх ──
+async function kppInitSheets() {
+  var btn = document.querySelector('[data-a="initsh"]');
+  if (btn) { btn.disabled=true; btn.innerHTML='⏳ Үүсгэж байна...'; }
+  var res = await kppCall({ action:'initSheets' });
+  if (btn) { btn.disabled=false; btn.innerHTML='<svg width="13" height="13"><use href="#i-plug"></use></svg> Sheet үүсгэх (нэг удаа)'; }
+  if (res.ok) {
+    var msg = '';
+    if (res.created.length) msg += '✅ Үүсгэсэн: '+res.created.join(', ')+'\n';
+    if (res.existed.length) msg += '⚡ Аль хэдийн байгаа: '+res.existed.length+' sheet';
+    alert(msg || 'Бүгд бэлэн байна');
   } else {
-    h += kppBuildContent();
+    alert('Алдаа: ' + res.error);
   }
-  h += '</div>';
-
-  root.innerHTML = h;
 }
 
-function kppBuildContent() {
-  var st = kpiPlanState;
-  if (st.view === 'manager') return kppBuildMgrContent();
+// ── Татах ──
+async function kppLoad() {
+  var body = document.getElementById('kpp-body');
+  if (body) body.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8">⏳ Татаж байна...</div>';
 
-  var allRows = st.rows.tog.concat(st.rows.udr).concat(st.rows.gen);
-  var totalJin = allRows.reduce(function(s,r){ return s+(parseFloat(r['Жин%'])||0); }, 0);
-  var togJin   = st.rows.tog.reduce(function(s,r){ return s+(parseFloat(r['Жин%'])||0); }, 0);
-  var udrJin   = st.rows.udr.reduce(function(s,r){ return s+(parseFloat(r['Жин%'])||0); }, 0);
-  var genJin   = st.rows.gen.reduce(function(s,r){ return s+(parseFloat(r['Жин%'])||0); }, 0);
-  var earned   = allRows.reduce(function(s,r){
-    return s + (parseFloat(r['Жин%'])||0)*(parseFloat(r['Биелэлт%'])||0)/100;
-  }, 0);
+  var res = await kppCall({ action:'getKPI', name: kpiState.emp, month: kpiState.month });
 
-  var h = '';
-
-  // Warning
-  if (Math.abs(totalJin - 100) > 0.5) {
-    h += '<div class="kpp-warn">⚠️ Нийт жин <b>'+Math.round(totalJin*10)/10+'%</b> байна. 100% байх ёстой. ';
-    h += '(Тогтмол: '+Math.round(togJin)+'% + Удирдлагын: '+Math.round(udrJin)+'% + Гэнэтийн: '+Math.round(genJin)+'% = '+Math.round(totalJin)+'%)</div>';
-  }
-
-  // Summary
-  h += '<div class="kpp-sum-grid">';
-  h += kppSumCard(Math.round(togJin)+'%', 'Тогтмол ажил', '#1d4ed8', 'зорилт 60%');
-  h += kppSumCard(Math.round(udrJin)+'%', 'Удирдлагын ажил', '#7c3aed', 'зорилт 20%');
-  h += kppSumCard(Math.round(genJin)+'%', 'Гэнэтийн ажил', '#059669', 'зорилт 20%');
-  h += '</div>';
-
-  // Progress bars
-  h += '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.05)">';
-  h += kppProgressRow('Тогтмол (60%)', togJin, 60, '#1d4ed8');
-  h += kppProgressRow('Удирдлагын (20%)', udrJin, 20, '#7c3aed');
-  h += kppProgressRow('Гэнэтийн (20%)', genJin, 20, '#059669');
-  h += '</div>';
-
-  // Sections
-  h += kppBuildSection('tog', '📋 Тогтмол ажил', 'tag-tog', togJin, 60, st.rows.tog, false);
-  h += kppBuildSection('udr', '👔 Удирдлагын ажил', 'tag-udr', udrJin, 20, st.rows.udr, true);
-  h += kppBuildSection('gen', '⚡ Гэнэтийн ажил', 'tag-gen', genJin, 20, st.rows.gen, true);
-
-  // Footer
-  var jinColor = Math.abs(totalJin-100) < 0.5 ? '#16a34a' : '#ef4444';
-  h += '<div class="kpp-footer" id="kpp-footer">';
-  h += '<div><span style="font-size:13px;font-weight:700">Нийт жин: </span>';
-  h += '<span style="font-size:14px;font-weight:800;color:'+jinColor+'">'+Math.round(totalJin*10)/10+'%</span>';
-  h += ' <span style="font-size:13px;color:#475569;margin-left:10px">Биелэлт: </span>';
-  h += '<span style="font-size:14px;font-weight:800;color:#1d4ed8">'+Math.round(earned*10)/10+'%</span></div>';
-  h += '<div style="display:flex;align-items:center;gap:8px">';
-  h += '<div class="kpp-totalbar"><div class="kpp-totalfill" style="width:'+Math.min(totalJin,100)+'%"></div></div>';
-  h += '<button class="kpp-save" data-act="save"><svg width="14" height="14"><use href="#i-check"></use></svg> Хадгалах</button>';
-  h += '</div></div>';
-
-  return h;
-}
-
-function kppUpdateFooter() {
-  var st = kpiPlanState;
-  var allRows = st.rows.tog.concat(st.rows.udr).concat(st.rows.gen);
-  var totalJin = allRows.reduce(function(s,r){ return s+(parseFloat(r['Жин%'])||0); }, 0);
-  var earned   = allRows.reduce(function(s,r){
-    return s + (parseFloat(r['Жин%'])||0)*(parseFloat(r['Биелэлт%'])||0)/100;
-  }, 0);
-  var footer = document.getElementById('kpp-footer');
-  if (!footer) return;
-  var jinColor = Math.abs(totalJin-100) < 0.5 ? '#16a34a' : '#ef4444';
-  footer.querySelector('div').innerHTML =
-    '<span style="font-size:13px;font-weight:700">Нийт жин: </span>' +
-    '<span style="font-size:14px;font-weight:800;color:'+jinColor+'">'+Math.round(totalJin*10)/10+'%</span>' +
-    ' <span style="font-size:13px;color:#475569;margin-left:10px">Биелэлт: </span>' +
-    '<span style="font-size:14px;font-weight:800;color:#1d4ed8">'+Math.round(earned*10)/10+'%</span>';
-}
-
-function kppSumCard(val, lbl, color, sub) {
-  return '<div class="kpp-sum-card">' +
-    '<div class="kpp-sum-val" style="color:'+color+'">'+val+'</div>' +
-    '<div class="kpp-sum-lbl">'+lbl+'</div>' +
-    '<div style="font-size:10px;color:#94a3b8;margin-top:2px">'+sub+'</div>' +
-    '</div>';
-}
-
-function kppProgressRow(lbl, cur, target, color) {
-  var pct = target > 0 ? Math.min(cur/target*100, 130) : 0;
-  var col = cur >= target*0.9 ? color : cur >= target*0.5 ? '#f59e0b' : '#ef4444';
-  return '<div class="kpp-progress-row">' +
-    '<div class="kpp-progress-lbl">'+lbl+'</div>' +
-    '<div class="kpp-progress-bar"><div class="kpp-progress-fill" style="width:'+Math.min(pct,100)+'%;background:'+col+'"></div></div>' +
-    '<div class="kpp-progress-pct" style="color:'+col+'">'+Math.round(cur*10)/10+'%</div>' +
-    '</div>';
-}
-
-function kppBuildSection(secKey, title, tagCls, jin, target, rows, canAdd) {
-  var st = kpiPlanState;
-  var isOpen = st.sections[secKey] !== false;
-  var jinColor = jin >= target*0.9 ? '#16a34a' : jin >= target*0.5 ? '#f59e0b' : '#ef4444';
-
-  var h = '<div class="kpp-section">';
-  // Header
-  h += '<div class="kpp-sh" data-act="togsec" data-val="'+secKey+'">';
-  h += '<div class="kpp-stitle">';
-  h += '<svg width="14" height="14" style="color:#94a3b8"><use href="#'+(isOpen?'i-chu':'i-chd')+'"></use></svg>';
-  h += '<span>'+title+'</span>';
-  h += '<span class="kpp-stag '+tagCls+'">зорилт '+target+'%</span>';
-  h += '<span style="font-size:12px;color:#94a3b8">('+rows.length+' ажил)</span>';
-  h += '</div>';
-  h += '<span class="kpp-pct" style="color:'+jinColor+'">'+Math.round(jin*10)/10+'%</span>';
-  h += '</div>';
-
-  // Body
-  h += '<div class="kpp-body'+(isOpen?' open':'') +'">';
-  // Column headers
-  h += '<div style="display:grid;grid-template-columns:32px 1fr 70px 70px 70px 80px 32px;gap:8px;padding:0 10px 6px;font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em">';
-  h += '<div></div><div>Ажлын нэр</div><div style="text-align:center">Жин%</div>';
-  h += '<div style="text-align:center">Биелэлт%</div><div style="text-align:center">Үнэлгээ%</div>';
-  h += '<div style="text-align:center">Статус</div><div></div></div>';
-
-  // Rows
-  for (var i = 0; i < rows.length; i++) {
-    h += kppBuildRow(secKey, i, rows[i]);
-  }
-
-  // Add button
-  if (canAdd) {
-    h += '<button class="kpp-add" data-act="addrow" data-val="'+secKey+'">';
-    h += '<svg width="14" height="14"><use href="#i-bolt"></use></svg> Ажил нэмэх</button>';
-  } else {
-    h += '<button class="kpp-add" data-act="adddept">';
-    h += '<svg width="14" height="14"><use href="#i-bolt"></use></svg> DeptJobs-с ажил нэмэх</button>';
-  }
-
-  h += '</div></div>';
-  return h;
-}
-
-function kppBuildRow(secKey, idx, row) {
-  var biel = parseFloat(row['Биелэлт%']) || 0;
-  var jin  = parseFloat(row['Жин%']) || 0;
-  var unel = Math.round(jin * biel / 100 * 100) / 100;
-  var st   = String(row['Статус'] || 'Хүлээгдэж буй');
-  var stCls = st==='Батлагдсан'?'approved':st==='Буцаагдсан'?'rejected':'pending';
-  var stTag = st==='Батлагдсан'?'st-appr':st==='Буцаагдсан'?'st-rej':'st-pend';
-  var locked = st === 'Батлагдсан';
-  var unelColor = unel >= jin*0.9 ? '#16a34a' : unel > 0 ? '#f59e0b' : '#94a3b8';
-
-  var h = '<div class="kpp-row '+stCls+'">';
-  h += '<div class="kpp-num">'+(idx+1)+'</div>';
-  // Name + tailbar
-  h += '<div>';
-  h += '<div class="kpp-name">'+escH(row['Ажлын нэр']||'—')+'</div>';
-  if (row['Тайлбар']) h += '<div class="kpp-sub">'+escH(String(row['Тайлбар']).slice(0,60))+'</div>';
-  if (row['Менежерийн тайлбар']) h += '<div class="kpp-sub" style="color:#1d4ed8">💬 '+escH(String(row['Менежерийн тайлбар']).slice(0,50))+'</div>';
-  h += '</div>';
-  // Жин%
-  h += '<input class="kpp-input" type="number" min="0" max="100" step="0.5" value="'+(jin||'')+'" placeholder="%"';
-  h += ' data-act="editfield" data-sec="'+secKey+'" data-idx="'+idx+'" data-field="Жин%"';
-  h += locked?' readonly':'';
-  h += '>';
-  // Биелэлт%
-  h += '<input class="kpp-input" type="number" min="0" max="100" step="1" value="'+(biel||'')+'" placeholder="%"';
-  h += ' data-act="editfield" data-sec="'+secKey+'" data-idx="'+idx+'" data-field="Биелэлт%"';
-  h += locked?' readonly':'';
-  h += '>';
-  // Үнэлгээ%
-  h += '<div class="kpp-pct-cell" style="color:'+unelColor+'">'+(unel > 0 ? unel+'%' : '—')+'</div>';
-  // Статус
-  h += '<div style="text-align:center"><span class="kpp-status '+stTag+'">'+st+'</span></div>';
-  // Delete
-  h += '<button class="kpp-del" data-act="delrow" data-sec="'+secKey+'" data-idx="'+idx+'" title="Устгах"';
-  h += locked?' disabled':'';
-  h += '><svg width="13" height="13"><use href="#i-x"></use></svg></button>';
-  h += '</div>';
-  return h;
-}
-
-// ── Менежер горим ──
-function kppBuildMgrContent() {
-  var st = kpiPlanState;
-  var allRows = st.rows.tog.concat(st.rows.udr).concat(st.rows.gen);
-
-  if (!allRows.length) {
-    return '<div class="kpp-empty">Энэ ажилтанд KPI төлөвлөгөө байхгүй байна. Эхлээд "Ажилтан горим"-д нэмнэ үү.</div>';
-  }
-
-  var totalJin = allRows.reduce(function(s,r){ return s+(parseFloat(r['Жин%'])||0); }, 0);
-  var earned   = allRows.reduce(function(s,r){
-    return s + (parseFloat(r['Жин%'])||0)*(parseFloat(r['Биелэлт%'])||0)/100;
-  }, 0);
-  var pending  = allRows.filter(function(r){ return r['Статус']!=='Батлагдсан'&&r['Статус']!=='Буцаагдсан'; });
-
-  var h = '<div style="font-size:15px;font-weight:700;margin-bottom:12px">'+escH(st.selEmp)+' — '+st.selMonth+'</div>';
-
-  h += '<div class="kpp-sum-grid">';
-  h += kppSumCard(allRows.length+' ажил', 'Нийт', '#475569', '');
-  h += kppSumCard(Math.round(totalJin)+'%', 'Нийт жин', '#1d4ed8', '');
-  h += kppSumCard(Math.round(earned*10)/10+'%', 'Биелэлт', '#16a34a', '');
-  h += '</div>';
-
-  var sections = [
-    { key:'tog', title:'📋 Тогтмол ажил', rows: st.rows.tog },
-    { key:'udr', title:'👔 Удирдлагын ажил', rows: st.rows.udr },
-    { key:'gen', title:'⚡ Гэнэтийн ажил', rows: st.rows.gen }
-  ];
-  sections.forEach(function(sec) {
-    if (!sec.rows.length) return;
-    var secJin = sec.rows.reduce(function(s,r){return s+(parseFloat(r['Жин%'])||0);},0);
-    h += '<div class="kpp-section">';
-    h += '<div class="kpp-sh" style="cursor:default">';
-    h += '<div class="kpp-stitle"><span>'+sec.title+'</span></div>';
-    h += '<span class="kpp-pct">'+Math.round(secJin*10)/10+'%</span></div>';
-    h += '<div class="kpp-body open">';
-    // Col headers
-    h += '<div style="display:grid;grid-template-columns:32px 1fr 60px 60px 60px 90px 1fr 120px;gap:7px;padding:0 10px 6px;font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em">';
-    h += '<div></div><div>Ажлын нэр</div><div style="text-align:center">Жин%</div>';
-    h += '<div style="text-align:center">Биелэлт%</div><div style="text-align:center">Үнэлгээ%</div>';
-    h += '<div style="text-align:center">Статус</div><div>Тайлбар</div><div style="text-align:center">Үйлдэл</div></div>';
-    sec.rows.forEach(function(row, i) {
-      h += kppBuildMgrRow(sec.key, i, row);
-    });
-    h += '</div></div>';
-  });
-
-  // Footer
-  h += '<div class="kpp-footer">';
-  if (pending.length) {
-    h += '<div style="font-size:13px;color:#475569">'+pending.length+' ажил батлагдаагүй байна</div>';
-    h += '<div style="display:flex;gap:8px">';
-    h += '<button class="kpp-save" data-act="approveall" style="background:#16a34a">';
-    h += '<svg width="14" height="14"><use href="#i-check"></use></svg> Бүгдийг батлах</button>';
-    h += '<button class="kpp-save" data-act="save">';
-    h += '<svg width="14" height="14"><use href="#i-ref"></use></svg> Хадгалах</button>';
-    h += '</div>';
-  } else {
-    h += '<span style="color:#16a34a;font-weight:700">✅ Бүх ажил батлагдсан байна</span>';
-    h += '<button class="kpp-save" data-act="save"><svg width="14" height="14"><use href="#i-ref"></use></svg> Хадгалах</button>';
-  }
-  h += '</div>';
-  return h;
-}
-
-function kppBuildMgrRow(secKey, idx, row) {
-  var jin  = parseFloat(row['Жин%']) || 0;
-  var biel = parseFloat(row['Биелэлт%']) || 0;
-  var unel = Math.round(jin * biel / 100 * 100) / 100;
-  var st   = String(row['Статус'] || 'Хүлээгдэж буй');
-  var stCls = st==='Батлагдсан'?'approved':st==='Буцаагдсан'?'rejected':'pending';
-  var stTag = st==='Батлагдсан'?'st-appr':st==='Буцаагдсан'?'st-rej':'st-pend';
-
-  var h = '<div class="kpp-mgr-row '+stCls+'">';
-  h += '<div class="kpp-num">'+(idx+1)+'</div>';
-  h += '<div><div class="kpp-name">'+escH(row['Ажлын нэр']||'—')+'</div>';
-  if (row['Тайлбар']) h += '<div class="kpp-sub">'+escH(String(row['Тайлбар']).slice(0,50))+'</div>';
-  h += '</div>';
-  h += '<div style="text-align:center;font-size:12px;font-weight:700">'+jin+'%</div>';
-  h += '<div style="text-align:center;font-size:12px;font-weight:700">'+(biel||'—')+'%</div>';
-  h += '<div style="text-align:center;font-size:12px;font-weight:700;color:#16a34a">'+(unel>0?unel+'%':'—')+'</div>';
-  h += '<div style="text-align:center"><span class="kpp-status '+stTag+'">'+st+'</span></div>';
-  h += '<input class="kpp-input" value="'+escAt(row['Менежерийн тайлбар']||'')+'" placeholder="Тайлбар..."';
-  h += ' data-act="mgrcomment" data-sec="'+secKey+'" data-idx="'+idx+'" style="font-size:11px">';
-  h += '<div style="display:flex;gap:5px;justify-content:center">';
-  if (st !== 'Батлагдсан') {
-    h += '<button data-act="approverow" data-sec="'+secKey+'" data-idx="'+idx+'"';
-    h += ' style="padding:4px 9px;border-radius:6px;background:#16a34a;color:#fff;border:none;cursor:pointer;font-size:11px;font-weight:600;font-family:inherit">✓ Батлах</button>';
-  }
-  if (st !== 'Буцаагдсан') {
-    h += '<button data-act="rejectrow" data-sec="'+secKey+'" data-idx="'+idx+'"';
-    h += ' style="padding:4px 9px;border-radius:6px;background:#fef2f2;color:#ef4444;border:1px solid #fecaca;cursor:pointer;font-size:11px;font-weight:600;font-family:inherit">✕ Буцаах</button>';
-  }
-  h += '</div></div>';
-  return h;
-}
-
-// ── Actions ──
-function kppDelRow(sec, idx) {
-  if (!confirm('Устгах уу?')) return;
-  kpiPlanState.rows[sec].splice(idx, 1);
-  renderKPIContent();
-}
-
-function kppAddRow(secKey) {
-  var typeMap = { tog:'Тогтмол', udr:'Удирдлагын ажил', gen:'Гэнэтийн ажил' };
-  kpiPlanState.rows[secKey].push({
-    'Сар': kpiPlanState.selMonth, 'Төрөл': typeMap[secKey] || secKey,
-    'дд': secKey+'.'+(kpiPlanState.rows[secKey].length+1),
-    'Ажлын нэр': '', 'Жин%': '', 'Биелэлт%': '', 'Тайлбар': '',
-    'Үнэлгээ%': '', 'Статус': 'Хүлээгдэж буй', 'Менежерийн тайлбар': '',
-    '_isNew': true
-  });
-  renderKPIContent();
-}
-
-function kppApproveRow(sec, idx) {
-  kpiPlanState.rows[sec][idx]['Статус'] = 'Батлагдсан';
-  renderKPIContent();
-}
-function kppRejectRow(sec, idx) {
-  kpiPlanState.rows[sec][idx]['Статус'] = 'Буцаагдсан';
-  renderKPIContent();
-}
-function kppApproveAll() {
-  ['tog','udr','gen'].forEach(function(k) {
-    kpiPlanState.rows[k].forEach(function(r) {
-      if (r['Статус'] !== 'Буцаагдсан') r['Статус'] = 'Батлагдсан';
-    });
-  });
-  renderKPIContent();
-}
-
-// ── DeptJobs modal ──
-function kppOpenDeptModal() {
-  var st = kpiPlanState;
-  var staff = gS();
-  var emp = staff.find(function(s){ return s.name===st.selEmp; });
-  var role = emp ? emp.role : '';
-
-  // Filter DeptJobs by role, exclude already added
-  var empNameShort2 = st.selEmp ? st.selEmp.split('.').pop().trim() : '';
-  var candidates = deptData.filter(function(j){
-    if (!j.ajil) return false;
-    var ownerStr = String(j.owner || '').toLowerCase();
-    var nameMatch = empNameShort2 && ownerStr.includes(empNameShort2.toLowerCase());
-    var roleMatch = role && j.role && (j.role===role || role.includes(j.role) || j.role.includes(role.split(' ')[0]));
-    return nameMatch || roleMatch;
-  }).filter(function(j){
-    return !st.rows.tog.some(function(r){ return r['Ажлын нэр']===j.ajil; });
-  });
-
-  st.modalJobs = candidates;
-
-  if (!candidates.length) {
-    alert('DeptJobs-д тохирох ажил олдсонгүй, эсвэл бүгд нэмэгдсэн байна');
+  if (!res.ok) {
+    if (res.notFound) {
+      if (body) body.innerHTML = '<div class="kpp-warn">⚠️ Sheet байхгүй байна. Дээрх <b>"Sheet үүсгэх"</b> товчийг дарна уу.</div>';
+    } else {
+      if (body) body.innerHTML = '<div class="kpp-warn">❌ '+escH(res.error)+'</div>';
+    }
     return;
   }
 
-  var modal = document.createElement('div');
-  modal.id = 'kpp-modal';
-  modal.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:500;display:flex;align-items:center;justify-content:center';
-
-  var h = '<div style="background:#fff;border-radius:12px;width:560px;max-width:96%;max-height:76vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.2)">';
-  h += '<div style="padding:14px 18px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between">';
-  h += '<div style="font-size:14px;font-weight:700">DeptJobs-с ажил сонгох ('+candidates.length+' ажил)</div>';
-  h += '<button data-act="closemodal" style="background:none;border:none;cursor:pointer;font-size:20px;color:#94a3b8;padding:0 4px">✕</button>';
-  h += '</div>';
-  h += '<div style="overflow-y:auto;padding:10px 16px;flex:1">';
-
-  candidates.forEach(function(j, i) {
-    h += '<label style="display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:8px;margin-bottom:4px;border:1px solid #e2e8f0;cursor:pointer">';
-    h += '<input type="checkbox" data-act="deptsel" data-idx="'+i+'" style="margin-top:3px;flex-shrink:0">';
-    h += '<div><div style="font-size:13px;font-weight:600">'+escH(j.ajil)+'</div>';
-    if (j.tailbar) h += '<div style="font-size:11px;color:#94a3b8;margin-top:2px">'+escH(String(j.tailbar).slice(0,80))+'</div>';
-    h += '</div></label>';
-  });
-
-  h += '</div>';
-  h += '<div style="padding:12px 18px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:8px">';
-  h += '<button data-act="closemodal" style="padding:8px 16px;border-radius:8px;border:1px solid #e2e8f0;background:#fff;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit">Болих</button>';
-  h += '<button data-act="deptok" style="padding:8px 16px;border-radius:8px;background:#1d4ed8;color:#fff;border:none;cursor:pointer;font-size:13px;font-weight:600;font-family:inherit">Нэмэх</button>';
-  h += '</div></div>';
-
-  modal.innerHTML = h;
-  modal.onclick = function(e) {
-    var el = e.target;
-    while (el && el !== modal) {
-      var act = el.dataset.act;
-      if (act) {
-        if (act === 'closemodal') { modal.remove(); return; }
-        if (act === 'deptok') { kppConfirmDept(); modal.remove(); return; }
-        break;
-      }
-      el = el.parentElement;
-    }
-    if (e.target === modal) modal.remove();
-  };
-  document.body.appendChild(modal);
+  kpiState.rows = res.data || [];
+  renderKPIBody();
 }
 
-function kppConfirmDept() {
-  var modal = document.getElementById('kpp-modal');
-  if (!modal) return;
-  var checks = modal.querySelectorAll('input[type=checkbox]:checked');
-  var st = kpiPlanState;
-  checks.forEach(function(cb) {
-    var i = parseInt(cb.dataset.idx);
-    var j = st.modalJobs[i];
-    if (!j) return;
-    st.rows.tog.push({
-      'Сар': st.selMonth, 'Төрөл': 'Тогтмол',
-      'дд': '1.'+(st.rows.tog.length+1),
-      'Ажлын нэр': j.ajil, 'Жин%': '', 'Биелэлт%': '',
-      'Тайлбар': j.tailbar||'', 'Үнэлгээ%': '',
-      'Статус': 'Хүлээгдэж буй', 'Менежерийн тайлбар': '',
-      '_isNew': true
-    });
-  });
-  modal.remove();
-  renderKPIContent();
+function renderKPIBody() {
+  var body = document.getElementById('kpp-body');
+  if (!body) return;
+  if (!kpiState.rows.length) {
+    body.innerHTML = '<div style="text-align:center;padding:30px;color:#94a3b8">' +
+      'Энэ сард KPI төлөвлөгөө байхгүй байна.<br>' +
+      '<span style="font-size:12px;margin-top:6px;display:block">Google Sheets дотор <b>'+kppSheetNameJS(kpiState.emp)+'</b> sheet-д оруулаад дахин Татах дарна уу</span>' +
+      '</div>';
+    return;
+  }
+  body.innerHTML = kppBuildTable();
 }
 
-function kppCloseModal() {
-  var modal = document.getElementById('kpp-modal');
-  if (modal) modal.remove();
-}
-
-// ── Re-render content only ──
-function renderKPIContent() {
-  var content = document.getElementById('kpp-content');
-  if (!content) { renderKPIPlan(); return; }
-  content.innerHTML = kppBuildContent();
-}
-
-// ── Load ──
-async function kppLoad() {
-  var st = kpiPlanState;
-  var content = document.getElementById('kpp-content');
-  if (!content) return;
-  content.innerHTML = '<div class="kpp-loading">⏳ Татаж байна...</div>';
-
-  var staff = gS();
-  var emp = staff.find(function(s){ return s.name===st.selEmp; });
-  var role = emp ? emp.role : '';
-
-  var existing = [];
-
-  if (KPI_GAS_URL) {
-    var res = await kppApiFetch({ action:'getKPI', name: st.selEmp, month: st.selMonth });
-    if (res.ok) existing = res.data;
-    var djRes = await kppApiFetch({ action:'getDeptJobs', role: role });
-    if (djRes.ok) st.deptJobs = djRes.data;
+// ── Батлах ──
+async function kppApprove(rowIdx, empName, status, comment) {
+  if (!rowIdx) return;
+  var res = await kppPost({ action:'approveRow', empName: empName, rowIndex: parseInt(rowIdx), status: status, comment: comment });
+  if (res.ok) {
+    kppLoad(); // Дахин татна
   } else {
-    // Offline: localStorage
-    try {
-      var key = 'kpi_'+st.selEmp+'_'+st.selMonth;
-      var saved = localStorage.getItem(key);
-      if (saved) existing = JSON.parse(saved);
-    } catch(e) {}
-    // Use already-loaded deptData
-    // Тухайн ажилтны нэр эсвэл албан тушаалаар шүүх
-    var empNameShort = st.selEmp ? st.selEmp.split('.').pop().trim() : '';
-    st.deptJobs = deptData.filter(function(j){
-      if (!j.ajil) return false;
-      // 1. Хариуцагч баганад нэр байгаа эсэх (хамгийн нарийвчлалтай)
-      var ownerStr = String(j.owner || '').toLowerCase();
-      var nameMatch = empNameShort && ownerStr.includes(empNameShort.toLowerCase());
-      var fullNameMatch = st.selEmp && ownerStr.includes(st.selEmp.toLowerCase().split('.').pop().trim());
-      // 2. Альтернатив: Lastname.Firstname форматаар
-      var altMatch = st.selEmp && ownerStr.replace(/\n/g,' ').includes(st.selEmp.toLowerCase());
-      // 3. Albан тушаалаар шүүх (fallback)
-      var roleMatch = role && j.role && (j.role === role || role.includes(j.role) || j.role.includes(role.split(' ')[0]));
-      return nameMatch || fullNameMatch || altMatch || roleMatch;
-    });
+    alert('Алдаа: '+res.error);
   }
-
-  if (existing.length) {
-    st.rows.tog = existing.filter(function(r){ return r['Төрөл']==='Тогтмол'; });
-    st.rows.udr = existing.filter(function(r){ return r['Төрөл']==='Удирдлагын ажил'; });
-    st.rows.gen = existing.filter(function(r){ return r['Төрөл']==='Гэнэтийн ажил'; });
-  } else {
-    // New: pre-fill from DeptJobs (first 12 items)
-    // Жин% тэнцүү хуваах: 60% / ажлын тоо (нэг бүрд тэнцүү жин)
-    var togCount = st.deptJobs.length;
-    var defJin = togCount > 0 ? Math.round(60 / togCount * 10) / 10 : 0;
-    st.rows.tog = st.deptJobs.map(function(j,i){
-      return {
-        'Сар': st.selMonth, 'Төрөл':'Тогтмол',
-        'дд': '1.'+(i+1), 'Ажлын нэр': j.ajil,
-        'Жин%': defJin, 'Биелэлт%': '', 'Тайлбар': j.tailbar||'',
-        'Үнэлгээ%': '', 'Статус': 'Хүлээгдэж буй', 'Менежерийн тайлбар': '',
-        '_isNew': true
-      };
-    });
-    st.rows.udr = [];
-    st.rows.gen = [];
-  }
-
-  renderKPIContent();
 }
 
-// ── Save ──
-async function kppSave() {
-  var st = kpiPlanState;
-  var allRows = st.rows.tog.concat(st.rows.udr).concat(st.rows.gen);
-  if (!allRows.length) return;
-
-  allRows.forEach(function(r) {
-    r['Сар'] = st.selMonth;
-    var jin  = parseFloat(r['Жин%']) || 0;
-    var biel = parseFloat(r['Биелэлт%']) || 0;
-    r['Үнэлгээ%'] = Math.round(jin*biel/100*100)/100;
-  });
-
-  var saveBtn = document.querySelector('.kpp-save[data-act="save"]');
-  if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = '⏳'; }
-
-  if (KPI_GAS_URL) {
-    var res = await kppApiPost({ action:'saveKPI', empName: st.selEmp, rows: allRows, overwrite: true });
-    if (!res.ok) {
-      if (saveBtn) { saveBtn.disabled=false; saveBtn.textContent='❌ Алдаа'; }
-      alert('Алдаа: ' + res.error);
-      return;
-    }
-  } else {
-    // Offline
-    try {
-      var key = 'kpi_'+st.selEmp+'_'+st.selMonth;
-      localStorage.setItem(key, JSON.stringify(allRows));
-    } catch(e) {}
-  }
-
-  if (saveBtn) {
-    saveBtn.disabled = false;
-    saveBtn.innerHTML = '✅ Хадгалагдлаа';
-    saveBtn.style.background = '#16a34a';
-    setTimeout(function() {
-      if (saveBtn) {
-        saveBtn.innerHTML = '<svg width="14" height="14"><use href="#i-check"></use></svg> Хадгалах';
-        saveBtn.style.background = '';
-      }
-    }, 2000);
-  }
+async function kppReject(rowIdx, empName) {
+  var comment = prompt('Буцаасан шалтгаан (заавал биш):') || '';
+  await kppApprove(rowIdx, empName, 'Буцаагдсан', comment);
 }
 
 </script>
