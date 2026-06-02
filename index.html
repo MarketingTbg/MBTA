@@ -999,7 +999,7 @@ async function saveGasUrl(){
   }
 }
 function saveConn(){try{localStorage.setItem("mbta_sheet_id",sheetId);}catch(e){}}
-function loadConn(){try{return localStorage.getItem("mbta_sheet_id")||"";}catch(e){return "";}}
+function loadConn(){try{return localStorage.getItem("mbta_sheet_id")||DEFAULT_SHEET_ID;}catch(e){return DEFAULT_SHEET_ID;}}
 function updSetupUI(){
   // Apps Script URL load хийх
   try{const g=localStorage.getItem('mbta_gas_url');if(g){KPI_GAS_URL=g;const inp=document.getElementById('gas-inp');if(inp)inp.value=g;setSyncDot('gas-dot','ok');}}catch(e){}
@@ -1022,7 +1022,7 @@ const DEFAULT_SHEET_ID="1t02JE8LTKn28rTxMGZopnnlPiY29p8_Gh8T3N0UTx14";
 (async function(){
   // Default ID эсвэл localStorage-с татна
   const saved=loadConn();
-  sheetId=saved&&saved.length>20?saved:DEFAULT_SHEET_ID;
+  sheetId=DEFAULT_SHEET_ID;try{const s=localStorage.getItem("mbta_sheet_id");if(s&&s.length>20)sheetId=s;}catch(e){}
   // localStorage-д хадгална
   try{localStorage.setItem("mbta_sheet_id",sheetId);}catch(e){}
   document.getElementById("sync-btn").disabled=false;
