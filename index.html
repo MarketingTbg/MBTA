@@ -1018,7 +1018,7 @@ function gp(name){document.querySelectorAll(".page").forEach(p=>p.classList.remo
 function refreshPage(n){if(n==="dashboard")renderDashboard();else if(n==="requests")renderRequests();else if(n==="staff")renderStaff();else if(n==="kanban")renderKV();else if(n==="kpi")renderKPI();else if(n==="deptjobs")renderDJ();else if(n==="workload")renderWorkload();else if(n==="kpiplan")initKPIPlan();else if(n==="setup")updSetupUI();}
 function refreshCurrent(){const a=document.querySelector(".page.active");if(a)refreshPage(a.id.replace("page-",""));}
 updUserSel();buildCBX();
-const DEFAULT_SHEET_ID="1qDD_9ONcMOF0dAvo7sosgUa1kFE3wwqfU-1V2ICRM30";
+const DEFAULT_SHEET_ID="1t02JE8LTKn28rTxMGZopnnlPiY29p8_Gh8T3N0UTx14";
 (async function(){
   // Default ID эсвэл localStorage-с татна
   const saved=loadConn();
